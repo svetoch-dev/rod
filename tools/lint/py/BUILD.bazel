@@ -1,0 +1,20 @@
+load("@aspect_rules_py//py:defs.bzl", "py_binary")
+load("@py_deps//:requirements.bzl", "requirement")
+
+filegroup(
+    name = "black_src",
+    srcs = ["black.py"],
+    visibility = ["//visibility:public"],
+)
+
+py_binary(
+    name = "black",
+    srcs = [":black_src"],
+    args = [
+        #Fix all *.py files in WORKSPACE
+        ".",
+    ],
+    deps = [
+        requirement("black"),
+    ],
+)

@@ -1,0 +1,15 @@
+thanos:
+  enabled: true
+  query:
+    enabled: true
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+      limits:
+        cpu: 350m
+        memory: 350Mi
+    dnsDiscovery:
+      enabled: false
+    extraFlags:
+      - "--grpc-client-tls-secure"

@@ -1,0 +1,44 @@
+cluster_issuers:
+  letsencrypt:
+    acme:
+      server: https://acme-v02.api.letsencrypt.org/directory
+      email: "sre@{{ .Values.global.company.domain.root }}"
+      privateKeySecretRef:
+        name: letsencrypt
+      solvers:
+      - selector:
+          dnsZones:
+          #Full host name is set
+          #using .Values.company.domain.env
+          #variable of environment
+          #argocd/environments/<env>/env.yaml
+          - "{{ .Values.global.company.domain.env }}"
+        http01:
+          ingress:
+            ingressClassName: konghq
+
+cert-manager:
+  enabled: true
+  resources:
+    requests:
+      cpu: 10m
+      memory: 25Mi
+    limits:
+      cpu: 200m
+      memory: 100Mi
+  cainjector:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 35Mi
+      limits:
+        cpu: 200m
+        memory: 100Mi
+  webhook:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 15Mi
+      limits:
+        cpu: 200m
+        memory: 100Mi

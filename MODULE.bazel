@@ -1,0 +1,83 @@
+module(name = "infrared")
+
+###########
+# Bazel
+###########
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+bazel_dep(name = "buildifier_prebuilt", version = "7.3.1", dev_dependency = True)
+
+bazel_dep(name = "aspect_bazel_lib", version = "2.9.4")
+bazel_dep(name = "rules_pkg", version = "1.0.1")
+bazel_dep(name = "rules_multirun", version = "0.9.0")
+
+######################
+# Terraform support
+######################
+
+bazel_dep(name = "rules_tf")
+git_override(
+    module_name = "rules_tf",
+    commit = "0668bd4284bafebcc7dcc1295230144e04ae30fb",
+    remote = "https://github.com/ggramal/rules_tf",
+)
+
+tf = use_extension("@rules_tf//tf:extensions.bzl", "tf")
+tf.toolchain(version = "1.7.4")
+use_repo(tf, "tf_executable")
+
+load_json_file = use_repo_rule("//tools/repo_rules:load_json_file.bzl", "load_json_file")
+
+load_json_file(
+    name = "tfvars",
+    src = "//:terraform/terraform.tfvars.json",
+    variable_name = "tfvars",
+)
+
+###################
+# Container support
+###################
+
+bazel_dep(name = "rules_oci", version = "2.0.0")
+
+oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
+
+bazel_dep(name = "rules_distroless", version = "0.3.7")
+
+apt = use_extension("@rules_distroless//apt:extensions.bzl", "apt")
+
+#bazel run @noble//:lock
+apt.install(
+    name = "noble",
+    lock = "//deps/deb:noble.lock.json",
+    manifest = "//deps/deb:noble.yaml",
+)
+use_repo(apt, "noble")
+
+http_archive(
+    name = "ca-certificates",
+    build_file_content = "exports_files([\"data.tar.zst\"])",
+    sha256 = "641de77d8f142cfd62a1a6f964ba67b20754d3337c480efb529d086075a06c9a",
+    type = ".deb",
+    urls = ["https://snapshot.ubuntu.com/ubuntu/20240917T000000Z/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb"],
+)
+
+##################
+# Python support
+##################
+bazel_dep(name = "aspect_rules_py", version = "0.7.1")
+bazel_dep(name = "rules_python", version = "0.31.0")
+
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.toolchain(
+    python_version = "3.11",
+)
+use_repo(python, python = "python_versions")
+
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "py_deps",
+    python_version = "3.11",
+    requirements_lock = "//deps/py:requirements_lock_3_11.txt",
+)
+use_repo(pip, "py_deps")

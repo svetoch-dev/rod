@@ -1,0 +1,7 @@
+#dev deps
+black==24.8.0
+
+#infra deps
+PyYAML<7.0.0
+click<9.0.0
+GitPython==3.1.43

@@ -1,0 +1,126 @@
+argo-cd:
+  enabled: true
+
+  controller:
+    resources:
+      limits:
+        cpu: 3000m
+        memory: 2Gi
+      requests:
+        cpu: 350m
+        memory: 1Gi
+
+  server:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 250Mi
+      requests:
+        cpu: 50m
+        memory: 70Mi
+
+    ingress:
+      enabled: true
+      annotations:
+        ingress.kubernetes.io/force-ssl-redirect: "true"
+        cert-manager.io/cluster-issuer: letsencrypt
+      ingressClassName: "konghq"
+      pathType: ImplementationSpecific
+      tls: true
+
+  repoServer:
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 600Mi
+      requests:
+        cpu: 150m
+        memory: 150Mi
+
+  applicationSet:
+    resources:
+      limits:
+        cpu: 150m
+        memory: 150Mi
+      requests:
+        cpu: 10m
+        memory: 30Mi
+
+  notifications:
+    resources:
+      limits:
+        cpu: 150m
+        memory: 150Mi
+      requests:
+        cpu: 10m
+        memory: 35Mi
+
+  dex:
+    resources:
+      limits:
+        cpu: 150m
+        memory: 150Mi
+      requests:
+        cpu: 10m
+        memory: 35Mi
+
+redis:
+  enabled: true
+  auth:
+    secretPath: argocd-redis
+  sentinel:
+    replicas: 3
+    resources:
+      requests:
+        cpu: 10m
+        memory: 10Mi
+      limits:
+        memory: 200Mi
+        cpu: 1000m
+    exporter:
+      enabled: true
+      image: leominov/redis_sentinel_exporter:1.7.1
+      resources:
+        requests:
+          cpu: 10m
+          memory: 10Mi
+        limits:
+          cpu: 100m
+          memory: 50Mi
+  sentinelServiceMonitor:
+    enabled: true
+  redis:
+    replicas: 3
+    resources:
+      requests:
+        cpu: 50m
+        memory: 10Mi
+      limits:
+        cpu: 1100m
+        memory: 250Mi
+    exporter:
+      enabled: true
+      image: oliver006/redis_exporter:v1.62.0
+      resources:
+        requests:
+          cpu: 10m
+          memory: 15Mi
+        limits:
+          cpu: 100m
+          memory: 50Mi
+      env:
+      - name: REDIS_USER
+        value: default
+      - name: REDIS_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: redis-password
+            name: argocd-redis
+  redisServiceMonitor:
+    enabled: true
+
+probes:
+  enabled: true
+  probes:
+    argocd:
+      enabled: true

@@ -1,0 +1,48 @@
+rabbitmq-cluster-operator:
+  enabled: true
+  msgTopologyOperator:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 100Mi
+      requests:
+        cpu: 10m
+        memory: 22Mi
+  clusterOperator:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 100Mi
+      requests:
+        cpu: 10m
+        memory: 22Mi
+
+rabbitmq-main:
+  enabled: true
+  annotations:
+    rabbitmq.com/topology-allowed-namespaces: "example"
+  replicas: 3
+  resources:
+    limits:
+      cpu: 1500m
+      memory: 6000Mi
+    requests:
+      cpu: 50m
+      memory: 250Mi
+  override:
+    statefulSet:
+      spec:
+        template:
+          metadata:
+            labels:
+              #proper labeling is needed for
+              #observability
+              app.kubernetes.io/instance: '{{ include "rabbitmq-cluster.fullname" . }}'
+  persistence:
+    storageClassName: premium-rwo
+    storage: 10Gi
+  vhosts:
+    example:
+      default_queue_type: quorum
+  serviceMonitor:
+    enabled: true

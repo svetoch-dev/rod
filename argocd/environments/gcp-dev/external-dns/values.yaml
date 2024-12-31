@@ -1,0 +1,12 @@
+external-dns:
+  enabled: true
+  resources:
+    limits:
+      cpu: 300m
+      memory: 300Mi
+    requests:
+      cpu: 10m
+      memory: 30Mi
+  serviceAccount:
+    name: external-dns
+  provider: google

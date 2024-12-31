@@ -1,0 +1,206 @@
+operator:
+  prometheusOperator:
+    enabled: true
+    resources:
+      limits:
+        cpu: 150m
+        memory: 200Mi
+      requests:
+        cpu: 10m
+        memory: 30Mi
+    prometheusConfigReloader:
+      resources:
+        limits:
+          cpu: 200m
+          memory: 100Mi
+        requests:
+          cpu: 10m
+          memory: 15Mi
+
+alertmanager-configs:
+  enabled: true
+  configs:
+    main:
+      enabled: true
+      receivers:
+        - name: sre
+          slackConfigs:
+            - channel: "#alerts-{{ .Values.global.company.name }}"
+              useTpl: true
+              apiURL:
+                name: alertmanager
+                key: SLACK_WEBHOOK
+      route:
+        continue: false
+        receiver: sre
+        matchers:
+          - name: env
+            value: "{{ .Values.global.env.short_name }}"
+          - name: team
+            value: "sre"
+          - name: severity
+            value: "(low|medium|high|critical)"
+            regex: true
+
+prometheus-node-exporter:
+  enabled: true
+  resources:
+    limits:
+      cpu: 250m
+      memory: 50Mi
+    requests:
+      cpu: 10m
+      memory: 15Mi
+
+kube-state-metrics:
+  enabled: true
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 10m
+      memory: 20Mi
+
+kong-plugins:
+  enabled: true
+  plugins:
+    - name: thanos-main-ip-restriction
+      plugin_name: ip-restriction
+      annotations:
+        kubernetes.io/ingress.class: konghq
+      config:
+        allow:
+          - "{{ .Values.global.network.int_nat_gw }}"
+
+alertmanager-main:
+  enabled: true
+
+  alertmanager:
+    spec:
+      resources:
+        limits:
+          cpu: 100m
+          memory: 100Mi
+        requests:
+          cpu: 10m
+          memory: 25Mi
+
+prometheus-main:
+  enabled: true
+
+  thanosService:
+    enabled: true
+    annotations:
+      konghq.com/protocol: grpc
+
+  thanosIngress:
+    enabled: true
+    className: "konghq"
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      konghq.com/protocols: grpc,grpcs
+      konghq.com/plugins: thanos-main-ip-restriction
+    hosts:
+      - host: thanos.{{ .Values.global.company.domain.env }}
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: thanos-tls
+        hosts:
+          - thanos.{{ .Values.global.company.domain.env }}
+
+  prometheus:
+    spec:
+      thanos:
+        resources:
+          limits:
+            cpu: 350m
+            memory: 150Mi
+          requests:
+            cpu: 10m
+            memory: 40Mi
+
+      externalLabels:
+        env: "{{ .Values.global.env.name }}"
+
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 2Gi
+        requests:
+          cpu: 30m
+          memory: 450Mi
+
+      storage:
+        volumeClaimTemplate:
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: "2Gi"
+
+prometheus-rules:
+  enabled: true
+  PrometheusAlerts:
+    prometheus-main:
+      env: "{{ .Values.global.env.short_name }}"
+      AbsentMetricCritical:
+        enabled: false
+      CriticalMetric:
+        enabled: true
+        rules:
+          # Postgres
+          Postgres_is_down:
+            enabled: true
+          Postgres_replica_is_down:
+            enabled: true
+          Available_postgresql_connections_are_running_out:
+            enabled: true
+          # Resources
+          OOM_killed_pods:
+            enabled: true
+          PVC_low_capacity:
+            enabled: true
+          #k8s
+          Pods_waiting_state:
+            enabled: true
+          Pods_waiting_state_kube-system:
+            enabled: true
+          Pod_replicas_not_ready:
+            enabled: true
+          Daemonset_not_ready:
+            enabled: true
+          Statefulset_not_ready:
+            enabled: true
+          # rmq
+          RabbitMQ_High_memory(watermark)_usage:
+            enabled: true
+          # redis
+          Redis_missing_master:
+            enabled: true
+          Redis_too_many_masters:
+            enabled: true
+      WarningMetric:
+        enabled: true
+        rules:
+          # redis
+          Redis_disconnected_slaves:
+            enabled: true
+          # postgres
+          Postgres_logical_backup_error:
+            enabled: true
+          # Resources
+          PVC_low_capacity:
+            enabled: true
+          High_postgres_container_cpu_throttling:
+            enabled: true
+          High_cpu_throttling:
+            enabled: true
+          High_memory_usage:
+            enabled: true
+          # Deployment
+          Container_too_many_restarts:
+            enabled: true

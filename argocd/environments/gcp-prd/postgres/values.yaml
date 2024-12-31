@@ -1,0 +1,25 @@
+postgres-operator:
+  enabled: true
+  resources:
+    limits:
+      cpu: 350m
+      memory: 150Mi
+    requests:
+      cpu: 10m
+      memory: 35Mi
+  configAwsOrGcp:
+    additional_secret_mount: "tf-gcp-postgres-service-account"
+    additional_secret_mount_path: "/etc/gcp"
+  configLogicalBackup:
+    logical_backup_provider: "gcs"
+    logical_backup_schedule: "25 00 * * *"
+    logical_backup_google_application_credentials: "/etc/gcp/key"
+  # resources for logical backup pod, if empty configPostgresPodResources will be used
+    logical_backup_cpu_limit: "2"
+    logical_backup_cpu_request: 200m
+    logical_backup_memory_limit: 500Mi
+    logical_backup_memory_request: 300Mi
+  configMajorVersionUpgrade:
+    major_version_upgrade_mode: 'off'
+    minimal_major_version: '11'
+    target_major_version: '15'

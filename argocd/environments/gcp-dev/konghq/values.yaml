@@ -1,0 +1,47 @@
+kong-plugins:
+  enabled: true
+  plugins:
+    - name: prometheus
+      plugin_name: prometheus
+      global: True
+      annotations:
+        kubernetes.io/ingress.class: konghq
+      config:
+        status_code_metrics: true
+        latency_metrics: true
+        bandwidth_metrics: true
+        upstream_health_metrics: true
+
+kong:
+  ingressController:
+    admissionWebhook:
+      enabled: true
+    ingressClass: konghq
+    resources:
+      limits:
+        cpu: 500m
+        memory: 500Mi
+      requests:
+        cpu: 15m
+        memory: 80Mi
+  resources:
+    limits:
+      cpu: 500m
+      memory: 500Mi
+    requests:
+      cpu: 15m
+      memory: 215Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 8
+    ## targetCPUUtilizationPercentage only used if the cluster doesn't support autoscaling/v2beta
+    targetCPUUtilizationPercentage:
+    ## Otherwise for clusters that do support autoscaling/v2beta, use metrics
+    metrics:
+      - type: Resource
+        resource:
+          name: cpu
+          target:
+            type: Utilization
+            averageUtilization: 2667 # 0.4 cores

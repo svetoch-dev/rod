@@ -1,0 +1,9 @@
+redis-operator:
+  enabled: true
+  resources:
+    requests:
+      cpu: 10m
+      memory: 20Mi
+    limits:
+      cpu: 300m
+      memory: 100Mi

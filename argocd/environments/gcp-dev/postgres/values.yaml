@@ -1,0 +1,130 @@
+postgres-operator:
+  enabled: true
+  resources:
+    limits:
+      cpu: 350m
+      memory: 150Mi
+    requests:
+      cpu: 10m
+      memory: 30Mi
+  configKubernetes:
+    enable_cross_namespace_secret: true
+  configAwsOrGcp:
+    additional_secret_mount: "tf-gcp-postgres-service-account"
+    additional_secret_mount_path: "/etc/gcp"
+  configLogicalBackup:
+    logical_backup_provider: "gcs"
+    logical_backup_schedule: "30 00 * * *"
+    logical_backup_google_application_credentials: "/etc/gcp/key"
+  # resources for logical backup pod, if empty configPostgresPodResources will be used
+    logical_backup_cpu_limit: "2"
+    logical_backup_cpu_request: 200m
+    logical_backup_memory_limit: 500Mi
+    logical_backup_memory_request: 250Mi
+  configMajorVersionUpgrade:
+    major_version_upgrade_mode: 'off'
+    minimal_major_version: '11'
+    target_major_version: '15'
+
+postgres-main:
+  # Issue with ownerReference
+  # prevents postgres objects appearing in
+  # argocd ui
+  # https://github.com/zalando/postgres-operator/issues/498?ysclid=ln1v7r1f41951556709
+  enabled: true
+  teamId: example
+  replicas: 2
+  resources:
+    limits:
+      cpu: 3000m
+      memory: 12Gi
+    requests:
+      cpu: 500m
+      memory: 3Gi
+  volume:
+    size: 50Gi
+    storageClass: premium-rwo
+  databases:
+    example: example_owner
+  preparedDatabases:
+    example:
+      defaultUsers: true
+      secretNamespace: example
+      schemas:
+        public:
+          defaultRoles: false
+  logicalBackup:
+    enabled: true
+    schedule: "40 00 * * *"
+  postgresql:
+    version: "15"
+    parameters:
+      max_connections: "150"
+      work_mem: "65536"
+      max_wal_size: "2048"
+      maintenance_work_mem: "262144"
+      max_worker_processes: "4"
+      max_parallel_workers: "4"
+      max_parallel_workers_per_gather: "0"
+      max_parallel_maintenance_workers: "4"
+      max_standby_archive_delay: "400000"
+      max_standby_streaming_delay: "400000"
+      log_destination: "jsonlog"
+      logging_collector: "true"
+  sidecars:
+    - name: "postgres-exporter"
+      image: "{{ .Values.global.registry.url }}/postgres-exporter:v0.15.0-4"
+      ports:
+        - containerPort: 9187
+          name: metrics
+      resources:
+        limits:
+          cpu: 200m
+          memory: 50Mi
+        requests:
+          cpu: 10m
+          memory: 15Mi
+      env:
+        - name: DATA_SOURCE_NAME
+          value: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@localhost:5432/?sslmode=disable"
+        - name: PG_EXPORTER_COLLECTOR_DATABASE
+          value: "true"
+        - name: PG_EXPORTER_COLLECTOR_LOCKS
+          value: "true"
+        - name: PG_EXPORTER_COLLECTOR_REPLICATION
+          value: "true"
+        - name: PG_EXPORTER_COLLECTOR_REPLICATION_SLOT
+          value: "true"
+        - name: PG_EXPORTER_COLLECTOR_STAT_BGWRITER
+          value: "true"
+        - name: PG_EXPORTER_COLLECTOR_STAT_DATABASE
+          value: "true"
+        - name: PG_EXPORTER_COLLECTOR_STAT_USER_TABLES
+          value: "true"
+        - name: PG_EXPORTER_COLLECTOR_STAT_STATEMENTS
+          value: "true"
+        - name: PG_EXPORTER_COLLECTOR_STATIO_USER_INDEXES
+          value: "true"
+        - name: PG_EXPORTER_COLLECTOR_STATIO_USER_TABLES
+          value: "true"
+        - name: PG_EXPORTER_COLLECTOR_WAL
+          value: "true"
+        - name: PG_EXPORTER_DISABLE_SETTINGS_METRICS
+          value: "false"
+  podMonitor:
+    enabled: true
+    prometheusSelector:
+      prometheus: main
+    podMetricsEndpoints:
+      - targetPort: 9187
+        relabelings:
+          - sourceLabels: [__meta_kubernetes_pod_label_app_kubernetes_io_instance]
+            action: Replace
+            regex: (.*)
+            targetLabel: label_app_kubernetes_io_instance
+      - targetPort: 9188
+        relabelings:
+          - sourceLabels: [__meta_kubernetes_pod_label_app_kubernetes_io_instance]
+            action: Replace
+            regex: (.*)
+            targetLabel: label_app_kubernetes_io_instance

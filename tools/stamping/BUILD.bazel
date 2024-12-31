@@ -1,0 +1,10 @@
+load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
+
+#Used for pushing every image (in every push_* target)
+expand_template(
+    name = "stamp_img",
+    out = "_stamped.tags.txt",
+    stamp_substitutions = {"latest": "{{GIT_COMMIT}}"},
+    template = ["latest"],
+    visibility = ["//visibility:public"],
+)

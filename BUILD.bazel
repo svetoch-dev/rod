@@ -1,0 +1,15 @@
+load("@buildifier_prebuilt//:rules.bzl", "buildifier")
+
+buildifier(
+    name = "lint",
+    exclude_patterns = ["./.git/*"],
+    lint_mode = "fix",
+    mode = "fix",
+)
+
+buildifier(
+    name = "lint_check",
+    exclude_patterns = ["./.git/*"],
+    lint_mode = "warn",
+    mode = "diff",
+)

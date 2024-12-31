@@ -1,0 +1,104 @@
+locals {
+  iam = {
+    custom_roles = {
+      k8sNodeServiceAccount = {
+        title       = "k8s node service account"
+        description = "Cusom role for k8s node service accounts without the bucket read permission"
+        permissions = [
+          "autoscaling.sites.writeMetrics",
+          "logging.logEntries.create",
+          "monitoring.metricDescriptors.create",
+          "monitoring.metricDescriptors.list",
+          "monitoring.timeSeries.create",
+          "monitoring.timeSeries.list",
+          "resourcemanager.projects.get",
+          "serviceusage.services.use",
+        ]
+      }
+      bucketList = {
+        title       = "List/get buckets for services"
+        description = "Custom role for listing buckets and there metadata"
+        permissions = [
+          "resourcemanager.projects.get",
+          "storage.buckets.list",
+          "storage.buckets.get",
+        ]
+      }
+    }
+    service_accounts = {
+      k8s-nodes = {
+        description = "default service account for k8s nodes"
+        roles = [
+          "projects/${local.gcp_project.name}/roles/k8sNodeServiceAccount"
+        ]
+        sa_iam_bindings = {
+        }
+        generate_key = false
+      }
+      external-dns = {
+        description = "k8s sigs external dns service account"
+        roles = [
+          "roles/dns.admin"
+        ]
+        sa_iam_bindings = {
+          "roles/iam.workloadIdentityUser" = [
+            "serviceAccount:${local.gcp_project.name}.svc.id.goog[external-dns/external-dns]",
+          ]
+        }
+        generate_key = false
+      },
+      container-images = {
+        description = "Account for pulling/pushing images from/to gcr"
+        roles = [
+        ]
+        sa_iam_bindings = {
+        }
+        generate_key = true
+      }
+      thanos = {
+        description = "service account for thanos"
+        roles       = []
+        sa_iam_bindings = {
+          "roles/iam.workloadIdentityUser" = [
+            "serviceAccount:${local.gcp_project.name}.svc.id.goog[prometheus/thanos]",
+          ]
+        }
+        generate_key = false
+      }
+      postgres = {
+        description = "service account for postgres-operator to store wal-e archiving"
+        roles = [
+          "projects/${local.gcp_project.name}/roles/bucketList"
+        ]
+        sa_iam_bindings = {
+          "roles/iam.workloadIdentityUser" = [
+            "serviceAccount:${local.gcp_project.name}.svc.id.goog[postgres/postgres]",
+            "serviceAccount:${local.gcp_project.name}.svc.id.goog[example/postgres]",
+          ]
+        }
+        generate_key = true
+      }
+      stackdriver-exporter = {
+        description = "stackdriver_exporter service account"
+        roles = [
+          "roles/monitoring.viewer",
+        ]
+        sa_iam_bindings = {
+          "roles/iam.workloadIdentityUser" = [
+            "serviceAccount:${local.gcp_project.name}.svc.id.goog[prometheus/stackdriver-exporter]",
+          ]
+        }
+        generate_key = false
+      }
+    }
+
+    roles = {
+      owners = {
+        role = "roles/owner"
+        members = [
+          "serviceAccount:runner@${var.gcp_projects.internal.name}.iam.gserviceaccount.com"
+        ]
+      }
+    }
+  }
+}
