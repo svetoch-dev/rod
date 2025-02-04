@@ -1,0 +1,36 @@
+name: master
+
+env:
+  BAZEL_RUN_TARGETS: "apply push_dev push_prd"
+  CI_BUILDS_DIR: "/__w/${{ github.event.repository.name}}"
+  CI_PROJECT_PATH: "${{ github.event.repository.name }}"
+  GIT_HEAD_REF: ${{ github.head_ref }}
+
+on:
+  push:
+    branches:
+    - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run:
+    if: "github.event.head_commit.message != 'CI/CD: add new image tag'"
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: "${{ github.workspace }}/key.json"
+    container:
+      image: "europe-west1-docker.pkg.dev/infrared-internal/containers/bazelisk:v1.25.0-2"
+    steps:
+    - uses: actions/checkout@v4.2.2
+      with:
+        fetch-depth: 0
+    - name: export google creds
+      run: |
+        echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} | base64 -d > $GOOGLE_APPLICATION_CREDENTIALS
+    - name: prepare
+      run: ./scripts/ci/ci.sh prepare
+    - name: run
+      run: ./scripts/ci/ci.sh run

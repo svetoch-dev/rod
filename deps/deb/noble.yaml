@@ -27,3 +27,12 @@ packages:
   - "dpkg"
   - "apt"
   - "perl"
+  # bazelisk deps
+  - "git" #used in scripts/ci/ci.sh
+  - "curl" #used in scripts/ci/ci.sh
+  - "gzip" #used in scripts/ci/ci.sh
+  - "sed" #needed by github checkout action
+  - "mawk" #needed by mtree_mutate + rules_distroless.flatten
+  - "gcc" #needed by bazel
+  - "findutils" #needed for requirements.txt.lock tests
+  - "python3" #needed for requirements.txt.lock tests

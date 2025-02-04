@@ -1,0 +1,48 @@
+load("@aspect_bazel_lib//lib:tar.bzl", "mtree_mutate", "mtree_spec", "tar")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
+load("//tools/macros:img.bzl", "img_push")
+
+mtree_spec(
+    name = "mtree",
+    srcs = ["dump.sh"],
+)
+
+mtree_mutate(
+    name = "strip_package",
+    mtree = "mtree",
+    strip_prefix = package_name(),
+)
+
+tar(
+    name = "entrypoint",
+    srcs = ["dump.sh"],
+    mtree = "strip_package",
+)
+
+oci_image(
+    name = "logical_backup_img",
+    base = "@logical-backup",
+    tars = [
+        ":entrypoint",
+    ],
+)
+
+#bazel run :pg-logical-backup
+#docker run --rm -it pg-logical-backup:latest
+oci_load(
+    name = "pg-logical-backup_tara",
+    image = ":logical_backup_img",
+    repo_tags = [
+        "pg-logical-backup:latest",
+    ],
+)
+
+img_push(
+    envs = [
+        "dev",
+        "prd",
+    ],
+    image = "logical_backup_img",
+    remote_tags = "image_tag.txt",
+    service_name = "pg-logical-backup",
+)

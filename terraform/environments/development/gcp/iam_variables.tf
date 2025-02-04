@@ -1,7 +1,6 @@
 locals {
   iam = {
     custom_roles = {
-
       k8sNodeServiceAccount = {
         title       = "k8s node service account"
         description = "Cusom role for k8s node service accounts without the bucket read permission"
@@ -49,7 +48,7 @@ locals {
         generate_key = false
       },
       container-images = {
-        description = "Account for pulling/pushing images from/to gcr"
+        description = "Account for pulling/pushing images from/to gar"
         roles = [
         ]
         sa_iam_bindings = {
@@ -74,18 +73,6 @@ locals {
         sa_iam_bindings = {
           "roles/iam.workloadIdentityUser" = [
             "serviceAccount:${local.gcp_project.name}.svc.id.goog[postgres/postgres]",
-          ]
-        }
-        generate_key = true
-      }
-      stackdriver-exporter = {
-        description = "stackdriver_exporter service account"
-        roles = [
-          "roles/monitoring.viewer",
-        ]
-        sa_iam_bindings = {
-          "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${local.gcp_project.name}.svc.id.goog[prometheus/stackdriver-exporter]",
           ]
         }
         generate_key = false

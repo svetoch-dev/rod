@@ -1,0 +1,6 @@
+load("//tools/macros:tf.bzl", "tf")
+
+tf(
+    apply_target = "gh_apply",
+    plan_target = "gh_plan",
+)

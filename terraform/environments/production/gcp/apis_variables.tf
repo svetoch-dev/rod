@@ -5,6 +5,9 @@ locals {
     "cloudresourcemanager.googleapis.com",
     "container.googleapis.com",
     "iam.googleapis.com",
-    "dns.googleapis.com"
+    "dns.googleapis.com",
+    "artifactregistry.googleapis.com",
+    "logging.googleapis.com",
+    "monitoring.googleapis.com"
   ]
 }

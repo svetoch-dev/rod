@@ -29,13 +29,6 @@ locals {
           "iam.gke.io/gcp-service-account" = "postgres@${local.gcp_project.name}.iam.gserviceaccount.com"
         }
       }
-      stackdriver-exporter = {
-        name      = "stackdriver-exporter"
-        namespace = "prometheus"
-        annotations = {
-          "iam.gke.io/gcp-service-account" = "stackdriver-exporter@${local.gcp_project.name}.iam.gserviceaccount.com"
-        }
-      }
     }
     cluster_roles = {
     }

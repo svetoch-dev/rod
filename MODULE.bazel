@@ -5,9 +5,15 @@ module(name = "infrared")
 ###########
 http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+
 bazel_dep(name = "buildifier_prebuilt", version = "7.3.1", dev_dependency = True)
 
 bazel_dep(name = "aspect_bazel_lib", version = "2.9.4")
+
+bazel_lib_toolchains = use_extension("@aspect_bazel_lib//lib:extensions.bzl", "toolchains")
+use_repo(bazel_lib_toolchains, "zstd_toolchains")
+
 bazel_dep(name = "rules_pkg", version = "1.0.1")
 bazel_dep(name = "rules_multirun", version = "0.9.0")
 
@@ -18,7 +24,7 @@ bazel_dep(name = "rules_multirun", version = "0.9.0")
 bazel_dep(name = "rules_tf")
 git_override(
     module_name = "rules_tf",
-    commit = "0668bd4284bafebcc7dcc1295230144e04ae30fb",
+    commit = "5cf2dd204617c90f524d09819c79add80f29db4c",
     remote = "https://github.com/ggramal/rules_tf",
 )
 
@@ -38,11 +44,39 @@ load_json_file(
 # Container support
 ###################
 
-bazel_dep(name = "rules_oci", version = "2.0.0")
+bazel_dep(name = "rules_oci", version = "2.2.0")
+bazel_dep(name = "rules_distroless", version = "0.4.2")
 
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
-
-bazel_dep(name = "rules_distroless", version = "0.3.7")
+oci.pull(
+    name = "logical-backup",
+    #v1.14.0
+    digest = "sha256:c8c600e4ca0acdfb7843e2943ae0274763c8f1c03fef5245dc0912a4cbd15c18",
+    image = "ghcr.io/zalando/postgres-operator/logical-backup",
+    platforms = [
+        "linux/amd64",
+        "linux/arm64",
+    ],
+)
+oci.pull(
+    name = "postgres-exporter",
+    #v0.15.0
+    digest = "sha256:386b12d19eab2a37d7cd8ca8b4c7491cc7a830d9581f49af6c98a393da9605e6",
+    image = "quay.io/prometheuscommunity/postgres-exporter",
+    platforms = [
+        "linux/amd64",
+        "linux/arm64",
+    ],
+)
+use_repo(
+    oci,
+    "logical-backup",
+    "logical-backup_linux_amd64",
+    "logical-backup_linux_arm64",
+    "postgres-exporter",
+    "postgres-exporter_linux_amd64",
+    "postgres-exporter_linux_arm64",
+)
 
 apt = use_extension("@rules_distroless//apt:extensions.bzl", "apt")
 
@@ -60,6 +94,13 @@ http_archive(
     sha256 = "641de77d8f142cfd62a1a6f964ba67b20754d3337c480efb529d086075a06c9a",
     type = ".deb",
     urls = ["https://snapshot.ubuntu.com/ubuntu/20240917T000000Z/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb"],
+)
+
+http_file(
+    name = "bazelisk",
+    downloaded_file_path = "bazelisk",
+    sha256 = "fd8fdff418a1758887520fa42da7e6ae39aefc788cf5e7f7bb8db6934d279fc4",
+    url = "https://github.com/bazelbuild/bazelisk/releases/download/v1.25.0/bazelisk-linux-amd64",
 )
 
 ##################

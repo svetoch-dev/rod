@@ -1,0 +1,45 @@
+name: Pull requests
+
+env:
+  BAZEL_MANUAL_BUILD_TARGETS: "plan"
+  CI_BUILDS_DIR: "/__w/${{ github.event.repository.name}}"
+  CI_PROJECT_PATH: "${{ github.event.repository.name }}"
+  GIT_HEAD_REF: ${{ github.head_ref }}
+  BEFORE_COMMIT_SHA: ${{ github.event.pull_request.base.sha }}
+
+on:
+  pull_request:
+    branches:
+    - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: "europe-west1-docker.pkg.dev/infrared-internal/containers/bazelisk:v1.25.0-2"
+    steps:
+    - uses: actions/checkout@v4.2.2
+    - name: test
+      run: bazel test //...
+  run-mr:
+    runs-on: ubuntu-latest
+    needs: test
+    container:
+      image: "europe-west1-docker.pkg.dev/infrared-internal/containers/bazelisk:v1.25.0-2"
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: "${{ github.workspace }}/key.json"
+    steps:
+    - uses: actions/checkout@v4.2.2
+      with:
+        fetch-depth: 0
+    - name: export google creds
+      run: |
+        echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} | base64 -d > $GOOGLE_APPLICATION_CREDENTIALS
+    - name: prepare
+      run: ./scripts/ci/ci.sh prepare
+    - name: run
+      run: ./scripts/ci/ci.sh run

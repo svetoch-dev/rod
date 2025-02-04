@@ -3,9 +3,6 @@ locals {
     redis = {
       name = "redis"
     }
-    example = {
-      name = "example"
-    }
     prometheus = {
       name = "prometheus"
     }
@@ -23,6 +20,9 @@ locals {
     }
     external-dns = {
       name = "external-dns"
+    }
+    example = {
+      name = "example"
     }
   }
 }

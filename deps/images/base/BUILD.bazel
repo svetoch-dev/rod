@@ -1,7 +1,7 @@
 load("@aspect_bazel_lib//lib:tar.bzl", "tar")
-load("@rules_distroless//apt:defs.bzl", "dpkg_status")
 load("@rules_distroless//distroless:defs.bzl", "cacerts", "group", "passwd")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
+load("//tools/macros:deb_packages.bzl", "deb_packages")
 
 cacerts(
     name = "ca",
@@ -57,7 +57,7 @@ tar(
     name = "sh_homedir",
     mtree = [
         # needed as dpkg assumes sh is installed in a typical debian installation.
-        "./bin/sh type=link link=/bin/bash",
+        "./usr/bin/sh type=link link=/usr/bin/bash",
         "./home/ubuntu/ uid=1000 gid=0 mode=0755 type=dir",
     ],
 )
@@ -74,14 +74,7 @@ PACKAGES = [
     "@noble//perl",
 ]
 
-# Creates /var/lib/dpkg/status with installed package information.
-dpkg_status(
-    name = "dpkg_status",
-    controls = [
-        "%s/amd64:control" % package
-        for package in PACKAGES
-    ],
-)
+_packages_tar = deb_packages(PACKAGES)
 
 oci_image(
     name = "ubuntu_noble",
@@ -95,11 +88,8 @@ oci_image(
         ":sh_homedir",
         ":passwd",
         ":group",
-        ":dpkg_status",
         ":ca",
-    ] + [
-        "%s/amd64" % package
-        for package in PACKAGES
+        _packages_tar,
     ],
     visibility = ["//visibility:public"],
 )

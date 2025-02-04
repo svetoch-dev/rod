@@ -16,8 +16,8 @@ bazel test //...
 To run all plan/apply you can execute
 
 ```
-$ bazel build $(bazel query 'filter("plan", "//...")')
-$ bazel query 'filter("apply", "//...")' | xargs -I{} bazel run {}
+$ bazel build $(bazel query 'attr(name, "^plan$", "//...")')
+$ bazel query 'attr(name, "^apply$", "//...")' | xargs -I{} bazel run {}
 ```
 
 To run `plan/apply` in certain `state` you need to `cd terraform/environments/<env>/<state>/` and then execute `bazel run :plan` or `bazel run :apply`. Example `cd terraform/environments/gcp; bazel run plan`

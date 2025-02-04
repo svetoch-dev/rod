@@ -48,7 +48,7 @@ locals {
         generate_key = false
       },
       container-images = {
-        description = "Account for pulling/pushing images from/to gcr"
+        description = "Account for pulling/pushing images from/to gar"
         roles = [
         ]
         sa_iam_bindings = {
@@ -73,19 +73,6 @@ locals {
         sa_iam_bindings = {
           "roles/iam.workloadIdentityUser" = [
             "serviceAccount:${local.gcp_project.name}.svc.id.goog[postgres/postgres]",
-            "serviceAccount:${local.gcp_project.name}.svc.id.goog[example/postgres]",
-          ]
-        }
-        generate_key = true
-      }
-      stackdriver-exporter = {
-        description = "stackdriver_exporter service account"
-        roles = [
-          "roles/monitoring.viewer",
-        ]
-        sa_iam_bindings = {
-          "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${local.gcp_project.name}.svc.id.goog[prometheus/stackdriver-exporter]",
           ]
         }
         generate_key = false

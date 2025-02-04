@@ -19,6 +19,7 @@ locals {
           "argocd.argoproj.io/secret-type" = "repository"
         }
       }
+      if contains(keys(repo_obj.deploy_keys), "argocd")
     }
   )
 }
