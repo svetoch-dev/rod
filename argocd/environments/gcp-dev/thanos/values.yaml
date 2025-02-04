@@ -32,7 +32,7 @@ thanos:
         memory: 50Mi
       limits:
         cpu: 1000m
-        memory: 1Gi
+        memory: 2Gi
     ingress:
       grpc:
         enabled: true

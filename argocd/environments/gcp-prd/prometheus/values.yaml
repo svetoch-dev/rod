@@ -176,6 +176,13 @@ prometheus-main:
 
 prometheus-blackbox-exporter:
   enabled: true
+  nodeSelector:
+    apps-spot: "true"
+  tolerations:
+    - key: "apps-spot"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
   resources:
     limits:
       cpu: 100m
