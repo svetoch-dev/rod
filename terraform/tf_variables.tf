@@ -4,7 +4,6 @@ locals {
   # expand_template rule probably
   # everything will brake badly if
   # something goes wrong
-  gcp_project = var.gcp_projects.{env_name}
   env         = var.envs.{env_name}
 }
 
@@ -44,18 +43,15 @@ variable "envs" {
       {
         name       = string
         short_name = string
-      }
-    )
-  )
-}
-
-variable "gcp_projects" {
-  description = "Definitions of gcp projects"
-  type = map(
-    object(
-      {
-        name   = string
-        region = string
+        cloud      = object(
+          {
+            name   = string
+            id     = string
+            region = string
+            default_zone = string
+            multi_region = string
+          }
+        )
         kubernetes = optional(
           object(
             {
@@ -65,8 +61,6 @@ variable "gcp_projects" {
             }
           )
         )
-        default_zone = string
-        multi_region = string
       }
     )
   )

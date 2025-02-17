@@ -2,8 +2,8 @@ locals {
   gke_clusters = {
     "${local.env.short_name}" = {
       name               = local.env.short_name
-      regional           = local.gcp_project.kubernetes.regional
-      region             = local.gcp_project.region
+      regional           = local.env.kubernetes.regional
+      region             = local.env.cloud.region
       zones              = data.google_compute_zones.available.names
       kubernetes_version = "latest"
 
@@ -20,7 +20,7 @@ locals {
       enable_vertical_pod_autoscaling = true
       enable_shielded_nodes           = false
       remove_default_node_pool        = true
-      authenticator_security_group    = local.gcp_project.kubernetes.auth_group
+      authenticator_security_group    = local.env.kubernetes.auth_group
       identity_namespace              = "enabled"
       node_metadata                   = "GKE_METADATA"
 
@@ -68,7 +68,7 @@ locals {
           image_type         = "COS_CONTAINERD"
           auto_repair        = true
           auto_upgrade       = true
-          service_account    = "k8s-nodes@${local.gcp_project.name}.iam.gserviceaccount.com"
+          service_account    = "k8s-nodes@${local.env.cloud.id}.iam.gserviceaccount.com"
           preemptible        = false
           spot               = true
           initial_node_count = 1

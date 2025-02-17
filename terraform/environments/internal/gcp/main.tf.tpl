@@ -1,13 +1,13 @@
 provider "google" {
-  project = local.gcp_project.name
-  region  = local.gcp_project.region
-  zone    = local.gcp_project.default_zone
+  project = local.env.cloud.id
+  region  = local.env.cloud.region
+  zone    = local.env.cloud.default_zone
 }
 
 provider "google-beta" {
-  project = local.gcp_project.name
-  region  = local.gcp_project.region
-  zone    = local.gcp_project.default_zone
+  project = local.env.cloud.id
+  region  = local.env.cloud.region
+  zone    = local.env.cloud.default_zone
 }
 
 
@@ -46,8 +46,8 @@ data "terraform_remote_state" "remote_state" {
 module "gcp" {
   source = "git::https://github.com/ggramal/tf-modules.git//modules/gcp?ref=gcp-v1.6.1"
   project = {
-    id     = local.gcp_project.name
-    region = local.gcp_project.region
+    id     = local.env.cloud.id
+    region = local.env.cloud.region
   }
 
   activate_apis = local.activate_apis

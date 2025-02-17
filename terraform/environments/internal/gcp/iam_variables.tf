@@ -26,7 +26,7 @@ locals {
         custom_roles = []
         sa_iam_bindings = {
           "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${local.gcp_project.name}.svc.id.goog[external-dns/external-dns]",
+            "serviceAccount:${local.env.cloud.id}.svc.id.goog[external-dns/external-dns]",
           ]
         }
         generate_key = false
@@ -38,7 +38,7 @@ locals {
         custom_roles = []
         sa_iam_bindings = {
           "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${local.gcp_project.name}.svc.id.goog[argocd/argocd]",
+            "serviceAccount:${local.env.cloud.id}.svc.id.goog[argocd/argocd]",
           ]
         }
         generate_key = false
@@ -46,7 +46,7 @@ locals {
       k8s-nodes = {
         description = "default service account for k8s nodes"
         roles = [
-          "projects/${local.gcp_project.name}/roles/k8sNodeServiceAccount"
+          "projects/${local.env.cloud.id}/roles/k8sNodeServiceAccount"
         ]
         sa_iam_bindings = {
         }
@@ -58,7 +58,7 @@ locals {
         custom_roles = []
         sa_iam_bindings = {
           "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${local.gcp_project.name}.svc.id.goog[prometheus/thanos]",
+            "serviceAccount:${local.env.cloud.id}.svc.id.goog[prometheus/thanos]",
           ]
         }
         generate_key = false
@@ -77,7 +77,7 @@ locals {
       owners = {
         role = "roles/owner"
         members = [
-          "serviceAccount:runner@${local.gcp_project.name}.iam.gserviceaccount.com"
+          "serviceAccount:runner@${local.env.cloud.id}.iam.gserviceaccount.com"
         ]
       }
     }

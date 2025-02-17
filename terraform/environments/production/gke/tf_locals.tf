@@ -1,8 +1,8 @@
 locals {
   gke_clusters = {
     this = {
-      location = local.gcp_project.region
-      project  = local.gcp_project.name
+      location = local.env.cloud.region
+      project  = local.env.cloud.id
       name     = local.env.short_name
       enabled  = true
     }

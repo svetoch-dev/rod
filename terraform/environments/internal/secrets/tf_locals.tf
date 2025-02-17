@@ -1,11 +1,11 @@
 locals {
   gke_clusters = {
-    for name, obj in var.gcp_projects :
-    "${name == "internal" ? "this" : var.envs[name].short_name}" => {
+    for name, obj in var.envs :
+    "${name == "internal" ? "this" : obj.short_name}" => {
       location = obj.kubernetes.location
-      project  = obj.name
+      project  = obj.cloud.id
       enabled  = true
-      name     = var.envs[name].short_name
+      name     = obj.short_name
     }
     if obj.kubernetes != null
   }

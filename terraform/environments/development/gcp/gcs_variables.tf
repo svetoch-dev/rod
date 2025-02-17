@@ -2,9 +2,9 @@ locals {
   gcs = {
     format("%s-thanos-%s", var.company.name, local.env.short_name) = {
       storage_class = "MULTI_REGIONAL"
-      location      = local.gcp_project.multi_region
+      location      = local.env.cloud.multi_region
       admins = [
-        "serviceAccount:thanos@${local.gcp_project.name}.iam.gserviceaccount.com"
+        "serviceAccount:thanos@${local.env.cloud.id}.iam.gserviceaccount.com"
       ]
       viewers = [
       ]
@@ -12,9 +12,9 @@ locals {
     }
     format("%s-postgres-%s", var.company.name, local.env.short_name) = {
       storage_class = "MULTI_REGIONAL"
-      location      = local.gcp_project.multi_region
+      location      = local.env.cloud.multi_region
       admins = [
-        "serviceAccount:postgres@${local.gcp_project.name}.iam.gserviceaccount.com"
+        "serviceAccount:postgres@${local.env.cloud.id}.iam.gserviceaccount.com"
       ]
       viewers              = []
       creators             = []
@@ -22,9 +22,9 @@ locals {
     }
     format("%s-postgres-backup-%s", var.company.name, local.env.short_name) = {
       storage_class = "MULTI_REGIONAL"
-      location      = local.gcp_project.multi_region
+      location      = local.env.cloud.multi_region
       admins = [
-        "serviceAccount:postgres@${local.gcp_project.name}.iam.gserviceaccount.com"
+        "serviceAccount:postgres@${local.env.cloud.id}.iam.gserviceaccount.com"
       ]
       viewers  = []
       creators = []

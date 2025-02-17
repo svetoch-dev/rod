@@ -5,28 +5,28 @@ locals {
         name      = "external-dns"
         namespace = "external-dns"
         annotations = {
-          "iam.gke.io/gcp-service-account" = "external-dns@${local.gcp_project.name}.iam.gserviceaccount.com"
+          "iam.gke.io/gcp-service-account" = "external-dns@${local.env.cloud.id}.iam.gserviceaccount.com"
         }
       }
       thanos = {
         namespace = "prometheus"
         name      = "thanos"
         annotations = {
-          "iam.gke.io/gcp-service-account" = "thanos@${local.gcp_project.name}.iam.gserviceaccount.com"
+          "iam.gke.io/gcp-service-account" = "thanos@${local.env.cloud.id}.iam.gserviceaccount.com"
         }
       }
       "postgres.postgres" = {
         name      = "postgres"
         namespace = "postgres"
         annotations = {
-          "iam.gke.io/gcp-service-account" = "postgres@${local.gcp_project.name}.iam.gserviceaccount.com"
+          "iam.gke.io/gcp-service-account" = "postgres@${local.env.cloud.id}.iam.gserviceaccount.com"
         }
       }
       "example.postgres" = {
         name      = "postgres"
         namespace = "example"
         annotations = {
-          "iam.gke.io/gcp-service-account" = "postgres@${local.gcp_project.name}.iam.gserviceaccount.com"
+          "iam.gke.io/gcp-service-account" = "postgres@${local.env.cloud.id}.iam.gserviceaccount.com"
         }
       }
     }
@@ -44,7 +44,7 @@ locals {
           argocd = {
             api_group = "rbac.authorization.k8s.io"
             kind      = "User"
-            name      = "argocd@${var.gcp_projects.internal.name}.iam.gserviceaccount.com"
+            name      = "argocd@${var.envs.internal.cloud.id}.iam.gserviceaccount.com"
             namespace = ""
           }
         }
