@@ -12,7 +12,7 @@ terraform {
 
   required_version = "~> 1.7"
 
-  backend "{backend_type}" {
+  backend "{tf_backend.type}" {
   }
 }
 

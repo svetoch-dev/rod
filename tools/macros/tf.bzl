@@ -11,8 +11,8 @@ load(
     "tf_plan",
     "tf_validate_test",
 )
-load("@tfvars//:json.bzl", "tfvars")
-load("//tools/utils:format.bzl", "format_attr_in_dict")
+load("//tools/rules:json_gen.bzl", "json_gen")
+load("//tools/utils:format.bzl", "formatted_tfvars")
 
 def tf(
         name = None,
@@ -32,57 +32,36 @@ def tf(
         state_name: name of state eg gcp,aws,cloud,secrets etc. Example:
             `//terraform/environments/internal/k8s` state name is `k8s`
     """
+    if not env_name:
+        env_name = native.package_name().split("/")[-2]
 
-    #Common parameters passed to str.format()
-    #used to render templated strings in tfvars var
-    template_substitutions = {
-        "company_name": tfvars["company"]["name"],
-        "env_name": native.package_name().split("/")[-2],
-        "state_name": native.package_name().split("/")[-1],
-        "backend_type": ""
-    }
+    if not state_name:
+        state_name = native.package_name().split("/")[-1]
 
-    if env_name:
-        template_substitutions["env_name"] = env_name
-
-    if state_name:
-        template_substitutions["state_name"] = state_name
-
-    #Make copy of dict in order to change it (starlark thing).
-    #https://github.com/bazelbuild/starlark/blob/master/spec.md#dict
-    #need this because tfvars is a "frozen" dict
-    tf_backend = dict(**tfvars["tf_backend"])
-
-    tf_backend["configs"] = format_attr_in_dict(
-        template_substitutions,
-        tfvars,
-        "tf_backend.configs",
-    )
-
-    template_substitutions["backend_type"] = tf_backend["type"]
-
-    for k,v in template_substitutions.items():
-        template_substitutions.pop(k)
-        k = "{" + k + "}"
-        template_substitutions[k] = v
+    tf_vars = formatted_tfvars(state_name)
+    tf_env = tf_vars["envs"][env_name]
+    tf_backend = tf_env["tf_backend"]
 
     expand_template(
         name = "main_tf",
-        substitutions = template_substitutions,
+        substitutions = {
+            "{tf_backend.type}": tf_backend["type"],
+        },
         template = ":main.tf.tpl",
         out = "main.tf",
     )
 
-    expand_template(
+    json_gen(
         name = "terraform_tfvars_json",
-        substitutions = template_substitutions,
-        template = ":terraform.tfvars.json.tpl",
+        json_content = str(tf_vars),
         out = "terraform.tfvars.json",
     )
 
     expand_template(
         name = "tf_variables_tf",
-        substitutions = template_substitutions,
+        substitutions = {
+            "{env.name}": tf_env["name"],
+        },
         template = ":tf_variables.tf.tpl",
         out = "tf_variables.tf",
     )
@@ -112,7 +91,7 @@ def tf(
 
     tf_validate_test(
         name = "validate",
-        srcs = [":srcs",],
+        srcs = [":srcs"],
         init = ":init_for_tests",
     )
 
@@ -125,7 +104,7 @@ def tf(
         name = "init",
         srcs = [
             ":main_tf",
-            ":terraform_tfvars_json"
+            ":terraform_tfvars_json",
         ],
         tags = ["manual"],
         backend_configs = tf_backend["configs"],
@@ -135,7 +114,7 @@ def tf(
         name = "init_for_tests",
         srcs = [
             ":main_tf",
-            ":terraform_tfvars_json"
+            ":terraform_tfvars_json",
         ],
         backend = False,
     )

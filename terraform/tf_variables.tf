@@ -4,7 +4,7 @@ locals {
   # expand_template rule probably
   # everything will brake badly if
   # something goes wrong
-  env         = var.envs.{env_name}
+  env         = var.envs.{env.name}
 }
 
 variable "company" {
@@ -26,16 +26,6 @@ variable "github" {
   )
 }
 
-variable "tf_backend" {
-  description = "tf backend description"
-  type = object(
-    {
-      type    = string
-      configs = map(string)
-    }
-  )
-}
-
 variable "envs" {
   description = "Environments description"
   type = map(
@@ -43,6 +33,12 @@ variable "envs" {
       {
         name       = string
         short_name = string
+        tf_backend =  object(
+          {
+            type    = string
+            configs = map(string)
+          }
+        )
         cloud      = object(
           {
             name   = string
@@ -50,6 +46,7 @@ variable "envs" {
             region = string
             default_zone = string
             multi_region = string
+            registry     = string
           }
         )
         kubernetes = optional(

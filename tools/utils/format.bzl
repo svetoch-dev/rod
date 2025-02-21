@@ -1,55 +1,56 @@
 """Functions used for string formatting"""
 
+load("@tfvars//:json.bzl", "tfvars")
 
-def _get_nested_attr_in_dict(
-        attr_path,
-        search_dict):
-    """Gets field value based on search string
+def format_dict(
+        replacement_dict = None,
+        format_dict = None):
+    """Formats dict based on key/value pairs in replacement_dict
 
-    Args:
-       attr_path: dot separated string representing path to
-           dict field eg "env.prd.state" == search_dict["env"]["prd"]["state"]
-       search_dict: dict where to get the value of nested attr
-    Rerurns:
-       found value of the search_dict
-    """
-
-    path = attr_path.split(".")
-    nested_value = None
-    for e in path:
-        if nested_value:
-            nested_value = nested_value[e]
-        else:
-            nested_value = search_dict[e]
-
-    return nested_value
-
-def format_attr_in_dict(
-        replacement_dict,
-        format_dict,
-        attr_path):
-    """Formats specific fields in dict based on key/value pairs in replacement_dict
-
-    Recursion in starlark is not allowed so we need manually specify fields to render
+    Recursion in starlark is not allowed so we need to think of some hacks
 
     Args:
-       replacement_dict: dict with key/value pairs used to format tfvars
-       attr_path: key of the field that needs formatting. Use dots if the
-           field is in a nested dict eg "env.prd.state" == format_dict["env"]["prd"]["state"]
+       replacement_dict: dict with key/value pairs used to format
        format_dict: dict where fields are searched
-    Rerurns:
-       formatted value found in format_dict based on attr_path search str
+    Returns:
+       formatted dict
+    """
+    dict_str = str(format_dict)
+
+    #we need to replace uppercase bools that returned
+    #by str func because they are not valid in json
+    #spec
+    dict_str = dict_str.replace("True", "true")
+    dict_str = dict_str.replace("False", "false")
+
+    for key, value in replacement_dict.items():
+        dict_str = dict_str.replace("{" + key + "}", str(value))
+
+    return json.decode(dict_str)
+
+def formatted_tfvars(state_name = None):
+    """Renders tfvars based on values of tfvars dict itself and args
+
+    Args:
+       state_name: name of state eg gcp,aws,cloud,secrets etc
+    Returns:
+       formatted tfvars dict
     """
 
-    return_value = None
+    #Common parameters passed to str.format()
+    #used to render templated strings in tfvars var
+    replacement_dict = {
+        "company.name": tfvars["company"]["name"],
+        "tf_backend.state_name": state_name,
+    }
 
-    attr = _get_nested_attr_in_dict(attr_path, format_dict)
+    tf_vars = format_dict(replacement_dict, tfvars)
 
-    if type(attr) == "string":
-        return_value = attr.format(**replacement_dict)
-    elif type(attr) == "dict":
-        return_value = {}
-        for k, v in attr.items():
-            return_value[k] = v.format(**replacement_dict)
+    for env, env_obj in tfvars["envs"].items():
+        replacement_dict["env.cloud.region"] = env_obj["cloud"]["region"]
+        replacement_dict["env.cloud.id"] = env_obj["cloud"]["id"]
+        replacement_dict["env.name"] = env_obj["name"]
+        replacement_dict["tf_backend.type"] = env_obj["tf_backend"]["type"]
+        tf_vars["envs"][env] = format_dict(replacement_dict, env_obj)
 
-    return return_value
+    return tf_vars
