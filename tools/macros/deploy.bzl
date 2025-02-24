@@ -3,17 +3,17 @@ Deploy macros
 """
 
 load("@rules_multirun//:defs.bzl", "command")
-load("//:constants.bzl", "ENVS")
+load("//tools/utils:common.bzl", "build_envs")
 
-def deploy(service_name, app_name, envs = ENVS.keys()):
+def deploy(service_name, app_name, envs):
     """Macro for deploying services to specific envs
 
     Args:
       service_name: name of the service that is part of the app
       app_name: app that needs to be updated
-      envs: list of strings representing environments check //:constants.bzl
+      envs: list of strings representing short environment names (pre,prd,int,dev etc)
     """
-    for env, env_dict in ENVS.items():
+    for env, _ in build_envs().items():
         if env in envs:
             command(
                 name = "deploy_" + env,

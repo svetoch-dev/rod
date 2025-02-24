@@ -3,7 +3,7 @@ Build container images macros
 """
 
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load", "oci_push")
-load("//:constants.bzl", "ENVS")
+load("//tools/utils:common.bzl", "build_envs")
 
 def img_build(
         name,
@@ -48,21 +48,21 @@ def img_build(
 def img_push(
         service_name,
         image,
-        remote_tags = "//tools/stamping:stamp_img",
-        envs = ENVS.keys()):
+        envs,
+        remote_tags = "//tools/stamping:stamp_img"):
     """Macro for pushing container images
 
     Args:
       service_name: service name
       image: name of the oci_image that needs to be pushed
       remote_tags: a text file containing tags, one per line
-      envs: list of strings representing environments check //:constants.bzl
+      envs: list of strings representing short environment names (pre,prd,int,dev etc)
     """
-    for env, env_dict in ENVS.items():
+    for env, env_dict in build_envs().items():
         if env in envs:
             oci_push(
                 name = "push_" + env,
                 image = image,
                 remote_tags = remote_tags,
-                repository = env_dict["registry"] + service_name,
+                repository = "{}/{}".format(env_dict["registry"], service_name),
             )
