@@ -1,0 +1,24 @@
+load("@rules_multirun//:defs.bzl", "command", "multirun")
+load("//scripts/init/images/prepare:prepare.bzl", "get_prepare_args")
+
+prepare_args = get_prepare_args()
+
+command(
+    name = "prepare",
+    command = "//scripts/init/images/prepare",
+    arguments = prepare_args
+)
+
+command(
+    name = "build",
+    command = "//scripts/init/images/build",
+)
+
+multirun(
+    name = "init",
+    commands = [
+        "prepare",
+        "build",
+    ],
+    visibility = ["//visibility:public"],
+)

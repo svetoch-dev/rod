@@ -1,0 +1,19 @@
+load("@rules_multirun//:defs.bzl", "command", "multirun")
+
+command(
+    name = "tf_init",
+    command = "//scripts/init/tf:init",
+)
+
+command(
+    name = "images_init",
+    command = "//scripts/init/images:init",
+)
+
+multirun(
+    name = "init",
+    commands = [
+        "tf_init",
+        "images_init",
+    ],
+)

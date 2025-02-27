@@ -1,0 +1,12 @@
+load("//tools/lint/py:black.bzl", "py_lint")
+load("@aspect_rules_py//py:defs.bzl", "py_binary")
+
+py_lint()
+
+py_binary(
+    name = "build",
+    srcs = ["build.py"],
+    visibility = ["//visibility:public"],
+    args = [],
+    deps = [],
+)
