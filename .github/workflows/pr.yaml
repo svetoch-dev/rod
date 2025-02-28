@@ -1,0 +1,27 @@
+name: Pull requests
+
+env:
+  BAZEL_MANUAL_BUILD_TARGETS: "plan"
+  CI_BUILDS_DIR: "/__w/${{ github.event.repository.name}}"
+  CI_PROJECT_PATH: "${{ github.event.repository.name }}"
+  GIT_HEAD_REF: ${{ github.head_ref }}
+  BEFORE_COMMIT_SHA: ${{ github.event.pull_request.base.sha }}
+
+on:
+  pull_request:
+    branches:
+    - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: "europe-north1-docker.pkg.dev/svetochdev-internal/containers/bazelisk:v1.25.0-2"
+    steps:
+    - uses: actions/checkout@v4.2.2
+    - name: test
+      run: bazel test //...

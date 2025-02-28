@@ -1,0 +1,28 @@
+load("@rules_multirun//:defs.bzl", "command", "multirun")
+load("//scripts/init/tf/prepare:prepare.bzl", "get_prepare_args")
+load("//scripts/init/tf/state:state.bzl", "get_create_state_args")
+
+_, prepare_args = get_prepare_args()
+
+_, create_state_args = get_create_state_args()
+
+command(
+    name = "prepare",
+    arguments = prepare_args,
+    command = "//scripts/init/tf/prepare",
+)
+
+command(
+    name = "state_create",
+    arguments = create_state_args,
+    command = "//scripts/init/tf/state:create",
+)
+
+multirun(
+    name = "init",
+    commands = [
+        "prepare",
+        "state_create",
+    ],
+    visibility = ["//visibility:public"],
+)
