@@ -82,7 +82,7 @@ kong-plugins:
     - name: thanos-main-ip-restriction
       plugin_name: ip-restriction
       annotations:
-        kubernetes.io/ingress.class: konghq
+        kubernetes.io/ingress.class: '{{ .Values.global.ingress.class }}'
       config:
         allow:
           - "{{ .Values.global.network.int_nat_gw }}"
@@ -122,7 +122,7 @@ prometheus-main:
     enabled: true
     className: "konghq"
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt
+      cert-manager.io/cluster-issuer: letsencrypt-konghq
       konghq.com/protocols: grpc,grpcs
       konghq.com/plugins: thanos-main-ip-restriction
     hosts:

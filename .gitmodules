@@ -1,4 +1,4 @@
 [submodule "argocd/charts/infra"]
 	path = argocd/charts/infra
 	url = https://github.com/ggramal/helm-charts.git
-	branch = release-v8.3.1
+	branch = release-v9.0.0

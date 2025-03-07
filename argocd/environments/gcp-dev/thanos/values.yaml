@@ -4,7 +4,7 @@ kong-plugins:
     - name: thanos-store-main-ip-restriction
       plugin_name: ip-restriction
       annotations:
-        kubernetes.io/ingress.class: konghq
+        kubernetes.io/ingress.class: '{{ .Values.global.ingress.class }}'
       config:
         allow:
           - "{{ .Values.global.network.int_nat_gw }}"
@@ -36,10 +36,10 @@ thanos:
     ingress:
       grpc:
         enabled: true
-        ingressClassName: "konghq"
+        ingressClassName: konghq
         hostname: "thanos-store.{{ .Values.global.company.domain.env }}"
         annotations:
-          cert-manager.io/cluster-issuer: letsencrypt
+          cert-manager.io/cluster-issuer: '{{ printf "letsencrypt-%s" .Values.global.ingress.class }}'
           konghq.com/protocols: grpc,grpcs
           konghq.com/plugins: thanos-store-main-ip-restriction
         extraTls:

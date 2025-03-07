@@ -23,8 +23,8 @@ argo-cd:
       enabled: true
       annotations:
         ingress.kubernetes.io/force-ssl-redirect: "true"
-        cert-manager.io/cluster-issuer: letsencrypt
-      ingressClassName: "konghq"
+        cert-manager.io/cluster-issuer: 'letsencrypt-konghq'
+      ingressClassName: 'konghq'
       pathType: ImplementationSpecific
       tls: true
 
