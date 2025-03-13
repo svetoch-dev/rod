@@ -1,4 +1,16 @@
 load("@rules_multirun//:defs.bzl", "command", "multirun")
+load("@aspect_rules_py//py:defs.bzl", "py_binary")
+
+py_binary(
+    name = "prepare",
+    srcs = ["prepare.py"],
+    visibility = ["//visibility:public"],
+)
+
+command(
+    name = "init_prepare",
+    command = ":prepare",
+)
 
 command(
     name = "tf_init",
@@ -13,6 +25,7 @@ command(
 multirun(
     name = "init",
     commands = [
+        "init_prepare",
         "tf_init",
         "images_init",
     ],

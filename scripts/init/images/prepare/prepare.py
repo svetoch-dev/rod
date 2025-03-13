@@ -9,8 +9,7 @@ from config import DOCKER_CONFIG_FILE
 @click.argument("creds_helper_name", required=True, type=click.STRING)
 def image_prepare(registries, creds_helper_name):
     """
-    1. Downloads docker-credential-gcr
-    2. creates a credHelpers section in ~/.docker/config.json based on registries
+    1. creates a credHelpers section in ~/.docker/config.json based on registries
 
     Args:
         registries(str): comma separated list of container registries
