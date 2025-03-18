@@ -1,7 +1,7 @@
 import click
 import os
 import json
-from config import DOCKER_CONFIG_FILE
+from scripts.init.images.prepare.config import DOCKER_CONFIG_FILE
 
 
 @click.command()

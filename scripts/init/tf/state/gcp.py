@@ -2,6 +2,7 @@ import click
 import os
 from google.cloud import storage
 
+
 @click.command()
 @click.argument("project_id", required=True, type=click.STRING)
 @click.argument("bucket_name", required=True, type=click.STRING)
