@@ -33,28 +33,34 @@ variable "envs" {
       {
         name       = string
         short_name = string
-        tf_backend =  object(
+        tf_backend = object(
           {
             type    = string
             configs = map(string)
           }
         )
-        cloud      = object(
+        cloud = object(
           {
-            name   = string
-            id     = string
-            region = string
+            name         = string
+            id           = string
+            region       = string
             default_zone = string
             multi_region = string
             registry     = string
+            buckets      = object(
+              {
+                deletion_protection = bool
+              }
+            )
           }
         )
         kubernetes = optional(
           object(
-            {
-              regional   = bool
-              location   = string
-              auth_group = string
+            { 
+              regional            = bool
+              deletion_protection = bool
+              location            = string
+              auth_group          = string
             }
           )
         )

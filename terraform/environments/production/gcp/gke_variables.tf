@@ -5,6 +5,7 @@ locals {
       regional           = local.env.kubernetes.regional
       region             = local.env.cloud.region
       zones              = data.google_compute_zones.available.names
+      deletion_protection = local.env.kubernetes.deletion_protection
       kubernetes_version = "latest"
 
       subnetwork              = module.gcp.subnets["main"]["vms"].name
