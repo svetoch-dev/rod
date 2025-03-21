@@ -17,11 +17,12 @@ variable "company" {
   )
 }
 
-variable "github" {
-  description = "github related info"
+variable "ci" {
+  description = "ci related info"
   type = object(
     {
-      org = string
+      group = string,
+      type  = string
     }
   )
 }

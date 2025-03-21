@@ -29,7 +29,7 @@ terraform {
       version = "3.2.3"
     }
   }
-  required_version = "~> 1.7"
+
   backend "{tf_backend.type}" {
   }
 }

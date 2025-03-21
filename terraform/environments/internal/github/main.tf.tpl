@@ -9,13 +9,13 @@ terraform {
       version = "4.0.6"
     }
   }
-  required_version = "~> 1.7"
+
   backend "{tf_backend.type}" {
   }
 }
 
 provider "github" {
-  owner = var.github.org
+  owner = var.ci.group
 }
 
 data "terraform_remote_state" "remote_state" {

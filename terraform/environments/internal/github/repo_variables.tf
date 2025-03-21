@@ -2,7 +2,7 @@ locals {
   repos = {
     infrastructure = {
       name = "infrastructure"
-      org  = var.github.org
+      org  = var.ci.group
       deploy_keys = {
         argocd = {
           name      = "argocd"
