@@ -1,10 +1,10 @@
 locals {
   gke_clusters = {
     "${local.env.short_name}" = {
-      name               = local.env.short_name
-      regional           = local.env.kubernetes.regional
-      region             = local.env.cloud.region
-      zones              = data.google_compute_zones.available.names
+      name                = local.env.short_name
+      regional            = local.env.kubernetes.regional
+      region              = local.env.cloud.region
+      zones               = data.google_compute_zones.available.names
       deletion_protection = local.env.kubernetes.deletion_protection
       kubernetes_version  = "latest"
 
