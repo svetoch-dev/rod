@@ -1,6 +1,8 @@
 """Apply tf"""
+
+load("@aspect_rules_py//py:defs.bzl", "py_binary")
+load("@py_deps//:requirements.bzl", "requirement")
 load("//tools/utils:format.bzl", "formatted_tfvars")
-load("@rules_multirun//:defs.bzl", "command", "multirun")
 
 def _env_apply_targets(env_obj):
     """Get targets of env based on cloud type
@@ -24,8 +26,7 @@ def _env_apply_targets(env_obj):
 
     return targets
 
-
-def _apply_targets():
+def get_apply_args():
     """figure out what states should be applied
 
     Returns:
@@ -46,7 +47,7 @@ def _apply_targets():
 
     targets.append("//terraform/environments/{env_name}/{ci_name}:gh_apply".format(
         env_name = env_int["name"],
-        ci_name  = tf_vars["ci"]["type"]
+        ci_name = tf_vars["ci"]["type"],
     ))
 
     targets += _env_apply_targets(env_int)
@@ -55,31 +56,20 @@ def _apply_targets():
         if not (env_name == "internal" or env_name == "int"):
             targets += _env_apply_targets(env_obj)
 
-    return targets
+    return [",".join(targets)]
 
-def apply_tf():
+def apply():
     """Macro for applying tf state
     """
-    commands = []
+    args = get_apply_args()
 
-    for target in _apply_targets():
-        #<state>:apply
-        state    = target.split("/")[-1]
-        #<state>
-        state    = state.split(":")[0]
-
-        env_name = target.split("/")[-2]
-
-        command_name = env_name + "_" + state
-
-        command(
-            name = command_name ,
-            command = target,
-        )
-
-        commands.append(command_name)
-    multirun(
+    py_binary(
         name = "apply",
-        commands = commands
+        srcs = ["apply.py"],
+        visibility = ["//visibility:public"],
+        args = args,
+        deps = [
+            "//libs/py/helpers",
+            requirement("click"),
+        ],
     )
-

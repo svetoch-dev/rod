@@ -1,5 +1,6 @@
 import subprocess
 import os
+from libs.py.helpers import run_command
 
 WORKSPACE_FOLDER = os.getenv("BUILD_WORKSPACE_DIRECTORY")
 
@@ -29,16 +30,8 @@ def build_images():
     output = process_results(result)
     output = output.strip("\n")
     for run_command in output.split("\n"):
-        run_command = ["bazel", "run", run_command]
-        run_command_str = " ".join(run_command)
-        print(f"Running: {run_command_str}")
-        result = subprocess.Popen(run_command, stdout=subprocess.PIPE, text=True)
-        for line in result.stdout:
-            print(line.strip())
-
-        result.wait()
-        if result.returncode != 0:
-            print("Command failed with return code:", result.returncode)
+        command = ["bazel", "run", run_command]
+        run_command(command)
 
 
 if __name__ == "__main__":

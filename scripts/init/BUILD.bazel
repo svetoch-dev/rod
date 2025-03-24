@@ -1,5 +1,8 @@
-load("@rules_multirun//:defs.bzl", "command", "multirun")
 load("@aspect_rules_py//py:defs.bzl", "py_binary")
+load("@rules_multirun//:defs.bzl", "command", "multirun")
+load("//tools/lint/py:black.bzl", "py_lint")
+
+py_lint()
 
 py_binary(
     name = "prepare",

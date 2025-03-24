@@ -5,8 +5,8 @@ prepare_args = get_prepare_args()
 
 command(
     name = "prepare",
+    arguments = prepare_args,
     command = "//scripts/init/images/prepare",
-    arguments = prepare_args
 )
 
 command(

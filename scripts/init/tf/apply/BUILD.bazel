@@ -1,3 +1,6 @@
-load(":apply.bzl", "apply_tf")
+load(":apply.bzl", "apply")
+load("//tools/lint/py:black.bzl", "py_lint")
 
-apply_tf()
+py_lint()
+
+apply()
