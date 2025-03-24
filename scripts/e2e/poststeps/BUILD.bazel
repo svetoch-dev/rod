@@ -1,0 +1,6 @@
+load(":poststeps.bzl", "destroy")
+load("//tools/lint/py:black.bzl", "py_lint")
+
+py_lint()
+
+destroy()
