@@ -1,0 +1,3 @@
+load(":apply.bzl", "apply_tf")
+
+apply_tf()
