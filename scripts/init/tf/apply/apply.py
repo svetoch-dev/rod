@@ -9,7 +9,7 @@ WORKSPACE_FOLDER = os.getenv("BUILD_WORKSPACE_DIRECTORY")
 @click.command()
 @click.argument("targets", required=True, type=click.STRING)
 def apply(targets):
-    """Applyies all apply targets passed in order
+    """Applies all apply targets passed in order
 
     Args:
         targets(str): comma separated list of tf_apply targets

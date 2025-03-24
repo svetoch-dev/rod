@@ -29,8 +29,8 @@ def build_images():
     result = subprocess.run(query, capture_output=True, text=True)
     output = process_results(result)
     output = output.strip("\n")
-    for run_command in output.split("\n"):
-        command = ["bazel", "run", run_command]
+    for target in output.split("\n"):
+        command = ["bazel", "run", target]
         run_command(command)
 
 
