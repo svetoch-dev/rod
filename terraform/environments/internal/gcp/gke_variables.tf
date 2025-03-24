@@ -20,7 +20,7 @@ locals {
       enable_vertical_pod_autoscaling = true
       enable_shielded_nodes           = false
       remove_default_node_pool        = true
-      authenticator_security_group    = local.env.kubernetes.auth_group
+      authenticator_security_group    = local.env.kubernetes.auth_group != "" ? local.env.kubernetes.auth_group : null
       identity_namespace              = "enabled"
       node_metadata                   = "GKE_METADATA"
 
