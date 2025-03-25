@@ -13,6 +13,7 @@ UNMASK_STR = ""
 for char in MASK_STR:
     UNMASK_STR += " "
 
+
 @dataclass
 class Target:
     name: str
