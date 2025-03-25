@@ -10,6 +10,7 @@ WORKSPACE_FOLDER = os.getenv("BUILD_WORKSPACE_DIRECTORY")
 MASK_STR = "##MASKED##"
 UNMASK_STR = ""
 
+
 @dataclass
 class Target:
     name: str

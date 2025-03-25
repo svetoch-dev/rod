@@ -133,7 +133,6 @@ def tf(
         init = ":init",
         plan = plan_target,
         tags = ["manual"],
-        visibility = ["//visibility:public"],
     )
 
     tf_binary(
