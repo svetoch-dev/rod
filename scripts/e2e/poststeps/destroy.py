@@ -5,22 +5,23 @@ from libs.py.helpers import run_command
 
 WORKSPACE_FOLDER = os.getenv("BUILD_WORKSPACE_DIRECTORY")
 
-
 @click.command()
-@click.argument("targets", required=True, type=click.STRING)
-def destroy(targets):
+@click.option("--apply_targets", "-t", required=True, type=(str, bool), multiple=True)
+def destroy(apply_targets):
     """Destroys targets passed in order
 
     Args:
-        targets(str): comma separated list of tf_apply targets
+        apply_targets(set(tuple(str, bool))): list of target touples that are applied:
+            1. first element target
+            2. second element descibes the need for umasking tf code
     """
     os.chdir(WORKSPACE_FOLDER)
-    targets = targets.split(",")
-    targets = targets[::-1]
-    for target in targets:
+    #We must destroy states in reverse
+    #to how they were applied
+    for target, is_masked in apply_targets[::-1]:
         target = target.replace(":apply", ":tf")
         target = target.replace(":gh_apply", ":tf")
-        command = ["bazel", "run", target, "destroy"]
+        command = ["bazel", "run", target, "--",  "destroy", "-auto-approve"]
         run_command(command)
 
 

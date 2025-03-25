@@ -59,8 +59,8 @@ def apply(targets):
 
     Args:
         targets(set(tuple(str, bool))): list of target touples:
-          1. first element target
-          2. second element descibes the need for umasking tf code
+            1. first element target
+            2. second element descibes the need for umasking tf code
     """
     os.chdir(WORKSPACE_FOLDER)
     target_objs = []
