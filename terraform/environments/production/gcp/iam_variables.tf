@@ -42,7 +42,7 @@ locals {
         ]
         sa_iam_bindings = {
           "roles/iam.workloadIdentityUser" = [
-            ###"serviceAccount:${local.env.cloud.id}.svc.id.goog[external-dns/external-dns]",
+##MASKED##  "serviceAccount:${local.env.cloud.id}.svc.id.goog[external-dns/external-dns]",
           ]
         }
         generate_key = false
@@ -60,7 +60,7 @@ locals {
         roles       = []
         sa_iam_bindings = {
           "roles/iam.workloadIdentityUser" = [
-            ###"serviceAccount:${local.env.cloud.id}.svc.id.goog[prometheus/thanos]",
+##MASKED##  "serviceAccount:${local.env.cloud.id}.svc.id.goog[prometheus/thanos]",
           ]
         }
         generate_key = false
@@ -72,7 +72,7 @@ locals {
         ]
         sa_iam_bindings = {
           "roles/iam.workloadIdentityUser" = [
-            ###"serviceAccount:${local.env.cloud.id}.svc.id.goog[postgres/postgres]",
+##MASKED##  "serviceAccount:${local.env.cloud.id}.svc.id.goog[postgres/postgres]",
           ]
         }
         generate_key = false
