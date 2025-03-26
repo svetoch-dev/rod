@@ -10,7 +10,7 @@ def api_enabled(client, project_id, api):
     Args:
         client(object): client used to communicate with google api
         project_id(str): The name of the project that where apis need to be enabled
-        api(str): The name of the project where bucket should be created
+        api(str): The name of the api that should be enabled
     Returns:
         bool: True if api is enabled. False if not
     """

@@ -25,7 +25,7 @@ def get_prepare_args():
         container_registries += "," + env_obj["registry"]
 
     args.append(
-        container_registries.strip(",")
+        container_registries.strip(","),
     )
     if cloud_name == "gcp":
         args.append("gcr")
@@ -42,7 +42,7 @@ def prepare():
         name = "prepare",
         srcs = [
             "prepare.py",
-            "config.py"
+            "config.py",
         ],
         visibility = ["//visibility:public"],
         args = args,

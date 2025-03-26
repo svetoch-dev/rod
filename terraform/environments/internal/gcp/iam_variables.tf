@@ -26,7 +26,7 @@ locals {
         custom_roles = []
         sa_iam_bindings = {
           "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${local.env.cloud.id}.svc.id.goog[external-dns/external-dns]",
+            ##MASKED##  "serviceAccount:${local.env.cloud.id}.svc.id.goog[external-dns/external-dns]",
           ]
         }
         generate_key = false
@@ -38,7 +38,7 @@ locals {
         custom_roles = []
         sa_iam_bindings = {
           "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${local.env.cloud.id}.svc.id.goog[argocd/argocd]",
+            ##MASKED##  "serviceAccount:${local.env.cloud.id}.svc.id.goog[argocd/argocd]",
           ]
         }
         generate_key = false
@@ -58,7 +58,7 @@ locals {
         custom_roles = []
         sa_iam_bindings = {
           "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${local.env.cloud.id}.svc.id.goog[prometheus/thanos]",
+            ##MASKED##  "serviceAccount:${local.env.cloud.id}.svc.id.goog[prometheus/thanos]",
           ]
         }
         generate_key = false

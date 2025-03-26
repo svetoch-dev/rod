@@ -1,0 +1,6 @@
+load(":apply.bzl", "apply")
+load("//tools/lint/py:black.bzl", "py_lint")
+
+py_lint()
+
+apply()
