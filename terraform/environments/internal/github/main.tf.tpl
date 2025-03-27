@@ -24,6 +24,6 @@ data "terraform_remote_state" "remote_state" {
 }
 
 module "github" {
-  source       = "git::https://github.com/ggramal/tf-modules.git//modules/github?ref=github-v0.1.1"
+  source       = "git::https://github.com/ggramal/tf-modules.git//modules/github?ref=github-v0.2.0"
   repositories = local.repos
 }
