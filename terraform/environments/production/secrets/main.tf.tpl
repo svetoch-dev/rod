@@ -45,7 +45,7 @@ provider "kubernetes" {
 
 
 module "secrets" {
-  source = "git::https://github.com/ggramal/tf-modules.git//modules/secrets?ref=gcp-update-gke"
+  source = "git::https://github.com/ggramal/tf-modules.git//modules/secrets?ref=secrets-v0.3.0"
   for_each = merge(
     local.prometheus,
   )

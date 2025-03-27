@@ -40,7 +40,7 @@ data "terraform_remote_state" "remote_state" {
 
 
 module "gcp" {
-  source = "git::https://github.com/ggramal/tf-modules.git//modules/gcp?ref=gcp-update-gke"
+  source = "git::https://github.com/ggramal/tf-modules.git//modules/gcp?ref=gcp-v2.0.0"
   project = {
     id     = local.env.cloud.id
     region = local.env.cloud.region
