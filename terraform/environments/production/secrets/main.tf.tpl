@@ -2,15 +2,12 @@ terraform {
   required_providers {
     secret = {
       source  = "inspectorioinc/secret"
-      version = "1.1.5"
     }
     google = {
       source  = "hashicorp/google"
-      version = "6.12.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "2.34.0"
     }
   }
 
@@ -48,7 +45,7 @@ provider "kubernetes" {
 
 
 module "secrets" {
-  source = "git::https://github.com/ggramal/tf-modules.git//modules/secrets?ref=secrets-v0.2.0"
+  source = "git::https://github.com/ggramal/tf-modules.git//modules/secrets?ref=secrets-v0.3.0"
   for_each = merge(
     local.prometheus,
   )

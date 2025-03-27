@@ -85,7 +85,7 @@ def apply():
     args = get_apply_args()
 
     py_binary(
-        name = "apply",
+        name = "init",
         srcs = ["apply.py"],
         visibility = ["//visibility:public"],
         args = args,

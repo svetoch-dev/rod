@@ -22,9 +22,9 @@ command(
 )
 
 command(
-    name = "apply",
+    name = "initial_apply",
     arguments = apply_args,
-    command = "//scripts/init/tf/apply",
+    command = "//scripts/init/tf/apply:init",
 )
 
 multirun(
@@ -32,7 +32,7 @@ multirun(
     commands = [
         "prepare",
         "state_create",
-        "apply",
+        "initial_apply",
     ],
     visibility = ["//visibility:public"],
 )

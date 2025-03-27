@@ -2,11 +2,9 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "6.12.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "2.34.0"
     }
   }
 
@@ -43,7 +41,7 @@ provider "kubernetes" {
 }
 
 module "gke" {
-  source     = "git::https://github.com/ggramal/tf-modules.git//modules/k8s?ref=k8s-v0.1.0"
+  source     = "git::https://github.com/ggramal/tf-modules.git//modules/k8s?ref=k8s-v0.2.0"
   rbac       = local.rbac
   namespaces = local.namespaces
 }
