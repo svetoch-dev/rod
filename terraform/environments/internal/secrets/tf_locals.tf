@@ -4,7 +4,6 @@ locals {
     local.argocd-clusters,
     local.argocd-repos,
     local.import_secrets,
-    local.github
   )
 
   gke_clusters = {
