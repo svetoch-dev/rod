@@ -4,7 +4,7 @@ locals {
   # expand_template rule probably
   # everything will brake badly if
   # something goes wrong
-  env         = var.envs.{env.name}
+  env = var.envs.{env.name}
 }
 
 variable "company" {
@@ -21,8 +21,8 @@ variable "ci" {
   description = "ci related info"
   type = object(
     {
-      group = string,
       type  = string
+      group = string
     }
   )
 }
@@ -34,6 +34,15 @@ variable "envs" {
       {
         name       = string
         short_name = string
+        import_secrets = map(
+          object(
+            {
+              name              = string
+              namespace         = string
+              secrets_to_import = list(string)
+            }
+          )
+        )
         tf_backend = object(
           {
             type    = string
@@ -48,7 +57,7 @@ variable "envs" {
             default_zone = string
             multi_region = string
             registry     = string
-            buckets      = object(
+            buckets = object(
               {
                 deletion_protection = bool
               }
@@ -57,7 +66,7 @@ variable "envs" {
         )
         kubernetes = optional(
           object(
-            { 
+            {
               regional            = bool
               deletion_protection = bool
               location            = string

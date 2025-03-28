@@ -43,17 +43,11 @@ provider "kubernetes" {
   )
 }
 
+
 module "secrets" {
   source = "git::https://github.com/ggramal/tf-modules.git//modules/secrets?ref=secrets-v0.3.0"
 
-  for_each = merge(
-    local.prometheus,
-    local.grafana,
-    local.argocd-clusters,
-    local.argocd-repos,
-    local.argocd-redis,
-  )
-
+  for_each          = local.secrets
   name              = each.value.name
   secrets_to_import = try(each.value.secrets_to_import, [])
   secrets_data      = try(each.value.secrets_data, {})
