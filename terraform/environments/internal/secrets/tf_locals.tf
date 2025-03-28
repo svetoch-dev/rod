@@ -1,4 +1,11 @@
 locals {
+  secrets = merge(
+    local.prometheus,
+    local.argocd-clusters,
+    local.argocd-repos,
+    local.import_secrets,
+  )
+
   gke_clusters = {
     for name, obj in var.envs :
     "${name == "internal" ? "this" : obj.short_name}" => {

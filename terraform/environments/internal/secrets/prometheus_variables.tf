@@ -1,19 +1,5 @@
 locals {
   prometheus = {
-    alertmanager = {
-      name = "alertmanager"
-      secrets_to_import = [
-        "SLACK_WEBHOOK"
-      ]
-      k8s = {
-        enabled   = true
-        namespace = "prometheus"
-      }
-      annotations = {
-      }
-      labels = {
-      }
-    }
     thanos = {
       name = "thanos"
       secrets_data = {
