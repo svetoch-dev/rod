@@ -64,8 +64,10 @@ locals {
         generate_key = false
       }
       runner = {
-        description  = "service account for ci runners"
-        roles        = []
+        description = "service account for ci runners"
+        roles = [
+          "roles/owner"
+        ]
         custom_roles = []
         sa_iam_bindings = {
         }
@@ -74,12 +76,6 @@ locals {
     }
 
     roles = {
-      owners = {
-        role = "roles/owner"
-        members = [
-          "serviceAccount:runner@${local.env.cloud.id}.iam.gserviceaccount.com"
-        ]
-      }
     }
   }
 }
