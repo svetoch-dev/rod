@@ -114,7 +114,7 @@ redis:
       - name: REDIS_PASSWORD
         valueFrom:
           secretKeyRef:
-            key: redis-password
+            key: password
             name: argocd-redis
   redisServiceMonitor:
     enabled: true
