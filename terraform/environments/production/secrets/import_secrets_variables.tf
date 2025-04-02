@@ -1,17 +1,17 @@
 locals {
   import_secrets = {
-    for secret_name, secret_obj in local.env.import_secrets :
-    "${secret_name}" => {
-      name              = secret_obj.name
-      secrets_to_import = secret_obj.secrets_to_import
-      k8s = {
-        enabled   = true
-        namespace = secret_obj.namespace
-      }
-      annotations = {
-      }
-      labels = {
-      }
-    }
+    ###MASKED###for secret_name, secret_obj in local.env.import_secrets :
+    ###MASKED###"${secret_name}" => {
+    ###MASKED###  name              = secret_obj.name
+    ###MASKED###  secrets_to_import = secret_obj.secrets_to_import
+    ###MASKED###  k8s = {
+    ###MASKED###    enabled   = true
+    ###MASKED###    namespace = secret_obj.namespace
+    ###MASKED###  }
+    ###MASKED###  annotations = {
+    ###MASKED###  }
+    ###MASKED###  labels = {
+    ###MASKED###  }
+    ###MASKED###}
   }
 }
