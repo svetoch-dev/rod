@@ -27,6 +27,7 @@ command(
 
 multirun(
     name = "init",
+    visibility = ["//visibility:public"],
     commands = [
         "init_prepare",
         "tf_init",

@@ -1,14 +1,10 @@
 import click
-import subprocess
 import os
 import re
-import glob
 from dataclasses import dataclass
-from libs.py.helpers import run_command
+from libs.py.helpers import run_command, unmask_tf
 
 WORKSPACE_FOLDER = os.getenv("BUILD_WORKSPACE_DIRECTORY")
-MASK_STR = "##MASKED##"
-UNMASK_STR = ""
 
 
 @dataclass
@@ -25,26 +21,6 @@ class Target:
     def package(self):
         package = re.sub(":.*$", "", self.name)
         return package
-
-
-def unmask_tf(folder, mask_str, unmask_str):
-    """
-    Remove mask string from tf files of a bazel target
-
-    Args:
-        folder(str): folder with .tf files
-        mask_str(str): string that should be unmasked
-        unmask_str(str): unmasked str
-    """
-    tf_files = glob.glob(f"{folder}/*.tf")
-    for file in tf_files:
-        with open(file, "r") as f:
-            content = f.read()
-
-        content = content.replace(mask_str, unmask_str)
-
-        with open(file, "w") as f:
-            f.write(content)
 
 
 @click.command()
@@ -71,7 +47,7 @@ def apply(targets):
 
     for target in target_objs:
         if target.is_masked:
-            unmask_tf(target.path, MASK_STR, UNMASK_STR)
+            unmask_tf(target.path)
             command = ["bazel", "run", target.name]
             run_command(command)
 
