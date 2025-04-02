@@ -12,7 +12,7 @@ def _env_apply_targets(env_obj):
       env_obj: environment obj (based on tfvars)
 
     Returns:
-      list of touples. Touple (String, Boolean)
+      list of tuples. Tuple (String, Boolean)
       1. first element is apply target
       2. second element determines if the tf code is masked
     """

@@ -12,7 +12,7 @@ def destroy(apply_targets):
     """Destroys targets passed in order
 
     Args:
-        apply_targets(set(tuple(str, bool))): list of target touples that are applied:
+        apply_targets(set(tuple(str, bool))): list of target tuples that are applied:
             1. first element target
             2. second element descibes the need for umasking tf code
     """

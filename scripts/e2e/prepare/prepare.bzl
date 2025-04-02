@@ -13,8 +13,6 @@ def get_e2e_prepare_args():
     """
     tf_vars = formatted_tfvars()
 
-    int_env = None
-    cloud_name = ""
     args = []
 
     for env_name, env_obj in tf_vars["envs"].items():

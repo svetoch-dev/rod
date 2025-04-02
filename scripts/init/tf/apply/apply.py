@@ -32,7 +32,7 @@ def apply(targets):
     2. Unmasks all masked tf code and applies related targets
 
     Args:
-        targets(set(tuple(str, bool))): list of target touples:
+        targets(set(tuple(str, bool))): list of target tuples:
             1. first element target
             2. second element descibes the need for umasking tf code
     """
