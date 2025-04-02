@@ -1,0 +1,18 @@
+load("@rules_multirun//:defs.bzl", "command", "multirun")
+
+command(
+    name = "infra_create",
+    command = "//scripts/init",
+)
+
+command(
+    name = "infra_destroy",
+    command = "//scripts/e2e/poststeps:destroy",
+)
+
+multirun(
+    name = "e2e",
+    commands = [
+        "infra_create",
+    ],
+)

@@ -12,6 +12,7 @@ def destroy():
     py_binary(
         name = "destroy",
         srcs = ["destroy.py"],
+        visibility = ["//visibility:public"],
         args = args,
         deps = [
             "//libs/py/helpers",

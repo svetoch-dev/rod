@@ -1,0 +1,101 @@
+{
+  "company": {
+    "domain": "infrared.by",
+    "name": "infrared"
+  },
+  "ci": {
+    "type": "github",
+    "group": "ggramal"
+  },
+  "envs": {
+    "internal": {
+      "name": "internal",
+      "short_name": "int",
+      "import_secrets": {
+        "redis": {
+          "name": "argocd-redis",
+          "namespace": "argocd",
+          "secrets_to_import": [
+            "password"
+          ]
+        },
+        "alertmanager": {
+          "name": "alertmanager",
+          "namespace": "prometheus",
+          "secrets_to_import": [
+            "SLACK_WEBHOOK"
+          ]
+        },
+        "sso": {
+          "name": "sso",
+          "namespace": "grafana",
+          "secrets_to_import": [
+            "client-id",
+            "client-secret"
+          ]
+        }
+      },
+      "tf_backend": {
+        "type": "gcs",
+        "configs": {
+          "bucket": "{company.name}-tf-state",
+          "prefix": "{env.name}/{tf_backend.state_name}"
+        }
+      },
+      "cloud": {
+        "name": "gcp",
+        "id": "infrared-internal",
+        "region": "europe-west2",
+        "registry": "{env.cloud.region}-docker.pkg.dev/{env.cloud.id}/containers",
+        "default_zone": "europe-west2-b",
+        "buckets": {
+            "deletion_protection": "false"
+        },
+        "multi_region": "EU"
+      },
+      "kubernetes": {
+        "regional": "false",
+        "location": "europe-west2-a",
+        "deletion_protection": "false",
+        "auth_group": ""
+      }
+    },
+    "production": {
+      "name": "production",
+      "short_name": "prd",
+      "import_secrets": {
+        "alertmanager": {
+          "name": "alertmanager",
+          "namespace": "prometheus",
+          "secrets_to_import": [
+            "SLACK_WEBHOOK"
+          ]
+        }
+      },
+      "tf_backend": {
+        "type": "gcs",
+        "configs": {
+          "bucket": "{company.name}-tf-state",
+          "prefix": "{env.name}/{tf_backend.state_name}"
+        }
+      },
+      "cloud": {
+        "name": "gcp",
+        "id": "infrared-production",
+        "region": "europe-west2",
+        "registry": "{env.cloud.region}-docker.pkg.dev/{env.cloud.id}/containers",
+        "default_zone": "europe-west2-c",
+        "buckets": {
+            "deletion_protection": "false"
+        },
+        "multi_region": "EU"
+      },
+      "kubernetes": {
+        "regional": "false",
+        "deletion_protection": "false",
+        "location": "europe-west2-a",
+        "auth_group": ""
+      }
+    }
+  }
+}
