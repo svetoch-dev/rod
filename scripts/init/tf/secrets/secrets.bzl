@@ -51,7 +51,6 @@ def get_secrets_args():
         args.append(secret_name)
         args.append(secret_keys)
 
-    print(secrets)
     return args
 
 

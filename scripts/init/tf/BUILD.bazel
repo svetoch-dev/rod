@@ -1,4 +1,5 @@
 load("@rules_multirun//:defs.bzl", "command", "multirun")
+load("//scripts/init/tf/secrets:secrets.bzl", "get_secrets_args")
 load("//scripts/init/tf/apply:apply.bzl", "get_apply_args")
 load("//scripts/init/tf/prepare:prepare.bzl", "get_prepare_args")
 load("//scripts/init/tf/state:state.bzl", "get_create_state_args")
@@ -8,6 +9,8 @@ _, prepare_args = get_prepare_args()
 _, create_state_args = get_create_state_args()
 
 apply_args = get_apply_args()
+
+secrets_args = get_secrets_args()
 
 command(
     name = "prepare",
@@ -27,12 +30,19 @@ command(
     command = "//scripts/init/tf/apply:init",
 )
 
+command(
+    name = "import_secrets",
+    arguments = secrets_args,
+    command = "//scripts/init/tf/secrets",
+)
+
 multirun(
     name = "init",
     commands = [
         "prepare",
         "state_create",
         "initial_apply",
+        "import_secrets",
     ],
     visibility = ["//visibility:public"],
 )
