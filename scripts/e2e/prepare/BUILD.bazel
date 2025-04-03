@@ -1,6 +1,18 @@
 load(":prepare.bzl", "prepare")
+load("@aspect_rules_py//py:defs.bzl", "py_binary")
+load("@py_deps//:requirements.bzl", "requirement")
 load("//tools/lint/py:black.bzl", "py_lint")
 
 py_lint()
 
 prepare()
+
+py_binary(
+    name = "tfvars",
+    srcs = ["tfvars.py"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//libs/py/helpers",
+        requirement("click"),
+    ],
+)

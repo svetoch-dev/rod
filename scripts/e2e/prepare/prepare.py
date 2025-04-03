@@ -1,5 +1,4 @@
 import click
-import subprocess
 import os
 import time
 import shutil
@@ -23,10 +22,6 @@ def prepare(apply_states):
     for state in apply_states.split(","):
         cloud = state.split("/")[-1]
         state = state.lstrip("//")
-        shutil.copy(
-            f"scripts/e2e/prepare/terraform.tfvars.json.{cloud}",
-            "terraform/terraform.tfvars.json",
-        )
         # In e2e tests we need to add some string to all
         # custom roles because custom roles in gcp are not
         # delete during 30 days
