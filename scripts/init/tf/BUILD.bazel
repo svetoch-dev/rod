@@ -36,6 +36,11 @@ command(
     command = "//scripts/init/tf/secrets",
 )
 
+command(
+    name = "cleanup",
+    command = "//scripts/init/tf/poststeps:clean",
+)
+
 multirun(
     name = "init",
     commands = [
@@ -43,6 +48,7 @@ multirun(
         "state_create",
         "initial_apply",
         "import_secrets",
+        "cleanup",
     ],
     visibility = ["//visibility:public"],
 )
