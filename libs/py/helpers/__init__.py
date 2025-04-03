@@ -33,7 +33,8 @@ def run_command(command, print_stdout=True):
     result = subprocess.Popen(command, stdout=subprocess.PIPE, text=True)
     for line in result.stdout:
         stdout.append(line.strip())
-        if print_stdout: print(line, end="")
+        if print_stdout:
+            print(line, end="")
 
     result.wait()
     if result.returncode != 0:

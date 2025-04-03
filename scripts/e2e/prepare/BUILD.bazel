@@ -1,7 +1,7 @@
-load(":prepare.bzl", "prepare")
 load("@aspect_rules_py//py:defs.bzl", "py_binary")
 load("@py_deps//:requirements.bzl", "requirement")
 load("//tools/lint/py:black.bzl", "py_lint")
+load(":prepare.bzl", "prepare")
 
 py_lint()
 

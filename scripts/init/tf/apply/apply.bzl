@@ -2,8 +2,8 @@
 
 load("@aspect_rules_py//py:defs.bzl", "py_binary")
 load("@py_deps//:requirements.bzl", "requirement")
-load("//tools/utils:format.bzl", "formatted_tfvars")
 load("//:constants.bzl", "TF_ENVS_PATH")
+load("//tools/utils:format.bzl", "formatted_tfvars")
 
 def _env_apply_targets(env_obj):
     """Get targets of env based on cloud type
@@ -26,15 +26,15 @@ def _env_apply_targets(env_obj):
 
     if env_cloud_type == "gcp":
         targets.append(
-            (state_prefix + "gcp:apply", True)
+            (state_prefix + "gcp:apply", True),
         )
         targets.append(
-            (state_prefix + "gke:apply", False)
+            (state_prefix + "gke:apply", False),
         )
 
     if env_name != "int" and env_name != "internal":
         targets.append(
-            (state_prefix + "secrets:apply", False)
+            (state_prefix + "secrets:apply", False),
         )
 
     return targets
@@ -67,8 +67,8 @@ def get_apply_args():
                 env_name = env_int["name"],
                 ci_name = tf_vars["ci"]["type"],
             ),
-            False
-        )
+            False,
+        ),
     )
 
     targets += _env_apply_targets(env_int)
@@ -83,8 +83,8 @@ def get_apply_args():
                 tf_envs_path = TF_ENVS_PATH,
                 env_name = env_int["name"],
             ),
-            False
-        )
+            False,
+        ),
     )
 
     for target, is_masked in targets:

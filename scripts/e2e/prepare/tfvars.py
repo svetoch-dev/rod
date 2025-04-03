@@ -4,6 +4,7 @@ import shutil
 
 WORKSPACE_FOLDER = os.getenv("BUILD_WORKSPACE_DIRECTORY")
 
+
 @click.command()
 @click.argument("cloud", required=True, type=click.STRING)
 def tfvars(cloud):
@@ -18,6 +19,7 @@ def tfvars(cloud):
         f"scripts/e2e/prepare/terraform.tfvars.json.{cloud}",
         "terraform/terraform.tfvars.json",
     )
+
 
 if __name__ == "__main__":
     tfvars()

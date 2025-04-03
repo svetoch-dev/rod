@@ -27,10 +27,10 @@ command(
 
 multirun(
     name = "init",
-    visibility = ["//visibility:public"],
     commands = [
         "init_prepare",
         "tf_init",
         "images_init",
     ],
+    visibility = ["//visibility:public"],
 )

@@ -1,7 +1,7 @@
 load("@rules_multirun//:defs.bzl", "command", "multirun")
-load("//scripts/init/tf/secrets:secrets.bzl", "get_secrets_args")
 load("//scripts/init/tf/apply:apply.bzl", "get_apply_args")
 load("//scripts/init/tf/prepare:prepare.bzl", "get_prepare_args")
+load("//scripts/init/tf/secrets:secrets.bzl", "get_secrets_args")
 load("//scripts/init/tf/state:state.bzl", "get_create_state_args")
 
 _, prepare_args = get_prepare_args()

@@ -2,8 +2,8 @@
 
 load("@aspect_rules_py//py:defs.bzl", "py_binary")
 load("@py_deps//:requirements.bzl", "requirement")
-load("//tools/utils:format.bzl", "formatted_tfvars")
 load("//:constants.bzl", "TF_ENVS_PATH")
+load("//tools/utils:format.bzl", "formatted_tfvars")
 
 def get_e2e_prepare_args():
     """Get e2e prepare arguments from tfvars
@@ -19,13 +19,12 @@ def get_e2e_prepare_args():
         state_prefix = "{tf_envs_path}/{env_name}/{cloud_type}".format(
             tf_envs_path = TF_ENVS_PATH,
             env_name = env_name,
-            cloud_type = env_obj["cloud"]["name"]
+            cloud_type = env_obj["cloud"]["name"],
         )
 
         args.append(state_prefix)
 
     return [",".join(args)]
-
 
 def prepare():
     """Macro for preparing infra

@@ -2,8 +2,8 @@
 
 load("@aspect_rules_py//py:defs.bzl", "py_binary")
 load("@py_deps//:requirements.bzl", "requirement")
-load("//tools/utils:format.bzl", "formatted_tfvars")
 load("//:constants.bzl", "TF_ENVS_PATH")
+load("//tools/utils:format.bzl", "formatted_tfvars")
 
 def _env_secrets(env_obj):
     """Get secrets for an env
@@ -21,12 +21,12 @@ def _env_secrets(env_obj):
     env_name = env_obj["name"]
     secret_state = "{tf_envs_path}/{env_name}/secrets".format(
         tf_envs_path = TF_ENVS_PATH,
-        env_name = env_name
+        env_name = env_name,
     )
 
     for secret_name, secret_obj in env_obj["import_secrets"].items():
         secrets.append(
-            (secret_state, secret_name, ",".join(secret_obj["secrets_to_import"]))
+            (secret_state, secret_name, ",".join(secret_obj["secrets_to_import"])),
         )
 
     return secrets
@@ -40,9 +40,9 @@ def get_secrets_args():
     tf_vars = formatted_tfvars()
 
     secrets = []
-    args    = []
+    args = []
 
-    for env_name, env_obj in tf_vars["envs"].items():
+    for _, env_obj in tf_vars["envs"].items():
         secrets += _env_secrets(env_obj)
 
     for secret_state, secret_name, secret_keys in secrets:
@@ -52,7 +52,6 @@ def get_secrets_args():
         args.append(secret_keys)
 
     return args
-
 
 def secrets():
     """Macro for setting secrets
