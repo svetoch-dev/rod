@@ -30,6 +30,6 @@ EOF
         "argocd.argoproj.io/secret-type" = "cluster"
       }
     }
-    if cluster_obj.name != local.env.short_name
+    if cluster_obj.name != local.env.short_name && cluster_obj.enabled
   }
 }
