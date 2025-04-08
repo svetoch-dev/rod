@@ -44,7 +44,7 @@ redis-main:
         memory: 250Mi
     exporter:
       enabled: true
-      image: oliver006/redis_exporter:v1.62.0
+      image: oliver006/redis_exporter:v1.69.0
       resources:
         requests:
           cpu: 10m
