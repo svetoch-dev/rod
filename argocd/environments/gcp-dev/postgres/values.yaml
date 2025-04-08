@@ -49,13 +49,19 @@ postgres-main:
       schemas:
         public:
           defaultRoles: false
+    example2:
+      defaultUsers: true
+      secretNamespace: example2
+      schemas:
+        public:
+          defaultRoles: false
   logicalBackup:
     enabled: true
     schedule: "40 00 * * *"
   postgresql:
     version: "15"
     parameters:
-      max_connections: "150"
+      max_connections: "100"
       work_mem: "65536"
       max_wal_size: "2048"
       maintenance_work_mem: "262144"
@@ -69,7 +75,7 @@ postgres-main:
       logging_collector: "true"
   sidecars:
     - name: "postgres-exporter"
-      image: "{{ .Values.global.registry.url }}/postgres-exporter:v0.15.0-4"
+      image: "{{ .Values.global.registry.url }}/postgres-exporter:v0.17.1-1"
       ports:
         - containerPort: 9187
           name: metrics
@@ -82,7 +88,7 @@ postgres-main:
           memory: 15Mi
       env:
         - name: DATA_SOURCE_NAME
-          value: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@localhost:5432/?sslmode=disable"
+          value: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@localhost:5432/example?sslmode=disable"
         - name: PG_EXPORTER_COLLECTOR_DATABASE
           value: "true"
         - name: PG_EXPORTER_COLLECTOR_LOCKS
@@ -107,18 +113,41 @@ postgres-main:
           value: "true"
         - name: PG_EXPORTER_DISABLE_SETTINGS_METRICS
           value: "false"
+    - name: "postgres-exporter-2"
+      image: "{{ .Values.global.registry.url}}/postgres-exporter:v0.17.1-1"
+      ports:
+        - containerPort: 9188
+          name: metrics-2
+      resources:
+        limits:
+          cpu: 200m
+          memory: 50Mi
+        requests:
+          cpu: 10m
+          memory: 15Mi
+      env:
+        - name: PG_EXPORTER_WEB_LISTEN_ADDRESS
+          value: "9188"
+        - name: DATA_SOURCE_NAME
+          value: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@localhost:5432/example2?sslmode=disable"
+        - name: PG_EXPORTER_COLLECTOR_STAT_USER_TABLES
+          value: "true"
+        - name: PG_EXPORTER_COLLECTOR_STATIO_USER_INDEXES
+          value: "true"
+        - name: PG_EXPORTER_COLLECTOR_STATIO_USER_TABLES
+          value: "true"
   podMonitor:
     enabled: true
     prometheusSelector:
       prometheus: main
     podMetricsEndpoints:
-      - targetPort: 9187
+      - port: metrics
         relabelings:
           - sourceLabels: [__meta_kubernetes_pod_label_app_kubernetes_io_instance]
             action: Replace
             regex: (.*)
             targetLabel: label_app_kubernetes_io_instance
-      - targetPort: 9188
+      - port: metrics-2
         relabelings:
           - sourceLabels: [__meta_kubernetes_pod_label_app_kubernetes_io_instance]
             action: Replace
