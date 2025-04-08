@@ -2,7 +2,6 @@ locals {
   gke_clusters = {
     "${local.env.short_name}" = {
       name                = local.env.short_name
-      enabled             = local.env.kubernetes.enabled
       regional            = local.env.kubernetes.regional
       region              = local.env.cloud.region
       zones               = data.google_compute_zones.available.names

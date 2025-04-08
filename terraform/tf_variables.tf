@@ -67,7 +67,6 @@ variable "envs" {
         kubernetes = optional(
           object(
             {
-              enabled             = bool
               regional            = bool
               deletion_protection = bool
               location            = string

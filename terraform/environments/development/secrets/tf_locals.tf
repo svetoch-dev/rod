@@ -9,7 +9,7 @@ locals {
       location = local.env.kubernetes.location
       project  = local.env.cloud.id
       name     = local.env.short_name
-      enabled  = local.env.kubernetes.enabled
+      enabled  = true
     }
   }
 
