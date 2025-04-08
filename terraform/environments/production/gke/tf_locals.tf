@@ -4,7 +4,7 @@ locals {
       location = local.env.kubernetes.location
       project  = local.env.cloud.id
       name     = local.env.short_name
-      enabled  = true
+      enabled  = local.env.kubernetes.enabled
     }
   }
   remote_state_config = {

@@ -11,7 +11,7 @@ locals {
     "${name == "internal" ? "this" : obj.short_name}" => {
       location = obj.kubernetes.location
       project  = obj.cloud.id
-      enabled  = true
+      enabled  = obj.kubernetes.enabled
       name     = obj.short_name
     }
     if obj.kubernetes != null
