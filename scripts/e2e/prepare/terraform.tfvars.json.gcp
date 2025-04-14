@@ -49,54 +49,15 @@
         "registry": "{env.cloud.region}-docker.pkg.dev/{env.cloud.id}/containers",
         "default_zone": "europe-west2-b",
         "buckets": {
-          "deletion_protection": "true"
+          "deletion_protection": "false"
         },
         "multi_region": "EU"
       },
       "kubernetes": {
-	"enabled": "true",
-        "regional": "true",
-        "location": "europe-west2",
-        "deletion_protection": "true",
-        "auth_group": "gke-security-groups@infrared.by"
-      }
-    },
-    "development": {
-      "name": "development",
-      "short_name": "dev",
-      "import_secrets": {
-        "alertmanager": {
-          "name": "alertmanager",
-          "namespace": "prometheus",
-          "secrets_to_import": [
-            "SLACK_WEBHOOK"
-          ]
-        }
-      },
-      "tf_backend": {
-        "type": "gcs",
-        "configs": {
-          "bucket": "{company.name}-tf-state",
-          "prefix": "{env.name}/{tf_backend.state_name}"
-        }
-      },
-      "cloud": {
-        "name": "gcp",
-        "id": "infrared-development",
-        "region": "europe-west2",
-        "registry": "{env.cloud.region}-docker.pkg.dev/{env.cloud.id}/containers",
-        "default_zone": "europe-west2-a",
-        "buckets": {
-          "deletion_protection": "true"
-        },
-        "multi_region": "EU"
-      },
-      "kubernetes": {
-	"enabled": "true",
         "regional": "false",
         "location": "europe-west2-a",
-        "deletion_protection": "true",
-        "auth_group": "gke-security-groups@infrared.by"
+        "deletion_protection": "false",
+        "auth_group": ""
       }
     },
     "production": {
@@ -125,16 +86,15 @@
         "registry": "{env.cloud.region}-docker.pkg.dev/{env.cloud.id}/containers",
         "default_zone": "europe-west2-c",
         "buckets": {
-          "deletion_protection": "true"
+          "deletion_protection": "false"
         },
         "multi_region": "EU"
       },
       "kubernetes": {
-	"enabled": "true",
-        "regional": "true",
-        "deletion_protection": "true",
-        "location": "europe-west2",
-        "auth_group": "gke-security-groups@infrared.by"
+        "regional": "false",
+        "deletion_protection": "false",
+        "location": "europe-west2-a",
+        "auth_group": ""
       }
     }
   }

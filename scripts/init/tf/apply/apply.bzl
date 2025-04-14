@@ -2,9 +2,8 @@
 
 load("@aspect_rules_py//py:defs.bzl", "py_binary")
 load("@py_deps//:requirements.bzl", "requirement")
+load("//:constants.bzl", "TF_ENVS_PATH")
 load("//tools/utils:format.bzl", "formatted_tfvars")
-
-TF_ENVS_PATH = "//terraform/environments"
 
 def _env_apply_targets(env_obj):
     """Get targets of env based on cloud type
@@ -13,7 +12,7 @@ def _env_apply_targets(env_obj):
       env_obj: environment obj (based on tfvars)
 
     Returns:
-      list of touples. Touple (String, Boolean)
+      list of tuples. Tuple (String, Boolean)
       1. first element is apply target
       2. second element determines if the tf code is masked
     """
@@ -27,10 +26,15 @@ def _env_apply_targets(env_obj):
 
     if env_cloud_type == "gcp":
         targets.append(
-            (state_prefix + "gcp:apply", True)
+            (state_prefix + "gcp:apply", True),
         )
         targets.append(
-            (state_prefix + "gke:apply", False)
+            (state_prefix + "gke:apply", False),
+        )
+
+    if env_name != "int" and env_name != "internal":
+        targets.append(
+            (state_prefix + "secrets:apply", False),
         )
 
     return targets
@@ -48,8 +52,9 @@ def get_apply_args():
 
     #The apply priority is
     #1. Ci
-    #2. int env
+    #2. int env (except secrets)
     #3. other envs
+    #4. int secrets
     for env_name, env_obj in tf_vars["envs"].items():
         if env_name == "internal" or env_name == "int":
             env_int = env_obj
@@ -62,8 +67,8 @@ def get_apply_args():
                 env_name = env_int["name"],
                 ci_name = tf_vars["ci"]["type"],
             ),
-            False
-        )
+            False,
+        ),
     )
 
     targets += _env_apply_targets(env_int)
@@ -71,6 +76,16 @@ def get_apply_args():
     for env_name, env_obj in tf_vars["envs"].items():
         if not (env_name == "internal" or env_name == "int"):
             targets += _env_apply_targets(env_obj)
+
+    targets.append(
+        (
+            "{tf_envs_path}/{env_name}/secrets:apply".format(
+                tf_envs_path = TF_ENVS_PATH,
+                env_name = env_int["name"],
+            ),
+            False,
+        ),
+    )
 
     for target, is_masked in targets:
         args.append("-t")

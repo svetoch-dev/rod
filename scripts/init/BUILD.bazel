@@ -32,4 +32,5 @@ multirun(
         "tf_init",
         "images_init",
     ],
+    visibility = ["//visibility:public"],
 )

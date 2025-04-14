@@ -1,6 +1,6 @@
+load(":poststeps.bzl", "clean")
 load("//tools/lint/py:black.bzl", "py_lint")
-load(":apply.bzl", "apply")
 
 py_lint()
 
-apply()
+clean()
