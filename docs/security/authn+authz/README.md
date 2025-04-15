@@ -1,25 +1,40 @@
-# Authentication and authorization
+# 🔐 Authentication and Authorization
 
-As a single point of authentication and authorization for infrastructure services like (grafana, argocd, prometheus etc) we use identity aware proxy - [pomerium](https://www.pomerium.com/docs) 
+## 🎯 Motivation
 
-Pomerium sits between end users and services requiring strong authentication. After verifying identity with an identity provider (IdP), Pomerium uses a configurable policy to decide how to route your user's request and if they are authorized to access the service
+As **Site Reliability Engineers (SREs)**, our goals for authentication and authorization are:
 
-## Architecture
+- ✅ A single authentication and authorization layer for all infrastructure services.
+- ⚙️ Simple to configure, update, and maintain.
+- ➕ Effortless onboarding of new infrastructure components.
+- 🔐 Centralized authentication via an SSO (Single Sign-On) provider.
+
+## 🧱 Architecture
+
+To provide a unified access control layer for infrastructure services (e.g., Grafana, ArgoCD, Prometheus), we use an **identity-aware proxy**, [**Pomerium**](https://www.pomerium.com/docs).
+
+Pomerium acts as a secure gateway between users and internal services. It authenticates users via a configured Identity Provider (IdP), then enforces access policies to determine if requests should be routed to the protected service.
 
 ![pomerium](img/pomerium.png)
 
-1. User tries to access `https://argocd.int.example.com`
-2. Pomerium ingress checks if there is a session for the user. Sessions can be stored in memory or postgresql
-3. if there is no session it redirects the user to go through a identity provider (for example Github) authentication flow
-4. After authentication flow pomerium recieves claims (attributes like email etc) from idp
-5. Based on recieved claims and authorization annotation of each ingress pomerium makes the decission to pass certain user to the app
+### 🔄 Flow
 
+1. The user attempts to access a service, e.g., `https://argocd.int.example.com`.
+2. **Pomerium Ingress** checks for an active session (stored in memory or PostgreSQL).
+3. If no session is found, the user is redirected to authenticate via the configured IdP (e.g., GitHub).
+4. Upon successful authentication, Pomerium receives user claims (e.g., email, groups).
+5. Pomerium evaluates access based on:
+   - Received claims
+   - The authorization policy defined in the ingress annotations  
+   It then decides whether to forward the request to the service.
 
-## Authorization annotation
+## 🔐 Authorization Annotations
 
-Authorization to an ingress endpoint is configured via `ingress.pomerium.io/policy`. For example by setting annotation to
+Access to an ingress endpoint is controlled via the `ingress.pomerium.io/policy` annotation.
 
-```
+### 🎯 Example: Specific Users
+
+```yaml
 ingress.pomerium.io/policy: |
   allow:
     or:
@@ -29,9 +44,11 @@ ingress.pomerium.io/policy: |
           is: user2@example.com
 ```
 
-we will allow user1@example.com, user2@example.com to access an ingress resource.
+This configuration allows only `user1@example.com` and `user2@example.com` to access the resource.
 
-```
+### 🌐 Example: Domain-Based Access
+
+```yaml
 ingress.pomerium.io/policy: |
   allow:
     and:
@@ -39,12 +56,11 @@ ingress.pomerium.io/policy: |
           is: example.com
 ```
 
-this policy allows anyone with email from `example.com` access ingress resource
+This policy grants access to **any user** with an email address from the `example.com` domain.
 
+## ☁️ Multi-Cluster Support
 
-## Multi  clusters 
-
-For multiple kubernetes clusters each cluster will have its own pomerium ingress
-
+In environments with **multiple Kubernetes clusters**, each cluster runs its **own Pomerium ingress controller**, maintaining consistent auth behavior across clusters.
 
 ![pomerium-multi-cluster](img/pomerium-multi-cluster.png)
+
