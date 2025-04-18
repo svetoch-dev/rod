@@ -8,66 +8,12 @@ grafana-operator:
       cpu: 150m
       memory: 150Mi
 
+ingresses:
+  main:
+    enabled: true
+
 grafana-main:
   enabled: true
-  config:
-    auth.google:
-      enabled: "true"
-      scopes: https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email
-      auth_url: https://accounts.google.com/o/oauth2/auth
-      token_url: https://accounts.google.com/o/oauth2/token
-      api_url: https://openidconnect.googleapis.com/v1/userinfo
-      allowed_domains: infrared.by
-      allow_sign_up: "true"
-      use_pkce: "true"
-    server:
-      root_url: https://grafana.{{ .Values.global.company.domain.env }}
-  deployment:
-    spec:
-      template:
-        spec:
-          containers:
-            - name: grafana
-              resources:
-                limits:
-                  cpu: 500m
-                  memory: 250Mi
-                requests:
-                  cpu: 10m
-                  memory: 65Mi
-              env:
-                - name: GF_AUTH_GOOGLE_CLIENT_ID
-                  valueFrom:
-                    secretKeyRef:
-                      name: sso
-                      key: client-id
-                - name: GF_AUTH_GOOGLE_CLIENT_SECRET
-                  valueFrom:
-                    secretKeyRef:
-                      name: sso
-                      key: client-secret
-  ingress:
-    metadata:
-      annotations:
-        cert-manager.io/cluster-issuer: '{{ printf "letsencrypt-%s" .Values.global.ingress.class }}'
-        ingress.kubernetes.io/force-ssl-redirect: "true"
-    spec:
-      ingressClassName: '{{ .Values.global.ingress.class }}'
-      rules:
-        - host: grafana.{{ .Values.global.company.domain.env }}
-          http:
-            paths:
-              - backend:
-                  service:
-                    name: '{{ include "grafana-operated.fullname" . }}-service'
-                    port:
-                      number: 3000
-                path: /
-                pathType: Prefix
-      tls:
-        - hosts:
-            - grafana.{{ .Values.global.company.domain.env }}
-          secretName: grafana-tls
 
 datasource:
   enabled: true
