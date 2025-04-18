@@ -2,6 +2,9 @@ company:
   name: infrared
   domain:
     root: infrared.by
+  admins:
+    domain: ""
+    emails: []
 
 network:
   int_nat_gw: {INT_NAT_GW}
@@ -78,7 +81,7 @@ envs:
       externalEnvDomains:
       {{- range $env_name, $env_obj := .Values.envs }}
       {{- $env_short_name := regexSplit "-" $env_name -1 | last }}
-      {{- if ne $env_short_name "int" }}
+      {{- if and (ne $env_short_name "int") $env_obj.enabled }}
       - {{ printf "%s.%s" $env_short_name $.Values.company.domain.root }}
       {{- end }}
       {{- end }}

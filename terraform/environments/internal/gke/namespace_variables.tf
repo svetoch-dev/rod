@@ -1,5 +1,8 @@
 locals {
   namespaces = {
+    pomerium = {
+      name = "pomerium"
+    }
     argocd = {
       name = "argocd"
     }
@@ -11,9 +14,6 @@ locals {
     }
     cert-manager = {
       name = "cert-manager"
-    }
-    konghq = {
-      name = "konghq"
     }
     external-dns = {
       name = "external-dns"

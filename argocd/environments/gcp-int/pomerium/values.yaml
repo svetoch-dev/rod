@@ -1,0 +1,29 @@
+certificates:
+  enabled: true
+  issuers:
+    selfsigned:
+      enabled: true
+  certs:
+    authn:
+      enabled: true
+      ##MASKED##issuerRef:
+      ##MASKED##  kind: ClusterIssuer
+      ##MASKED##  name: '{{ printf "letsencrypt-%s" .Values.global.ingress.class }}'
+  cluster_issuers:
+    letsencrypt:
+      enabled: true
+
+
+gen-secrets:
+  enabled: true
+
+
+controller:
+  enabled: true
+  resources:
+    limits:
+      cpu: 2
+      memory: 1Gi
+    requests:
+      cpu: 300m
+      memory: 200Mi
