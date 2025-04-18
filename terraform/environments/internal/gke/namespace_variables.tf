@@ -21,14 +21,5 @@ locals {
     redis = {
       name = "redis"
     }
-    gha-runner = {
-      name = "gha-runner"
-    }
-    gha-runner-app = {
-      name = "gha-runner-app"
-    }
-    gha-operator = {
-      name = "gha-operator"
-    }
   }
 }
