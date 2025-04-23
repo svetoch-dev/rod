@@ -3,7 +3,7 @@
 load("//tools/utils:format.bzl", "formatted_tfvars")
 
 def build_envs():
-    """Form a dict of env vars needed for build/deploy scripts
+    """Form a dict of environment attributes needed for build/deploy scripts
 
     Returns:
       a dict of env attributes that are picked from tfvars
@@ -17,4 +17,18 @@ def build_envs():
             "region": env_obj["cloud"]["region"],
         }
 
+    return envs
+
+def app_envs():
+    """Form a dict representing environments where application is deployed
+
+    Returns:
+      dict of env attributes
+    """
+
+    envs = {}
+
+    for env_name, env_obj in build_envs().items():
+        if env_name != "int":
+            envs[env_name] = env_obj
     return envs

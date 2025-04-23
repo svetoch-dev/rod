@@ -1,5 +1,6 @@
 import click
 import os
+import sys
 import re
 from dataclasses import dataclass
 from libs.py.helpers import run_command, unmask_tf
@@ -38,8 +39,11 @@ def apply(targets):
     """
     os.chdir(WORKSPACE_FOLDER)
     target_objs = []
+    query = ["bazel", "query", 'attr(name, "^apply$|^gh_apply$", "//terraform/...")']
+    return_code, apply_targets = run_command(query, print_stdout=False)
     for target, is_masked in targets:
-        target_objs.append(Target(target, is_masked))
+        if target in apply_targets:
+            target_objs.append(Target(target, is_masked))
 
     for target in target_objs:
         command = ["bazel", "run", target.name]
