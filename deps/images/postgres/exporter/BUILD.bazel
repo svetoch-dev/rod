@@ -1,6 +1,7 @@
 load("@aspect_bazel_lib//lib:tar.bzl", "mtree_mutate", "mtree_spec", "tar")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
 load("//tools/macros:img.bzl", "img_push")
+load("//tools/utils:common.bzl", "app_envs")
 
 mtree_spec(
     name = "mtree",
@@ -39,10 +40,7 @@ oci_load(
 )
 
 img_push(
-    envs = [
-        "dev",
-        "prd",
-    ],
+    envs = app_envs().keys(),
     image = "exporter_img",
     remote_tags = "image_tag.txt",
     service_name = "postgres-exporter",

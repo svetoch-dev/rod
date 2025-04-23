@@ -59,6 +59,8 @@ tar(
         # needed as dpkg assumes sh is installed in a typical debian installation.
         "./usr/bin/sh type=link link=/usr/bin/bash",
         "./home/ubuntu/ uid=1000 gid=0 mode=0755 type=dir",
+        #symlink awk to mawk the same how its done in ubuntu
+        "./usr/bin/awk type=link link=/usr/bin/mawk",
     ],
 )
 
@@ -72,6 +74,8 @@ PACKAGES = [
     "@noble//grep",
     "@noble//apt",
     "@noble//perl",
+    "@noble//sed",
+    "@noble//mawk",
 ]
 
 _packages_tar = deb_packages(PACKAGES)

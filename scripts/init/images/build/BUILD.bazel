@@ -8,5 +8,7 @@ py_binary(
     srcs = ["build.py"],
     args = [],
     visibility = ["//visibility:public"],
-    deps = [],
+    deps = [
+        "//libs/py/helpers",
+    ],
 )
