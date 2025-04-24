@@ -9,6 +9,9 @@ company:
 network:
   int_nat_gw: {INT_NAT_GW}
 
+bucket:
+  type: {BUCKET_TYPE}
+
 #Be carefull check the syncPolicy
 #when setting enabled: false for envs
 #or deleting this file. It may cause
@@ -36,9 +39,15 @@ envs:
       {{- $env := set $env "long_name" "production" }}
       {{- $env := set $env "registry" "{PRD_CONTAINER_REGISTRY}}" }}
       {{- $env := set $env "server" "https://{PRD_K8S_IP}" }}
-      {{- $context := mustDeepCopy . }}
 
-      {{- tpl .Values.defaultValuesTpl (merge $context (dict "env" $env)) | nindent 2 }}
+      {{- $domain  := dict "root" .Values.company.domain.root }}
+      {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.company.domain.root) }}
+
+      {{- $context := mustDeepCopy . }}
+      {{- $context := set $context "env" $env }}
+      {{- $context := set $context "domain" $domain }}
+
+      {{- tpl .Values.defaultValuesTpl $context | nindent 2 }}
     finalizers:
       - resources-finalizer.argocd.argoproj.io
     syncPolicy:
@@ -56,9 +65,15 @@ envs:
       {{- $env := set $env "long_name" "development" }}
       {{- $env := set $env "registry" "{DEV_CONTAINER_REGISTRY}}" }}
       {{- $env := set $env "server" "https://{DEV_K8S_IP}" }}
-      {{- $context := mustDeepCopy . }}
 
-      {{- tpl .Values.defaultValuesTpl (merge $context (dict "env" $env)) | nindent 2 }}
+      {{- $domain  := dict "root" .Values.company.domain.root }}
+      {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.company.domain.root) }}
+
+      {{- $context := mustDeepCopy . }}
+      {{- $context := set $context "env" $env }}
+      {{- $context := set $context "domain" $domain }}
+
+      {{- tpl .Values.defaultValuesTpl $context | nindent 2 }}
     finalizers:
       - resources-finalizer.argocd.argoproj.io
     syncPolicy:
@@ -76,17 +91,18 @@ envs:
       {{- $env := set $env "long_name" "internal" }}
       {{- $env := set $env "registry" "{INT_CONTAINER_REGISTRY}}" }}
       {{- $env := set $env "server"  "https://kubernetes.default.svc" }}
+
+      {{- $domain  := dict "root" .Values.company.domain.root }}
+      {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.company.domain.root) }}
+
       {{- $context := mustDeepCopy . }}
+      {{- $context := set $context "env" $env }}
+      {{- $context := set $context "domain" $domain }}
+
+      {{- tpl .Values.defaultValuesTpl $context | nindent 2 }}
 
       externalEnvDomains:
-      {{- range $env_name, $env_obj := .Values.envs }}
-      {{- $env_short_name := regexSplit "-" $env_name -1 | last }}
-      {{- if and (ne $env_short_name "int") $env_obj.enabled }}
-      - {{ printf "%s.%s" $env_short_name $.Values.company.domain.root }}
-      {{- end }}
-      {{- end }}
-
-      {{- tpl .Values.defaultValuesTpl (merge $context (dict "env" $env)) | nindent 2 }}
+      - {SOME_DOMAIN_ENVS}
     finalizers:
       - resources-finalizer.argocd.argoproj.io
     syncPolicy:
