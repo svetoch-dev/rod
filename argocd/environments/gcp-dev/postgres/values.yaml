@@ -1,26 +1,10 @@
 postgres-operator:
   enabled: true
-  resources:
-    limits:
-      cpu: 350m
-      memory: 150Mi
-    requests:
-      cpu: 10m
-      memory: 30Mi
   configKubernetes:
     enable_cross_namespace_secret: true
     enable_owner_references: false
   configLogicalBackup:
-    logical_backup_provider: "gcs"
-    logical_backup_docker_image: "{{ .Values.global.registry.url}}/pg-logical-backup:v1.14.0-1"
     logical_backup_schedule: "30 00 * * *"
-  # resources for logical backup pod, if empty configPostgresPodResources will be used
-    logical_backup_cpu_limit: "2"
-    logical_backup_cpu_request: 200m
-    logical_backup_memory_limit: 500Mi
-    logical_backup_memory_request: 250Mi
-  configMajorVersionUpgrade:
-    target_major_version: '15'
 
 postgres-main:
   # Issue with ownerReference
