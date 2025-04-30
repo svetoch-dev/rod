@@ -70,6 +70,14 @@
           "secrets_to_import": [
             "SLACK_WEBHOOK"
           ]
+        },
+        "sso": {
+          "name": "sso",
+          "namespace": "pomerium",
+          "secrets_to_import": [
+            "client_id",
+            "client_secret"
+          ]
         }
       },
       "tf_backend": {
