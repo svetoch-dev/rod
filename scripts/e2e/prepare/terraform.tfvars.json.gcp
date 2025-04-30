@@ -54,6 +54,7 @@
         "multi_region": "EU"
       },
       "kubernetes": {
+        "enabled": "true",
         "regional": "false",
         "location": "europe-west2-a",
         "deletion_protection": "false",
@@ -99,6 +100,7 @@
         "multi_region": "EU"
       },
       "kubernetes": {
+        "enabled": "true",
         "regional": "false",
         "deletion_protection": "false",
         "location": "europe-west2-a",
