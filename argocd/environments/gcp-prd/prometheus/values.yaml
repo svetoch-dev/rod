@@ -9,6 +9,7 @@ ingresses:
 operator:
   enabled: true
   prometheusOperator:
+    enabled: true
     nodeSelector:
       apps-spot: "true"
     tolerations:
