@@ -1,21 +1,13 @@
-operator:
-  prometheusOperator:
+ingresses:
+  alertmanager-main:
     enabled: true
-    resources:
-      limits:
-        cpu: 150m
-        memory: 200Mi
-      requests:
-        cpu: 10m
-        memory: 30Mi
-    prometheusConfigReloader:
-      resources:
-        limits:
-          cpu: 200m
-          memory: 100Mi
-        requests:
-          cpu: 10m
-          memory: 15Mi
+  prometheus-main:
+    enabled: true
+  prometheus-main-thanos:
+    enabled: true
+
+operator:
+  enabled: true
 
 alertmanager-configs:
   enabled: true
@@ -44,109 +36,23 @@ alertmanager-configs:
 
 prometheus-node-exporter:
   enabled: true
-  resources:
-    limits:
-      cpu: 250m
-      memory: 50Mi
-    requests:
-      cpu: 10m
-      memory: 15Mi
 
 kube-state-metrics:
   enabled: true
-  resources:
-    limits:
-      cpu: 100m
-      memory: 100Mi
-    requests:
-      cpu: 10m
-      memory: 20Mi
 
 kong-plugins:
   enabled: true
-  plugins:
-    - name: thanos-main-ip-restriction
-      plugin_name: ip-restriction
-      annotations:
-        kubernetes.io/ingress.class: '{{ .Values.global.ingress.class }}'
-      config:
-        allow:
-          - "{{ .Values.global.network.int_nat_gw }}"
 
 alertmanager-main:
   enabled: true
 
-  alertmanager:
-    spec:
-      resources:
-        limits:
-          cpu: 100m
-          memory: 100Mi
-        requests:
-          cpu: 10m
-          memory: 25Mi
-
 prometheus-main:
-  enabled: true
 
-  thanosService:
-    enabled: true
-    annotations:
-      konghq.com/protocol: grpc
-
-  thanosIngress:
-    enabled: true
-    className: "konghq"
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-konghq
-      konghq.com/protocols: grpc,grpcs
-      konghq.com/plugins: thanos-main-ip-restriction
-    hosts:
-      - host: thanos.{{ .Values.global.company.domain.env }}
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-    tls:
-      - secretName: thanos-tls
-        hosts:
-          - thanos.{{ .Values.global.company.domain.env }}
-
-  prometheus:
-    spec:
-      thanos:
-        resources:
-          limits:
-            cpu: 350m
-            memory: 150Mi
-          requests:
-            cpu: 10m
-            memory: 40Mi
-
-      externalLabels:
-        env: "{{ .Values.global.env.name }}"
-
-      resources:
-        limits:
-          cpu: 1000m
-          memory: 2Gi
-        requests:
-          cpu: 30m
-          memory: 450Mi
-
-      storage:
-        volumeClaimTemplate:
-          spec:
-            accessModes:
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: "2Gi"
 
 prometheus-rules:
   enabled: true
   PrometheusAlerts:
     prometheus-main:
-      env: "{{ .Values.global.env.short_name }}"
       AbsentMetricCritical:
         enabled: false
       CriticalMetric:
