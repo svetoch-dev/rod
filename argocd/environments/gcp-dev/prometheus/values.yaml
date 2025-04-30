@@ -49,7 +49,7 @@ alertmanager-main:
   enabled: true
 
 prometheus-main:
-
+  enabled: true
 
 prometheus-rules:
   enabled: true
