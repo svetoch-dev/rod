@@ -1,22 +1,13 @@
+ingresses:
+  alertmanager-main:
+    enabled: true
+  prometheus-main:
+    enabled: true
+
 operator:
+  enabled: true
   prometheusOperator:
     enabled: true
-    resources:
-      limits:
-        cpu: 150m
-        memory: 200Mi
-      requests:
-        cpu: 10m
-        memory: 30Mi
-    prometheusConfigReloader:
-      resources:
-        limits:
-          cpu: 200m
-          memory: 100Mi
-        requests:
-          cpu: 10m
-          memory: 20Mi
-
 
 alertmanager-configs:
   enabled: true
@@ -45,86 +36,23 @@ alertmanager-configs:
 
 prometheus-node-exporter:
   enabled: true
-  resources:
-    limits:
-      cpu: 250m
-      memory: 50Mi
-    requests:
-      cpu: 10m
-      memory: 20Mi
 
 kube-state-metrics:
   enabled: true
-  resources:
-    limits:
-      cpu: 100m
-      memory: 100Mi
-    requests:
-      cpu: 10m
-      memory: 20Mi
 
 alertmanager-main:
   enabled: true
 
-  alertmanager:
-    spec:
-      resources:
-        limits:
-          cpu: 100m
-          memory: 100Mi
-        requests:
-          cpu: 10m
-          memory: 25Mi
-
 prometheus-main:
   enabled: true
 
-  prometheus:
-    spec:
-      thanos:
-        resources:
-          limits:
-            cpu: 350m
-            memory: 150Mi
-          requests:
-            cpu: 10m
-            memory: 35Mi
-
-      resources:
-        limits:
-          cpu: 500m
-          memory: 1Gi
-        requests:
-          cpu: 50m
-          memory: 300Mi
-
-      externalLabels:
-        env: "{{ .Values.global.env.name }}"
-
-      storage:
-        volumeClaimTemplate:
-          spec:
-            accessModes:
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: "2Gi"
-
 prometheus-blackbox-exporter:
   enabled: true
-  resources:
-    limits:
-      cpu: 100m
-      memory: 100Mi
-    requests:
-      cpu: 10m
-      memory: 15Mi
 
 prometheus-rules:
   enabled: true
   PrometheusAlerts:
     prometheus-main:
-      env: "{{ .Values.global.env.short_name }}"
       AbsentMetricCritical:
         enabled: true
         rules:
@@ -133,9 +61,6 @@ prometheus-rules:
       CriticalMetric:
         enabled: true
         rules:
-          #Kong (nginx)
-          ErrorRateIncreasedFor_5XX:
-            enabled: true
           # Blackbox
           api:
             enabled: true

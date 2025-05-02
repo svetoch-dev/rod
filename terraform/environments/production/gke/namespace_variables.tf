@@ -1,5 +1,8 @@
 locals {
   namespaces = {
+    pomerium = {
+      name = "pomerium"
+    }
     redis = {
       name = "redis"
     }

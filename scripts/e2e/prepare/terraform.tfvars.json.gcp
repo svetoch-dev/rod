@@ -54,6 +54,7 @@
         "multi_region": "EU"
       },
       "kubernetes": {
+        "enabled": "true",
         "regional": "false",
         "location": "europe-west2-a",
         "deletion_protection": "false",
@@ -69,6 +70,14 @@
           "namespace": "prometheus",
           "secrets_to_import": [
             "SLACK_WEBHOOK"
+          ]
+        },
+        "sso": {
+          "name": "sso",
+          "namespace": "pomerium",
+          "secrets_to_import": [
+            "client_id",
+            "client_secret"
           ]
         }
       },
@@ -91,6 +100,7 @@
         "multi_region": "EU"
       },
       "kubernetes": {
+        "enabled": "true",
         "regional": "false",
         "deletion_protection": "false",
         "location": "europe-west2-a",
