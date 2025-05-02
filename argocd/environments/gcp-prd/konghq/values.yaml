@@ -14,23 +14,11 @@ certificates:
       enabled: true
 
 kong:
+  enabled: true
+  replicaCount: 2
   ingressController:
     admissionWebhook:
       enabled: true
-    resources:
-      limits:
-        cpu: 500m
-        memory: 500Mi
-      requests:
-        cpu: 20m
-        memory: 90Mi
-  resources:
-    limits:
-      cpu: 500m
-      memory: 600Mi
-    requests:
-      cpu: 20m
-      memory: 235Mi
   nodeSelector:
     apps-spot: "true"
   tolerations:
@@ -38,17 +26,3 @@ kong:
       operator: "Equal"
       value: "true"
       effect: "NoSchedule"
-  autoscaling:
-    enabled: true
-    minReplicas: 2
-    maxReplicas: 8
-    ## targetCPUUtilizationPercentage only used if the cluster doesn't support autoscaling/v2beta
-    targetCPUUtilizationPercentage:
-    ## Otherwise for clusters that do support autoscaling/v2beta, use metrics
-    metrics:
-      - type: Resource
-        resource:
-          name: cpu
-          target:
-            type: Utilization
-            averageUtilization: 2000 # 0.4 cores

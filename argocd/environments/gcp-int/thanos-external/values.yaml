@@ -1,15 +1,10 @@
+ingresses:
+  query:
+    enabled: true
+
 thanos:
   enabled: true
   query:
     enabled: true
-    resources:
-      requests:
-        cpu: 10m
-        memory: 20Mi
-      limits:
-        cpu: 350m
-        memory: 1000Mi
-    dnsDiscovery:
-      enabled: false
     extraFlags:
       - "--grpc-client-tls-secure"
