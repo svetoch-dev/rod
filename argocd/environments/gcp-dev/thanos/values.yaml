@@ -1,48 +1,13 @@
+ingresses:
+  storegateway:
+    enabled: true
+
 kong-plugins:
   enabled: true
-  plugins:
-    - name: thanos-store-main-ip-restriction
-      plugin_name: ip-restriction
-      annotations:
-        kubernetes.io/ingress.class: '{{ .Values.global.ingress.class }}'
-      config:
-        allow:
-          - "{{ .Values.global.network.int_nat_gw }}"
 
 thanos:
   enabled: true
-  existingObjstoreSecret: "thanos"
   compactor:
     enabled: true
-    resources:
-      requests:
-        cpu: 10m
-        memory: 35Mi
-      limits:
-        cpu: 1000m
-        memory: 1Gi
   storegateway:
     enabled: true
-    service:
-      annotations:
-        konghq.com/protocol: grpc
-    resources:
-      requests:
-        cpu: 10m
-        memory: 50Mi
-      limits:
-        cpu: 1000m
-        memory: 2Gi
-    ingress:
-      grpc:
-        enabled: true
-        ingressClassName: konghq
-        hostname: "thanos-store.{{ .Values.global.company.domain.env }}"
-        annotations:
-          cert-manager.io/cluster-issuer: '{{ printf "letsencrypt-%s" .Values.global.ingress.class }}'
-          konghq.com/protocols: grpc,grpcs
-          konghq.com/plugins: thanos-store-main-ip-restriction
-        extraTls:
-          - secretName: thanos-store-tls
-            hosts:
-              - thanos-store.{{ .Values.global.company.domain.env }}

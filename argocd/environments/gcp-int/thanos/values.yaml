@@ -1,32 +1,8 @@
 thanos:
   enabled: true
-  existingObjstoreSecret: "thanos"
   compactor:
     enabled: true
-    resources:
-      requests:
-        cpu: 20m
-        memory: 30Mi
-      limits:
-        cpu: 1000m
-        memory: 700Mi
   storegateway:
     enabled: true
-    resources:
-      requests:
-        cpu: 10m
-        memory: 50Mi
-      limits:
-        cpu: 1000m
-        memory: 2Gi
   query:
     enabled: true
-    resources:
-      requests:
-        cpu: 10m
-        memory: 50Mi
-      limits:
-        cpu: 2000m
-        memory: 2Gi
-    dnsDiscovery:
-      enabled: false
