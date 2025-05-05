@@ -70,12 +70,11 @@ oci.pull(
 )
 oci.pull(
     name = "spilo17",
-    #v4.0-p2
-    digest = "sha256:23861da069941ff5345e6a97455e60a63fc2f16c97857da8f85560370726cbe7",
-    image  = "ghcr.io/zalando/spilo-17",
+    #v17-bb39d81
+    digest = "sha256:69bf8719ff25c0f1e7bb2de464ed89c3aa459f4816f752ed2da146a7d451a96b",
+    image  = "docker.io/gramal/spilo",
     platforms = [
         "linux/amd64",
-        "linux/arm64",
     ],
 )
 oci.pull(
@@ -93,7 +92,6 @@ use_repo(
     "spilo15_linux_amd64",
     "spilo17",
     "spilo17_linux_amd64",
-    "spilo17_linux_arm64",
     "logical-backup",
     "logical-backup_linux_amd64",
     "logical-backup_linux_arm64",
