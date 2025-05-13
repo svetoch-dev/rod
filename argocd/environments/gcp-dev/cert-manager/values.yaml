@@ -1,25 +1,2 @@
 cert-manager:
   enabled: true
-  resources:
-    requests:
-      cpu: 10m
-      memory: 25Mi
-    limits:
-      cpu: 200m
-      memory: 100Mi
-  cainjector:
-    resources:
-      requests:
-        cpu: 10m
-        memory: 35Mi
-      limits:
-        cpu: 200m
-        memory: 100Mi
-  webhook:
-    resources:
-      requests:
-        cpu: 10m
-        memory: 15Mi
-      limits:
-        cpu: 200m
-        memory: 100Mi
