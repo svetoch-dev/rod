@@ -1,13 +1,6 @@
 rabbitmq-cluster-operator:
   enabled: true
   clusterOperator:
-    resources:
-      limits:
-        cpu: 100m
-        memory: 100Mi
-      requests:
-        cpu: 10m
-        memory: 22Mi
     nodeSelector:
       apps-spot: "true"
     tolerations:
@@ -16,13 +9,6 @@ rabbitmq-cluster-operator:
         value: "true"
         effect: "NoSchedule"
   msgTopologyOperator:
-    resources:
-      limits:
-        cpu: 100m
-        memory: 100Mi
-      requests:
-        cpu: 10m
-        memory: 22Mi
     nodeSelector:
       apps-spot: "true"
     tolerations:

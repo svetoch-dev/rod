@@ -1,21 +1,5 @@
 rabbitmq-cluster-operator:
   enabled: true
-  msgTopologyOperator:
-    resources:
-      limits:
-        cpu: 100m
-        memory: 100Mi
-      requests:
-        cpu: 10m
-        memory: 22Mi
-  clusterOperator:
-    resources:
-      limits:
-        cpu: 100m
-        memory: 100Mi
-      requests:
-        cpu: 10m
-        memory: 22Mi
 
 rabbitmq-main:
   enabled: true

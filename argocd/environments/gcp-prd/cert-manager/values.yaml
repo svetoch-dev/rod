@@ -1,12 +1,5 @@
 cert-manager:
   enabled: true
-  resources:
-    requests:
-      cpu: 10m
-      memory: 20Mi
-    limits:
-      cpu: 200m
-      memory: 100Mi
   nodeSelector:
     apps-spot: "true"
   tolerations:
@@ -15,13 +8,6 @@ cert-manager:
     value: "true"
     effect: "NoSchedule"
   cainjector:
-    resources:
-      requests:
-        cpu: 10m
-        memory: 50Mi
-      limits:
-        cpu: 200m
-        memory: 100Mi
     nodeSelector:
       apps-spot: "true"
     tolerations:
@@ -30,13 +16,6 @@ cert-manager:
       value: "true"
       effect: "NoSchedule"
   webhook:
-    resources:
-      requests:
-        cpu: 10m
-        memory: 20Mi
-      limits:
-        cpu: 200m
-        memory: 100Mi
     nodeSelector:
       apps-spot: "true"
     tolerations:

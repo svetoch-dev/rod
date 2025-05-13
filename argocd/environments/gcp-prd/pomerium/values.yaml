@@ -13,10 +13,8 @@ certificates:
     letsencrypt:
       enabled: true
 
-
 gen-secrets:
   enabled: true
-
 
 controller:
   enabled: true
