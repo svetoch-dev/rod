@@ -31,4 +31,21 @@ To fix this a copy of the ``clone_with_wale.py`` script is used with this patch
   
    def choose_backup(backup_list, recovery_target_time):
 
+Also there is no key `backup_name` in match dict in `chose_backup` function. So here is the fix
 
+.. code-block::
+
+   diff --git a/deps/images/postgres/spilo/17/scripts/clone_with_wale.py b/deps/images/postgres/spilo/17/scripts/clone_with_wale.py
+   index 702f503f..10c7a753
+   --- a/deps/images/postgres/spilo/17/scripts/clone_with_wale.py
+   +++ b/deps/images/postgres/spilo/17/scripts/clone_with_wale.py
+   @@ -75,7 +75,11 @@ def choose_backup(backup_list, recovery_target_time):
+                    match = backup
+                    match_timestamp = last_modified
+        if match is not None:
+   -        return match.get('name', match['backup_name'])
+   +        try:
+   +            backup_name = match['name']
+   +        except KeyError as e:
+   +            backup_name = match['backup_name']
+   +        return backup_name
