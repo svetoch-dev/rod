@@ -75,7 +75,11 @@ def choose_backup(backup_list, recovery_target_time):
                 match = backup
                 match_timestamp = last_modified
     if match is not None:
-        return match.get('name', match['backup_name'])
+        try:
+            backup_name = match['name']
+        except KeyError as e:
+            backup_name = match['backup_name']
+        return backup_name
 
 
 def list_backups(env):
