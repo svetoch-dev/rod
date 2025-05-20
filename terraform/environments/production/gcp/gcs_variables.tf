@@ -1,8 +1,8 @@
 locals {
   gcs = {
     format("%s-thanos-%s", var.company.name, local.env.short_name) = {
-      #force_destroy should be oposite to deletion_protection 
-      force_destroy  = local.env.cloud.buckets.deletion_protection ? false : true
+      #force_destroy should be oposite to deletion_protection
+      force_destroy = local.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "MULTI_REGIONAL"
       location      = local.env.cloud.multi_region
       admins = [
@@ -13,8 +13,8 @@ locals {
       creators = []
     }
     format("%s-postgres-%s", var.company.name, local.env.short_name) = {
-      #force_destroy should be oposite to deletion_protection 
-      force_destroy  = local.env.cloud.buckets.deletion_protection ? false : true
+      #force_destroy should be oposite to deletion_protection
+      force_destroy = local.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "MULTI_REGIONAL"
       location      = local.env.cloud.multi_region
       admins = [
@@ -24,8 +24,8 @@ locals {
       creators = []
     }
     format("%s-postgres-backup-%s", var.company.name, local.env.short_name) = {
-      #force_destroy should be oposite to deletion_protection 
-      force_destroy  = local.env.cloud.buckets.deletion_protection ? false : true
+      #force_destroy should be oposite to deletion_protection
+      force_destroy = local.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "MULTI_REGIONAL"
       location      = local.env.cloud.multi_region
       admins = [
