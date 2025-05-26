@@ -1,21 +1,5 @@
 rabbitmq-cluster-operator:
   enabled: true
-  clusterOperator:
-    nodeSelector:
-      apps-spot: "true"
-    tolerations:
-      - key: "apps-spot"
-        operator: "Equal"
-        value: "true"
-        effect: "NoSchedule"
-  msgTopologyOperator:
-    nodeSelector:
-      apps-spot: "true"
-    tolerations:
-      - key: "apps-spot"
-        operator: "Equal"
-        value: "true"
-        effect: "NoSchedule"
 
 rabbitmq-main:
   enabled: false

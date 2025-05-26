@@ -19,10 +19,3 @@ kong:
   ingressController:
     admissionWebhook:
       enabled: true
-  nodeSelector:
-    apps-spot: "true"
-  tolerations:
-    - key: "apps-spot"
-      operator: "Equal"
-      value: "true"
-      effect: "NoSchedule"

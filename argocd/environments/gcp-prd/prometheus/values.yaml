@@ -10,13 +10,6 @@ operator:
   enabled: true
   prometheusOperator:
     enabled: true
-    nodeSelector:
-      apps-spot: "true"
-    tolerations:
-      - key: "apps-spot"
-        operator: "Equal"
-        value: "true"
-        effect: "NoSchedule"
 
 alertmanager-configs:
   enabled: true
@@ -48,13 +41,6 @@ prometheus-node-exporter:
 
 kube-state-metrics:
   enabled: true
-  nodeSelector:
-    apps-spot: "true"
-  tolerations:
-    - key: "apps-spot"
-      operator: "Equal"
-      value: "true"
-      effect: "NoSchedule"
 
 kong-plugins:
   enabled: true
@@ -62,38 +48,11 @@ kong-plugins:
 alertmanager-main:
   enabled: true
 
-  alertmanager:
-    spec:
-      nodeSelector:
-        apps-spot: "true"
-      tolerations:
-        - key: "apps-spot"
-          operator: "Equal"
-          value: "true"
-          effect: "NoSchedule"
-
 prometheus-main:
   enabled: true
 
-  prometheus:
-    spec:
-      nodeSelector:
-        apps-spot: "true"
-      tolerations:
-        - key: "apps-spot"
-          operator: "Equal"
-          value: "true"
-          effect: "NoSchedule"
-
 prometheus-blackbox-exporter:
   enabled: true
-  nodeSelector:
-    apps-spot: "true"
-  tolerations:
-    - key: "apps-spot"
-      operator: "Equal"
-      value: "true"
-      effect: "NoSchedule"
 
 prometheus-rules:
   enabled: true
