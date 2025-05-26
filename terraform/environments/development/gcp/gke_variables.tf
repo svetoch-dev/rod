@@ -3,10 +3,10 @@ locals {
     "${local.env.short_name}" = {
       name                = local.env.short_name
       enabled             = local.env.kubernetes.enabled
+      deletion_protection = local.env.kubernetes.deletion_protection
       regional            = local.env.kubernetes.regional
       region              = local.env.cloud.region
       zones               = data.google_compute_zones.available.names
-      deletion_protection = local.env.kubernetes.deletion_protection
       kubernetes_version  = "latest"
 
       subnetwork              = module.gcp.subnets["main"]["vms"].name
@@ -53,16 +53,12 @@ locals {
       node_pools = [
         {
           name         = "main"
-          machine_type = "n2-standard-4"
+          machine_type = "t2d-standard-4"
           node_locations = join(
             ",",
-            slice(
-              data.google_compute_zones.available.names,
-              0,
-              2
-            )
+            data.google_compute_zones.available.names,
           )
-          min_count          = 1
+          min_count          = 0
           max_count          = 10
           local_ssd_count    = 0
           disk_size_gb       = 30
@@ -73,7 +69,32 @@ locals {
           service_account    = "k8s-nodes@${local.env.cloud.id}.iam.gserviceaccount.com"
           preemptible        = false
           spot               = true
-          initial_node_count = 1
+          initial_node_count = 0
+        },
+        {
+          name             = "on-demand"
+          machine_type     = "t2d-standard-4"
+          min_cpu_platform = "AMD Milan"
+          node_locations = join(
+            ",",
+            slice(
+              data.google_compute_zones.available.names,
+              0,
+              2
+            )
+          )
+          min_count          = 0
+          max_count          = 10
+          local_ssd_count    = 0
+          disk_size_gb       = 30
+          disk_type          = "pd-ssd"
+          image_type         = "COS_CONTAINERD"
+          auto_repair        = true
+          auto_upgrade       = true
+          service_account    = "k8s-nodes@${local.env.cloud.id}.iam.gserviceaccount.com"
+          preemptible        = false
+          spot               = false
+          initial_node_count = 0
         },
       ]
 
@@ -87,6 +108,10 @@ locals {
           "https://www.googleapis.com/auth/userinfo.email",
           "https://www.googleapis.com/auth/cloud-platform"
         ]
+        on-demand = [
+          "https://www.googleapis.com/auth/userinfo.email",
+          "https://www.googleapis.com/auth/cloud-platform"
+        ]
       }
 
       node_pools_labels = {
@@ -96,6 +121,12 @@ locals {
         default_values = {
           cluster_name = false
           node_pool    = false
+        }
+        main = {
+          main = "true"
+        }
+        on-demand = {
+          on-demand = "true"
         }
       }
 
@@ -111,6 +142,13 @@ locals {
 
       node_pools_taints = {
         all = []
+        on-demand = [
+          {
+            key    = "on-demand"
+            value  = true
+            effect = "NO_SCHEDULE"
+          },
+        ]
       }
 
       node_pools_tags = {
