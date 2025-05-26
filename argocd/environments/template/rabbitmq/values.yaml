@@ -1,5 +1,2 @@
 rabbitmq-cluster-operator:
   enabled: true
-
-rabbitmq-main:
-  enabled: false
