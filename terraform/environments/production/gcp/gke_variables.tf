@@ -3,10 +3,10 @@ locals {
     "${local.env.short_name}" = {
       name                = local.env.short_name
       enabled             = local.env.kubernetes.enabled
+      deletion_protection = local.env.kubernetes.deletion_protection
       regional            = local.env.kubernetes.regional
       region              = local.env.cloud.region
       zones               = data.google_compute_zones.available.names
-      deletion_protection = local.env.kubernetes.deletion_protection
       kubernetes_version  = "latest"
 
       subnetwork              = module.gcp.subnets["main"]["vms"].name
@@ -52,8 +52,8 @@ locals {
       master_global_access_enabled = false # We use public endpoint for master access so setting false to ignore
       node_pools = [
         {
-          name         = "apps-spot"
-          machine_type = "n2-standard-4"
+          name         = "main"
+          machine_type = "t2d-standard-4"
           node_locations = join(
             ",",
             data.google_compute_zones.available.names,
@@ -61,7 +61,7 @@ locals {
           min_count          = 0
           max_count          = 10
           local_ssd_count    = 0
-          disk_size_gb       = 45
+          disk_size_gb       = 30
           disk_type          = "pd-ssd"
           image_type         = "COS_CONTAINERD"
           auto_repair        = true
@@ -69,11 +69,11 @@ locals {
           service_account    = "k8s-nodes@${local.env.cloud.id}.iam.gserviceaccount.com"
           preemptible        = false
           spot               = true
-          initial_node_count = 1
+          initial_node_count = 0
         },
         {
-          name         = "apps-on-demand"
-          machine_type = "n2d-standard-4"
+          name         = "on-demand"
+          machine_type = "t2d-standard-4"
           node_locations = join(
             ",",
             slice(
@@ -82,10 +82,10 @@ locals {
               2
             )
           )
-          min_count          = 1
+          min_count          = 0
           max_count          = 10
           local_ssd_count    = 0
-          disk_size_gb       = 45
+          disk_size_gb       = 30
           disk_type          = "pd-ssd"
           image_type         = "COS_CONTAINERD"
           auto_repair        = true
@@ -93,7 +93,7 @@ locals {
           service_account    = "k8s-nodes@${local.env.cloud.id}.iam.gserviceaccount.com"
           preemptible        = false
           spot               = false
-          initial_node_count = 1
+          initial_node_count = 0
         },
       ]
 
@@ -103,11 +103,11 @@ locals {
         #are set on serviceaccount level
         #not by using oauth scopes. This
         #scopes are default ones
-        apps-spot = [
+        main = [
           "https://www.googleapis.com/auth/userinfo.email",
           "https://www.googleapis.com/auth/cloud-platform"
         ]
-        apps-on-demand = [
+        on-demand = [
           "https://www.googleapis.com/auth/userinfo.email",
           "https://www.googleapis.com/auth/cloud-platform"
         ]
@@ -121,11 +121,11 @@ locals {
           cluster_name = false
           node_pool    = false
         }
-        apps-spot = {
-          apps-spot = "true"
+        main = {
+          main = "true"
         }
-        apps-on-demand = {
-          apps-on-demand = "true"
+        on-demand = {
+          on-demand = "true"
         }
       }
 
@@ -141,9 +141,9 @@ locals {
 
       node_pools_taints = {
         all = []
-        apps-spot = [
+        on-demand = [
           {
-            key    = "apps-spot"
+            key    = "on-demand"
             value  = true
             effect = "NO_SCHEDULE"
           },
