@@ -39,6 +39,7 @@ variable "envs" {
             {
               name              = string
               namespace         = string
+              base64_secrets    = optional(bool, false)
               secrets_to_import = list(string)
             }
           )
