@@ -1,16 +1,17 @@
-company:
-  name: infrared
-  domain:
-    root: infrared.by
-  admins:
-    domain: ""
-    emails: []
+global:
+  company:
+    name: infrared
+    domain:
+      root: infrared.by
+    admins:
+      domain: ""
+      emails: []
 
-network:
-  int_nat_gw: {INT_NAT_GW}
+  network:
+    int_nat_gw: {INT_NAT_GW}
 
-bucket:
-  type: {BUCKET_TYPE}
+  bucket:
+    type: {BUCKET_TYPE}
 
 #Be carefull check the syncPolicy
 #when setting enabled: false for envs
@@ -40,8 +41,8 @@ envs:
       {{- $env := set $env "registry" "{PRD_CONTAINER_REGISTRY}}" }}
       {{- $env := set $env "server" "https://{PRD_K8S_IP}" }}
 
-      {{- $domain  := dict "root" .Values.company.domain.root }}
-      {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.company.domain.root) }}
+      {{- $domain  := dict "root" .Values.global.company.domain.root }}
+      {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.global.company.domain.root) }}
 
       {{- $context := mustDeepCopy . }}
       {{- $context := set $context "env" $env }}
@@ -66,8 +67,8 @@ envs:
       {{- $env := set $env "registry" "{DEV_CONTAINER_REGISTRY}}" }}
       {{- $env := set $env "server" "https://{DEV_K8S_IP}" }}
 
-      {{- $domain  := dict "root" .Values.company.domain.root }}
-      {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.company.domain.root) }}
+      {{- $domain  := dict "root" .Values.global.company.domain.root }}
+      {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.global.company.domain.root) }}
 
       {{- $context := mustDeepCopy . }}
       {{- $context := set $context "env" $env }}
@@ -92,8 +93,8 @@ envs:
       {{- $env := set $env "registry" "{INT_CONTAINER_REGISTRY}}" }}
       {{- $env := set $env "server"  "https://kubernetes.default.svc" }}
 
-      {{- $domain  := dict "root" .Values.company.domain.root }}
-      {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.company.domain.root) }}
+      {{- $domain  := dict "root" .Values.global.company.domain.root }}
+      {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.global.company.domain.root) }}
 
       {{- $context := mustDeepCopy . }}
       {{- $context := set $context "env" $env }}
