@@ -3,13 +3,18 @@ global:
     name: infrared
     domain:
       root: infrared.by
-    admins:
+    teams:
       domain: ""
-      emails: []
-
+      admin:
+        emails: []
+      qa:
+        emails: []
+      dev:
+        emails: []
+      pm:
+        emails: []
   network:
     int_nat_gw: {INT_NAT_GW}
-
   bucket:
     type: {BUCKET_TYPE}
 
