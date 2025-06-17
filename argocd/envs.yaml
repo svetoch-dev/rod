@@ -19,8 +19,7 @@ global:
     receivers:
       - name: default
         telegramConfigs:
-          - chatID: -1002710518017
-            useDefaults: true
+          - useDefaults: true
   bucket:
     type: {BUCKET_TYPE}
 
