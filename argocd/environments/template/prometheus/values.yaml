@@ -16,25 +16,7 @@ alertmanager-configs:
   configs:
     main:
       enabled: true
-      receivers:
-        - name: sre
-          slackConfigs:
-            - channel: "#alerts-{{ .Values.global.company.name }}"
-              useTpl: true
-              apiURL:
-                name: alertmanager
-                key: SLACK_WEBHOOK
-      route:
-        continue: false
-        receiver: sre
-        matchers:
-          - name: env
-            value: "{{ .Values.global.env.short_name }}"
-          - name: team
-            value: "sre"
-          - name: severity
-            value: "(low|medium|high|critical)"
-            regex: true
+      receivers: "{{ .Values.global.alerts.receivers | toYaml }}"
 
 prometheus-node-exporter:
   enabled: true

@@ -15,6 +15,12 @@ global:
         emails: []
   network:
     int_nat_gw: {INT_NAT_GW}
+  alerts:
+    receivers:
+      - name: default
+        telegramConfigs:
+          - chatID: -1002710518017
+            useDefaults: true
   bucket:
     type: {BUCKET_TYPE}
 
