@@ -29,3 +29,6 @@ argocd/charts/**/charts
 
 ## test files ##
 123
+
+## python ##
+venv
