@@ -2,7 +2,7 @@
 
 1. We **do not introduce technical debt**.
 2. We use **multiple cloud providers** as Infrastructure-as-a-Service (IaaS).
-3. We **minimize the use of cloud-specific services**—ideally using only networking and virtual machines.
+3. We **minimize the use of cloud-specific services**—ideally using only networking, buckets and virtual machines.
 4. Each environment (e.g., development, production, preprod) resides in a **separate, isolated project/account**.
 5. We use a dedicated environment called `internal` for running **internal tools** such as monitoring, log aggregation, and CI/CD systems.
 6. We **treat environments as objects** (in the OOP sense) that expose properties and methods, used by other environments and users.
