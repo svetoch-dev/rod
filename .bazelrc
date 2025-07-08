@@ -3,6 +3,6 @@ try-import %workspace%/.bazelrc-ci
 #Needed for in order to use basic auth proxies
 startup --host_jvm_args="-Djdk.http.auth.tunneling.disabledSchemes="
 test --test_output=errors
-build --action_env https_proxy --workspace_status_command=tools/stamping/update_status.sh
+build --action_env https_proxy --workspace_status_command=scripts/stamping/update_status.sh
 build --action_env GOOGLE_APPLICATION_CREDENTIALS
 build --action_env GITHUB_TOKEN

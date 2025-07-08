@@ -27,7 +27,7 @@ prepare_step() {
     curl -fsSL $DOCKER_CRED_URL | tar xz docker-credential-gcr && chmod +x docker-credential-gcr 
     mkdir ~/tools/ && mv ./docker-credential-gcr ~/tools/ 
 
-    bazel run //scripts/init/images/prepare
+    bazel run @svetoch_bazel_lib//scripts/init/images/prepare
 }
 
 run_step() {

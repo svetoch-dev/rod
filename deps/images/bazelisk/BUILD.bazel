@@ -1,8 +1,8 @@
 load("@aspect_bazel_lib//lib:tar.bzl", "mtree_mutate", "mtree_spec", "tar")
 load("@rules_distroless//distroless:defs.bzl", "passwd")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
-load("//tools/macros:deb_packages.bzl", "deb_packages")
-load("//tools/macros:img.bzl", "img_push")
+load("@svetoch_bazel_lib//tools/macros:deb_packages.bzl", "deb_packages")
+load("@svetoch_bazel_lib//tools/macros:img.bzl", "img_push")
 
 #github actions runner uses a user with uid=1001 https://github.com/actions/runner-images/issues/10936
 #because of this there is a permission missmatch  running in a container where user

@@ -1,11 +1,11 @@
 {
   "company": {
-    "domain": "infrared.by",
-    "name": "infrared"
+    "domain": "rod.svetoch.dev",
+    "name": "rod"
   },
   "ci": {
     "type": "github",
-    "group": "ggramal"
+    "group": "svetoch-dev"
   },
   "envs": {
     "internal": {
