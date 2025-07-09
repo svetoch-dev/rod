@@ -1,4 +1,4 @@
-load("//tools/lint/py:black.bzl", "py_lint")
+load("@svetoch_bazel_lib//tools/lint/py:black.bzl", "py_lint")
 load(":poststeps.bzl", "destroy")
 
 py_lint()

@@ -1,8 +1,8 @@
 """e2e tests posteps"""
 
 load("@aspect_rules_py//py:defs.bzl", "py_binary")
-load("@py_deps//:requirements.bzl", "requirement")
-load("//scripts/init/tf/apply:apply.bzl", "get_apply_args")
+load("@svetoch_bazel_lib_py_deps//:requirements.bzl", "requirement")
+load("@svetoch_bazel_lib//scripts/init/tf/apply:apply.bzl", "get_apply_args")
 
 def destroy():
     """Macro for destroying infra
@@ -15,7 +15,7 @@ def destroy():
         visibility = ["//visibility:public"],
         args = args,
         deps = [
-            "//libs/py/helpers",
+            "@svetoch_bazel_lib//libs/py/helpers",
             requirement("click"),
         ],
     )

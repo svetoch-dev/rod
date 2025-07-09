@@ -1,9 +1,9 @@
 """e2e tests prepare steps"""
 
 load("@aspect_rules_py//py:defs.bzl", "py_binary")
-load("@py_deps//:requirements.bzl", "requirement")
-load("//:constants.bzl", "TF_ENVS_PATH")
-load("//tools/utils:format.bzl", "formatted_tfvars")
+load("@svetoch_bazel_lib_py_deps//:requirements.bzl", "requirement")
+load("@svetoch_bazel_lib//:constants.bzl", "TF_ENVS_PATH")
+load("@svetoch_bazel_lib//tools/utils:format.bzl", "formatted_tfvars")
 
 def get_e2e_prepare_args():
     """Get e2e prepare arguments from tfvars
@@ -37,7 +37,7 @@ def prepare():
         visibility = ["//visibility:public"],
         args = args,
         deps = [
-            "//libs/py/helpers",
+            "@svetoch_bazel_lib//libs/py/helpers",
             requirement("click"),
         ],
     )

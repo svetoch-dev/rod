@@ -1,7 +1,7 @@
 load("@aspect_bazel_lib//lib:tar.bzl", "tar")
 load("@rules_distroless//distroless:defs.bzl", "cacerts", "group", "passwd")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
-load("//tools/macros:deb_packages.bzl", "deb_packages")
+load("@svetoch_bazel_lib//tools/macros:deb_packages.bzl", "deb_packages")
 
 cacerts(
     name = "ca",

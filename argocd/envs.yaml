@@ -1,8 +1,8 @@
 global:
   company:
-    name: infrared
+    name: rod
     domain:
-      root: infrared.by
+      root: rod.svetoch.dev
     teams:
       domain: ""
       admin:

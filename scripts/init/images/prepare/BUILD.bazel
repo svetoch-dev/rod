@@ -1,6 +1,0 @@
-load("//tools/lint/py:black.bzl", "py_lint")
-load(":prepare.bzl", "prepare")
-
-py_lint()
-
-prepare()

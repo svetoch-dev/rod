@@ -1,4 +1,4 @@
-module(name = "infrared")
+module(name = "rod")
 
 ###########
 # Bazel
@@ -16,6 +16,12 @@ use_repo(bazel_lib_toolchains, "zstd_toolchains")
 
 bazel_dep(name = "rules_pkg", version = "1.0.1")
 bazel_dep(name = "rules_multirun", version = "0.10.0")
+bazel_dep(name = "svetoch_bazel_lib")
+git_override(
+    module_name = "svetoch_bazel_lib",
+    commit = "fc6613df874f6b365c028a9373db4dcadcd2fec8",
+    remote = "https://github.com/svetoch-dev/bazel-lib",
+)
 
 ######################
 # Terraform support
@@ -32,12 +38,17 @@ tf = use_extension("@rules_tf//tf:extensions.bzl", "tf")
 tf.toolchain(version = "1.7.4")
 use_repo(tf, "tf_executable")
 
-load_json_file = use_repo_rule("//tools/repo_rules:load_json_file.bzl", "load_json_file")
-
-load_json_file(
+load_file = use_extension("@svetoch_bazel_lib//tools:extensions.bzl", "load_file")
+load_file.json(
     name = "tfvars",
     src = "//:terraform/terraform.tfvars.json",
     variable_name = "tfvars",
+)
+use_repo(load_file, "tfvars")
+
+override_repo(
+    load_file,
+    svetoch_bazel_lib_tfvars = "tfvars",
 )
 
 ###################
@@ -137,10 +148,5 @@ python.toolchain(
 )
 use_repo(python, python = "python_versions")
 
-pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
-pip.parse(
-    hub_name = "py_deps",
-    python_version = "3.11",
-    requirements_lock = "//deps/py:requirements_lock_3_11.txt",
-)
-use_repo(pip, "py_deps")
+svetoch_bazel_lib_pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+use_repo(svetoch_bazel_lib_pip, "svetoch_bazel_lib_py_deps")
