@@ -1,8 +1,8 @@
 """e2e tests posteps"""
 
 load("@aspect_rules_py//py:defs.bzl", "py_binary")
-load("@svetoch_bazel_lib_py_deps//:requirements.bzl", "requirement")
 load("@svetoch_bazel_lib//scripts/init/tf/apply:apply.bzl", "get_apply_args")
+load("@svetoch_bazel_lib_py_deps//:requirements.bzl", "requirement")
 
 def destroy():
     """Macro for destroying infra

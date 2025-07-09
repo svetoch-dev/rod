@@ -83,7 +83,7 @@ oci.pull(
     name = "spilo17",
     #v17-bb39d81
     digest = "sha256:69bf8719ff25c0f1e7bb2de464ed89c3aa459f4816f752ed2da146a7d451a96b",
-    image  = "docker.io/gramal/spilo",
+    image = "docker.io/gramal/spilo",
     platforms = [
         "linux/amd64",
     ],
@@ -92,23 +92,23 @@ oci.pull(
     name = "spilo15",
     #15-f0c5f71
     digest = "sha256:0838d144f4fdbe01d5ec161f5fe68fd40250dd96268f2ea2097e8a6ab82b9db3",
-    image  = "docker.io/gramal/spilo",
+    image = "docker.io/gramal/spilo",
     platforms = [
-        "linux/amd64"
+        "linux/amd64",
     ],
 )
 use_repo(
     oci,
-    "spilo15",
-    "spilo15_linux_amd64",
-    "spilo17",
-    "spilo17_linux_amd64",
     "logical-backup",
     "logical-backup_linux_amd64",
     "logical-backup_linux_arm64",
     "postgres-exporter",
     "postgres-exporter_linux_amd64",
     "postgres-exporter_linux_arm64",
+    "spilo15",
+    "spilo15_linux_amd64",
+    "spilo17",
+    "spilo17_linux_amd64",
 )
 
 apt = use_extension("@rules_distroless//apt:extensions.bzl", "apt")

@@ -1,7 +1,7 @@
 load("@aspect_bazel_lib//lib:tar.bzl", "mtree_mutate", "mtree_spec", "tar")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
-load("@svetoch_bazel_lib//tools/utils:common.bzl", "app_envs")
 load("@svetoch_bazel_lib//tools/macros:img.bzl", "img_push")
+load("@svetoch_bazel_lib//tools/utils:common.bzl", "app_envs")
 
 mtree_spec(
     name = "mtree",
