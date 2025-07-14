@@ -12,7 +12,7 @@ Having such information engineers can tell
 * Potential problems can be identified
 * Security issues
 
-Monitoring consists of several components
+Logging consists of several components
 * log collectors
 * log aggregation system
 * visualization
