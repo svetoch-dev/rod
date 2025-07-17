@@ -71,7 +71,8 @@ Using `Fluent-bit` we can
   * log_level
   * project
 
-We can use fluent-bit as a sidecar in cases where it is necessary to read log files inside the container, and there is no way to send data to stdout.
+We can use fluent-bit as a sidecar in cases where it is necessary to read log files inside the container, and there is no way to send data to stdout, but the operator does not provide such an opportunity.
+
 
 ## Loki
 
