@@ -80,7 +80,7 @@ We can use fluent-bit as a sidecar in cases where it is necessary to read log fi
 
 ## TO DO
 * add the ability to view kubernetes logs in grafana
-* pulling logs from GCP/YCP/AWS/etc
+* pulling logs from GCP/YCP/AWS/etc <a href="https://cloud.google.com/logging/docs/routing/overview">Cloud Logging</a>
 * research the possibility of sending container logs to stdout using the plugin <a href="https://docs.fluentbit.io/manual/pipeline/inputs/exec">exec</a> (opportunity, security, stability - ?), or try <a href="https://github.com/h3poteto/fluentd-sidecar-injector">sidecar-injector</a>, or anything else
 
 
