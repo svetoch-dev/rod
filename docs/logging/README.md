@@ -51,3 +51,35 @@ Cons:
 * Dependency on Grafana: While the integration with Grafana is a benefit for many users, it can also be a drawback for those who don't already use Grafana or prefer other visualization tools 
 * Less advanced features: Compared to more mature systems like the ELK stack, Loki may lack some advanced features like built-in data enrichment or complex data processing pipelines
 
+
+## Fluent-bit
+
+We use a node logging agent fluent-bit on each node (DaemonSet).
+Using `Fluent-bit` we can
+* pulling pods(containers) logs (from stdout/stderr)
+* pulling node logs
+* pulling logs from kubernetes (events, api, scheduler, kubelet, proxy, etc.)
+* changing structure of logs to a common view
+* label filtering to use a common set of labels (loki indexes log labels to speed up the search, so there shouldn't be a lot of labels to reduce the load on loki):
+  * env
+  * node
+  * namespace
+  * app_kubernetes_io_instance
+  * pod
+  * container
+  * stream
+  * log_level
+  * project
+
+We can use fluent-bit as a sidecar in cases where it is necessary to read log files inside the container, and there is no way to send data to stdout.
+
+## Loki
+
+
+
+## TO DO
+* add the ability to view kubernetes logs in grafana
+* pulling logs from GCP/YCP/AWS/etc
+* research the possibility of sending container logs to stdout using the plugin <a href="https://docs.fluentbit.io/manual/pipeline/inputs/exec">exec</a> (opportunity, security, stability - ?), or try <a href="https://github.com/h3poteto/fluentd-sidecar-injector">sidecar-injector</a>, or anything else
+
+
