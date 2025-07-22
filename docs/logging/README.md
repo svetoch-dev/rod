@@ -82,7 +82,7 @@ In this mode `loki` have (can):
 * the easiest way to deploy Loki at scale
 * read, write, and backend can be scaled independently, letting you customize your Loki deployment to meet your business needs for log ingestion and log query so that your infrastructure costs better match how you use Loki.
 
-[Loki](https://grafana.com/docs/loki/latest/get-started/scalable-monolithic-mode.png)
+![Loki](https://grafana.com/docs/loki/latest/get-started/scalable-monolithic-mode.png)
 
 High Availability in Loki is provided through the replication_factor option. Thanks to this setting, the distributor sends a request to record logs not to one replica of the ingester, but to several at once.
 replication_factor:
