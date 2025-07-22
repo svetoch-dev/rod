@@ -31,7 +31,6 @@ Architecture components:
     * Pulling and pushing logs
     * Filtering labels
     * Transformation logs to a preset format
-* Kafka - message queue to prevent log loss
 * Loki used for
     * API for issueing queries (LogQL)
     * Responsible for ingesting and storing logs and processing queries
@@ -88,7 +87,6 @@ The Helm chart deploys the following components:
 * Read component (3 replicas)
 * Write component (3 replicas)
 * Backend component (3 replicas)
-* Gateway (1 NGINX replica)
 * Index and Chunk cache (1 replica)
 
 [Detailed description of the components](https://grafana.com/docs/loki/latest/get-started/components/)
@@ -103,6 +101,8 @@ replication_factor:
 * maxFailure = (replication_factor / 2) +1
 
 A quorum is defined as floor( replication_factor / 2 ) + 1. So, for our replication_factor of 3, we require that two writes succeed. If less than two writes succeed, the distributor returns an error and the write operation will be retried. (If a write is acknowledged by 2 out of 3 ingesters, we can tolerate the loss of one ingester but not two, as this would result in data loss.)
+
+A load balancer must sit in front of the distributor to properly balance incoming traffic to them. In Kubernetes, the service load balancer provides this service.
 
 
 ## TO DO
