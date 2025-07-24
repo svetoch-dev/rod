@@ -103,11 +103,3 @@ replication_factor:
 A quorum is defined as floor( replication_factor / 2 ) + 1. So, for our replication_factor of 3, we require that two writes succeed. If less than two writes succeed, the distributor returns an error and the write operation will be retried. (If a write is acknowledged by 2 out of 3 ingesters, we can tolerate the loss of one ingester but not two, as this would result in data loss.)
 
 A load balancer must sit in front of the distributor to properly balance incoming traffic to them. In Kubernetes, the service load balancer provides this service.
-
-
-## TO DO
-* add the ability to view kubernetes logs in grafana
-* pulling logs from GCP/YCP/AWS/etc <a href="https://cloud.google.com/logging/docs/routing/overview">Cloud Logging</a>
-* research the possibility of sending container logs to stdout using the plugin <a href="https://docs.fluentbit.io/manual/pipeline/inputs/exec">exec</a> (opportunity, security, stability - ?), or try <a href="https://github.com/h3poteto/fluentd-sidecar-injector">sidecar-injector</a>, or anything else
-
-
