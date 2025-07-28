@@ -45,7 +45,7 @@ provider "kubernetes" {
 
 
 module "secrets" {
-  source = "git::https://github.com/ggramal/tf-modules.git//modules/secrets?ref=secrets-v0.3.0"
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/secrets?ref=secrets-v0.3.0"
 
   for_each          = local.secrets
   name              = each.value.name
