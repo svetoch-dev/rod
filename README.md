@@ -1,4 +1,4 @@
-# Infrared
+# Rod
 An attempt to create a scalable, cheap, secure and easy to manage infrastructure for small/medium size companies.
 
 ## State of the project
