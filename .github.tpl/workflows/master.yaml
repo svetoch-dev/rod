@@ -22,7 +22,7 @@ jobs:
     env:
       GOOGLE_APPLICATION_CREDENTIALS: "${{ github.workspace }}/key.json"
     container:
-      image: "europe-west1-docker.pkg.dev/infrared-internal/containers/bazelisk:v1.25.0-2"
+      image: "europe-west1-docker.pkg.dev/svetochdev-internal/containers/bazelisk:v1.25.0-2"
     steps:
     - uses: actions/checkout@v4.2.2
       with:

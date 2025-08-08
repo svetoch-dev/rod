@@ -1,15 +1,12 @@
-load("@buildifier_prebuilt//:rules.bzl", "buildifier")
+load("@buildifier_prebuilt//:rules.bzl", "buildifier", "buildifier_test")
+load("@svetoch_bazel_lib//tools/lint:lint.bzl", "all_lint_fix")
+load("@svetoch_bazel_lib//tools/lint/bazel:buildifier.bzl", "bazel_lint", "bazel_lint_fix")
+load("@svetoch_bazel_lib//tools/lint/py:black.bzl", "py_lint_fix")
 
-buildifier(
-    name = "lint",
-    exclude_patterns = ["./.git/*"],
-    lint_mode = "fix",
-    mode = "fix",
-)
+bazel_lint(buildifier_test = buildifier_test)
 
-buildifier(
-    name = "lint_check",
-    exclude_patterns = ["./.git/*"],
-    lint_mode = "warn",
-    mode = "diff",
-)
+bazel_lint_fix(buildifier = buildifier)
+
+py_lint_fix()
+
+all_lint_fix()
