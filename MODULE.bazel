@@ -19,9 +19,25 @@ bazel_dep(name = "rules_multirun", version = "0.10.0")
 bazel_dep(name = "svetoch_bazel_lib")
 git_override(
     module_name = "svetoch_bazel_lib",
-    commit = "8be01324533a298e80747ed8ff628dcf5b7320a4",
+    commit = "a51d9ea4d7d8395fb76e2f91a00393541ba33b64",
     remote = "https://github.com/svetoch-dev/bazel-lib",
 )
+
+######################
+# Binary tools support
+######################
+bazel_dep(name = "rules_bin_tools")
+git_override(
+    module_name = "rules_bin_tools",
+    commit = "d3fefc59031fe28fcc41918f8e9df752c58c3c49",
+    remote = "https://github.com/ggramal/rules_bin_tools",
+)
+
+tools = use_extension("@rules_bin_tools//tools:extensions.bzl", "tools")
+tools.download(
+    helm_version = "v3.18.4",
+)
+use_repo(tools, "helm_executable")
 
 ######################
 # Terraform support

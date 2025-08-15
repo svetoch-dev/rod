@@ -1,0 +1,3 @@
+load("@svetoch_bazel_lib//scripts/helm/apps:apps.bzl", "helm_app_init")
+
+helm_app_init()
