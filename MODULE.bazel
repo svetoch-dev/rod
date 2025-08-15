@@ -39,8 +39,6 @@ tools.download(
 )
 use_repo(tools, "helm_executable")
 
-
-
 ######################
 # Terraform support
 ######################
