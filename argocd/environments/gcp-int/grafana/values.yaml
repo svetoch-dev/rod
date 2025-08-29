@@ -11,8 +11,5 @@ grafana-main:
 datasource:
   enabled: true
 
-common-dashboard:
-  enabled: true
-
-common-google-cloud-dashboard:
+dashboard:
   enabled: true
