@@ -13,8 +13,3 @@ datasource:
 
 dashboard:
   enabled: true
-  dashboards:
-    services:
-      enabled: true
-    google-cloud:
-      enabled: true
