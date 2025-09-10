@@ -13,3 +13,6 @@ datasource:
 
 dashboard:
   enabled: true
+
+fluentbit-filters:
+  enabled: true
