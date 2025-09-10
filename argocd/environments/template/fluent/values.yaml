@@ -1,0 +1,5 @@
+operator:
+  enabled: true
+
+fluentbit:
+  enabled: true
