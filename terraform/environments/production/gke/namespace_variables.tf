@@ -1,5 +1,8 @@
 locals {
   namespaces = {
+    fluent = {
+      name = "fluent"
+    }
     pomerium = {
       name = "pomerium"
     }
