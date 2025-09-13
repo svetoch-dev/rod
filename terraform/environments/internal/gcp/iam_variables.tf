@@ -79,7 +79,7 @@ locals {
         custom_roles = []
         sa_iam_bindings = {
           "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${local.env.cloud.id}.svc.id.goog[loki/grafana-loki]",
+            ##MASKED##  "serviceAccount:${local.env.cloud.id}.svc.id.goog[loki/grafana-loki]",
           ]
         }
         generate_key = false
