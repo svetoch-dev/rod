@@ -73,6 +73,17 @@ locals {
         }
         generate_key = true
       }
+      grafana-loki = {
+        description  = "service account for loki"
+        roles        = []
+        custom_roles = []
+        sa_iam_bindings = {
+          "roles/iam.workloadIdentityUser" = [
+            "serviceAccount:${local.env.cloud.id}.svc.id.goog[loki/grafana-loki]",
+          ]
+        }
+        generate_key = false
+      }
     }
 
     roles = {

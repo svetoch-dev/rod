@@ -24,5 +24,8 @@ locals {
     redis = {
       name = "redis"
     }
+    loki = {
+      name = "loki"
+    }
   }
 }
