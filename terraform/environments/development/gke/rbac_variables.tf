@@ -29,6 +29,13 @@ locals {
           "iam.gke.io/gcp-service-account" = "stackdriver-exporter@${local.env.cloud.id}.iam.gserviceaccount.com"
         }
       }
+      grafana-loki = {
+        namespace = "loki"
+        name      = "grafana-loki"
+        annotations = {
+          "iam.gke.io/gcp-service-account" = "grafana-loki@${local.env.cloud.id}.iam.gserviceaccount.com"
+        }
+      }
     }
     cluster_roles = {
     }

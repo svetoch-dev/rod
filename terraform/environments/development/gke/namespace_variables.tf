@@ -30,5 +30,8 @@ locals {
     external-dns = {
       name = "external-dns"
     }
+    loki = {
+      name = "loki"
+    }
   }
 }
