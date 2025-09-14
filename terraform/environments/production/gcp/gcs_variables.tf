@@ -9,8 +9,6 @@ locals {
       admins = [
         "serviceAccount:grafana-loki@${local.env.cloud.id}.iam.gserviceaccount.com"
       ]
-      viewers  = []
-      creators = []
       lifecycle_rules = [{
         action = {
           type = "Delete"
@@ -29,8 +27,6 @@ locals {
       admins = [
         "serviceAccount:thanos@${local.env.cloud.id}.iam.gserviceaccount.com"
       ]
-      viewers =  []
-      creators = []
     }
     format("%s-postgres-%s", var.company.name, local.env.short_name) = {
       #force_destroy should be oposite to deletion_protection
@@ -41,8 +37,6 @@ locals {
       admins = [
         "serviceAccount:postgres@${local.env.cloud.id}.iam.gserviceaccount.com"
       ]
-      viewers  = []
-      creators = []
     }
     format("%s-postgres-backup-%s", var.company.name, local.env.short_name) = {
       #force_destroy should be oposite to deletion_protection
@@ -53,8 +47,6 @@ locals {
       admins = [
         "serviceAccount:postgres@${local.env.cloud.id}.iam.gserviceaccount.com"
       ]
-      viewers  = []
-      creators = []
       lifecycle_rules = [{
         action = {
           type = "Delete"

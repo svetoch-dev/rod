@@ -9,9 +9,6 @@ locals {
       admins = [
         "serviceAccount:thanos@${local.env.cloud.id}.iam.gserviceaccount.com"
       ]
-      viewers = [
-      ]
-      creators        = []
       lifecycle_rules = []
     }
     format("%s-loki-%s", var.company.name, local.env.short_name) = {
@@ -23,8 +20,6 @@ locals {
       admins = [
         "serviceAccount:grafana-loki@${local.env.cloud.id}.iam.gserviceaccount.com"
       ]
-      viewers  = []
-      creators = []
       lifecycle_rules = [{
         action = {
           type = "Delete"
