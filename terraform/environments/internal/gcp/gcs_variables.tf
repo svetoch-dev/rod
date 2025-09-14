@@ -23,8 +23,7 @@ locals {
       admins = [
         "serviceAccount:grafana-loki@${local.env.cloud.id}.iam.gserviceaccount.com"
       ]
-      viewers = [
-      ]
+      viewers  = []
       creators = []
       lifecycle_rules = [{
         action = {

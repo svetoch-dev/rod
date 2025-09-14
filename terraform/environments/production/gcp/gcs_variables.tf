@@ -9,8 +9,7 @@ locals {
       admins = [
         "serviceAccount:grafana-loki@${local.env.cloud.id}.iam.gserviceaccount.com"
       ]
-      viewers = [
-      ]
+      viewers  = []
       creators = []
       lifecycle_rules = [{
         action = {
@@ -30,8 +29,7 @@ locals {
       admins = [
         "serviceAccount:thanos@${local.env.cloud.id}.iam.gserviceaccount.com"
       ]
-      viewers = [
-      ]
+      viewers =  []
       creators = []
     }
     format("%s-postgres-%s", var.company.name, local.env.short_name) = {
