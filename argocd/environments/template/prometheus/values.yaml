@@ -51,6 +51,8 @@ prometheus-rules:
             enabled: true
           pg_up:
             enabled: true
+          pg_stat_activity_count:
+            enabled: true
       CriticalMetric:
         enabled: true
         interval: "31s"
