@@ -43,79 +43,83 @@ prometheus-rules:
       AbsentMetricCritical:
         enabled: true
         rules:
-          probe_success:
-            enabled: true
           kong_http_requests_total:
+            enabled: true
+          pg_stat_activity_count:
             enabled: true
           pg_stat_database_xact_commit:
             enabled: true
           pg_up:
             enabled: true
-          pg_stat_activity_count:
+          probe_success:
             enabled: true
       CriticalMetric:
         enabled: true
         interval: "31s"
         rules:
-          #Kong (nginx)
-          ErrorRateIncreasedFor_5XX:
-            enabled: true
           # Blackbox
           api:
             enabled: true
+          # K8s
+          Daemonset_not_ready:
+            enabled: true
+          Pod_replicas_not_ready:
+            enabled: true
+          Pods_waiting_state:
+            enabled: true
+          Pods_waiting_state_kube-system:
+            enabled: true
+          Statefulset_not_ready:
+            enabled: true
+          # Kong (nginx)
+          ErrorRateIncreasedFor_5XX:
+            enabled: true
           # Postgres
+          Available_postgresql_connections_are_running_out:
+            enabled: true
+          DB_transactions_per_seconds_below_norm:
+            enabled: true
           Postgres_is_down:
             enabled: true
           Postgres_replica_is_down:
             enabled: true
-          Available_postgresql_connections_are_running_out:
+          # Redis
+          Redis_missing_master:
             enabled: true
-          DB_transactions_per_seconds_below_norm:
+          Redis_too_many_masters:
             enabled: true
           # Resources
           OOM_killed_pods:
             enabled: true
           PVC_low_capacity:
             enabled: true
-          # k8s
-          Pods_waiting_state:
-            enabled: true
-          Pods_waiting_state_kube-system:
-            enabled: true
-          Pod_replicas_not_ready:
-            enabled: true
-          Daemonset_not_ready:
-            enabled: true
-          Statefulset_not_ready:
-            enabled: true
-          # rmq
+          # RMQ
           RabbitMQ_High_memory(watermark)_usage:
             enabled: true
-          # redis
-          Redis_missing_master:
+          RabbitMQ_missing_master:
             enabled: true
-          Redis_too_many_masters:
+          RabbitMQ_too_many_masters:
             enabled: true
       WarningMetric:
         enabled: true
         rules:
-          # redis
-          Redis_disconnected_slaves:
+          # Deployment
+          Container_too_many_restarts:
             enabled: true
-          # postgres
+          # Postgres
           Postgres_logical_backup_error:
             enabled: true
+          # Redis
+          Redis_disconnected_slaves:
+            enabled: true
           # Resources
-          PVC_low_capacity:
-            enabled: true
-          High_postgres_container_cpu_throttling:
-            enabled: true
           High_cpu_throttling:
             enabled: true
           High_memory_usage:
             enabled: true
+          High_postgres_container_cpu_throttling:
+            enabled: true
           OOM_killed_pods_(on_node):
             enabled: true
-          # Deployment
-          Container_too_many_restarts:
+          PVC_low_capacity:
             enabled: true

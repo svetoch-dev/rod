@@ -46,42 +46,43 @@ prometheus-rules:
           # Blackbox
           api:
             enabled: true
+          # k8s
+          Daemonset_not_ready:
+            enabled: true
+          Pod_replicas_not_ready:
+            enabled: true
+          Pods_waiting_state:
+            enabled: true
+          Pods_waiting_state_kube-system:
+            enabled: true
+          Statefulset_not_ready:
+            enabled: true
+          # Redis
+          Redis_missing_master:
+            enabled: true
+          Redis_too_many_masters:
+            enabled: true
           # Resources
           OOM_killed_pods:
             enabled: true
           PVC_low_capacity:
             enabled: true
-          # k8s
-          Pods_waiting_state:
-            enabled: true
-          Pods_waiting_state_kube-system:
-            enabled: true
-          Pod_replicas_not_ready:
-            enabled: true
-          Daemonset_not_ready:
-            enabled: true
-          Statefulset_not_ready:
-            enabled: true
-          # redis
-          Redis_missing_master:
-            enabled: true
-          Redis_too_many_masters:
-            enabled: true
       WarningMetric:
         enabled: true
         rules:
-          # redis
+          # Deployment
+          Container_too_many_restarts:
+            enabled: true
+          # Redis
           Redis_disconnected_slaves:
             enabled: true
           # Resources
-          PVC_low_capacity:
-            enabled: true
           High_cpu_throttling:
             enabled: true
           High_memory_usage:
             enabled: true
           OOM_killed_pods_(on_node):
             enabled: true
-          # Deployment
-          Container_too_many_restarts:
+          PVC_low_capacity:
             enabled: true
+
