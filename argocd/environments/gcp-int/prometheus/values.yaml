@@ -58,7 +58,9 @@ prometheus-rules:
           Statefulset_not_ready:
             enabled: true
           # Redis
-          Redis_masters:
+          Redis_missing_master:
+            enabled: true
+          Redis_too_many_masters:
             enabled: true
           # Resources
           OOM_killed_pods:

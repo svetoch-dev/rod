@@ -84,7 +84,9 @@ prometheus-rules:
           Postgres_replica_is_down:
             enabled: true
           # Redis
-          Redis_masters:
+          Redis_missing_master:
+            enabled: true
+          Redis_too_many_masters:
             enabled: true
           # Resources
           OOM_killed_pods:
@@ -94,7 +96,9 @@ prometheus-rules:
           # RMQ
           RabbitMQ_High_memory(watermark)_usage:
             enabled: true
-          RabbitMQ_masters:
+          RabbitMQ_missing_master:
+            enabled: true
+          RabbitMQ_too_many_masters:
             enabled: true
       WarningMetric:
         enabled: true
