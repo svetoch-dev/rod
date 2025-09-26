@@ -57,20 +57,44 @@ We use a node logging agent fluent-bit on each node (DaemonSet).
 Using `Fluent-bit` we can
 * pulling pods(containers) logs (from stdout/stderr)
 * pulling node logs
-* pulling logs from kubernetes (events, api, scheduler, kubelet, proxy, etc.)
+* getting kubernetes events
 * changing structure of logs to a common view
 * label filtering to use a common set of labels (loki indexes log labels to speed up the search, so there shouldn't be a lot of labels to reduce the load on loki):
   * env
   * node
   * namespace
+  * job
+  * app_kubernetes_io_name
+  * app_kubernetes_io_version
+  * app_kubernetes_io_component
   * app_kubernetes_io_instance
   * pod
   * container
   * stream
-  * severity
+  * level
   * company
 
 We can use fluent-bit as a sidecar in cases where it is necessary to read log files inside the container, and there is no way to send data to stdout, but the operator does not provide such an opportunity.
+
+### Getting logs of controll plane
+
+Our architecture assumes the use of a managed Kubernetes service. In such environments, accessing control plane logs can be challenging since direct access to the control plane is not available. To reliably collect these logs, we use the following approach:
+
+1. **Export logs to cloud storage**  
+   Use the provider’s internal tools to transfer control plane log records into a cloud storage bucket (most clouds offer native bucket services).  
+
+2. **Install a CSI driver**  
+   Deploy the appropriate Container Storage Interface (CSI) driver to enable Kubernetes workloads to access the bucket via PersistentVolumeClaims (PVCs) and PersistentVolumes (PVs).  
+
+3. **Mount storage in Fluent Bit pods**  
+   Configure the CSI driver to mount the bucket-backed PV into a Fluent Bit pod. This is done through FUSE (the Linux userspace filesystem framework) with a userspace tool such as *s3fs* or *gcsfuse*.  
+
+4. **Ingest logs with Fluent Bit**  
+   Fluent Bit uses its `tail` input plugin to read the log files via standard OS system calls (`read()`, `open()`, `inotify()`, etc.).  
+
+5. **Forward logs to Loki**  
+   Fluent Bit processes the incoming log records and ships them to Loki for indexing and querying.  
+
 
 
 ## Loki
