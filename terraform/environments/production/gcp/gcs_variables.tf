@@ -67,7 +67,7 @@ locals {
       viewers = [
       ]
       creators = [
-        "serviceAccount:service-${data.google_project.project.number}@gcp-sa-logging.iam.gserviceaccount.com"
+        ###MASKED### "serviceAccount:service-${data.google_project.project.number}@gcp-sa-logging.iam.gserviceaccount.com"
       ]
       lifecycle_rules = [{
         action = {
