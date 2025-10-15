@@ -36,6 +36,13 @@ locals {
           "iam.gke.io/gcp-service-account" = "grafana-loki@${local.env.cloud.id}.iam.gserviceaccount.com"
         }
       }
+      fluent = {
+        namespace = "fluent"
+        name      = "fluent"
+        annotations = {
+          "iam.gke.io/gcp-service-account" = "fluent@${local.env.cloud.id}.iam.gserviceaccount.com"
+        }
+      }
     }
     cluster_roles = {
     }

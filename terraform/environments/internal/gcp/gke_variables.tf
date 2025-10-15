@@ -19,11 +19,18 @@ locals {
       horizontal_pod_autoscaling      = true
       create_service_account          = false
       enable_vertical_pod_autoscaling = true
+      gcs_fuse_csi_driver             = true
       enable_shielded_nodes           = false
       remove_default_node_pool        = true
       authenticator_security_group    = local.env.kubernetes.auth_group != "" ? local.env.kubernetes.auth_group : null
       identity_namespace              = "enabled"
       node_metadata                   = "GKE_METADATA"
+      logging_enabled_components = [
+        "SYSTEM_COMPONENTS",
+        "APISERVER",
+        "CONTROLLER_MANAGER",
+        "SCHEDULER",
+      ]
 
       enable_private_nodes    = true
       enable_private_endpoint = false

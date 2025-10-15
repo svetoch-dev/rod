@@ -23,6 +23,9 @@ global:
   bucket:
     type: {BUCKET_TYPE}
 
+  cloud:
+    type: {CLOUD_TYPE}
+
 #Be carefull check the syncPolicy
 #when setting enabled: false for envs
 #or deleting this file. It may cause
@@ -54,9 +57,12 @@ envs:
       {{- $domain  := dict "root" .Values.global.company.domain.root }}
       {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.global.company.domain.root) }}
 
+      {{- $cloud := mustDeepCopy .Values.global.cloud }}
+
       {{- $context := mustDeepCopy . }}
       {{- $context := set $context "env" $env }}
       {{- $context := set $context "domain" $domain }}
+      {{- $context := set $context "cloud" $cloud }}
 
       {{- tpl .Values.defaultValuesTpl $context | nindent 2 }}
     finalizers:
@@ -80,9 +86,12 @@ envs:
       {{- $domain  := dict "root" .Values.global.company.domain.root }}
       {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.global.company.domain.root) }}
 
+      {{- $cloud := mustDeepCopy .Values.global.cloud }}
+
       {{- $context := mustDeepCopy . }}
       {{- $context := set $context "env" $env }}
       {{- $context := set $context "domain" $domain }}
+      {{- $context := set $context "cloud" $cloud }}
 
       {{- tpl .Values.defaultValuesTpl $context | nindent 2 }}
     finalizers:
@@ -106,9 +115,12 @@ envs:
       {{- $domain  := dict "root" .Values.global.company.domain.root }}
       {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.global.company.domain.root) }}
 
+      {{- $cloud := mustDeepCopy .Values.global.cloud }}
+
       {{- $context := mustDeepCopy . }}
       {{- $context := set $context "env" $env }}
       {{- $context := set $context "domain" $domain }}
+      {{- $context := set $context "cloud" $cloud }}
 
       {{- tpl .Values.defaultValuesTpl $context | nindent 2 }}
 

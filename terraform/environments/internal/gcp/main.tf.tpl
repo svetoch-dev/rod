@@ -49,6 +49,7 @@ module "gcp" {
   activate_apis = local.activate_apis
   networks      = local.networks
   gke_clusters  = local.gke_clusters
+  logging       = local.logging
   iam           = local.iam
   dns_zones     = local.dns_zones
   gcs           = local.gcs
