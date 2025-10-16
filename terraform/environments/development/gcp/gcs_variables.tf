@@ -60,8 +60,8 @@ locals {
     format("%s-logs-%s", var.company.name, local.env.short_name) = {
       #force_destroy should be oposite to deletion_protection 
       force_destroy = local.env.cloud.buckets.deletion_protection ? false : true
-      storage_class = "MULTI_REGIONAL"
-      location      = local.env.cloud.multi_region
+      storage_class = "STANDARD"
+      location      = local.env.cloud.region
       admins = [
         "serviceAccount:fluent@${local.env.cloud.id}.iam.gserviceaccount.com"
       ]
