@@ -96,7 +96,7 @@ locals {
         custom_roles = []
         sa_iam_bindings = {
           "roles/iam.workloadIdentityUser" = [
-            ###MASED### "serviceAccount:${local.env.cloud.id}.svc.id.goog[fluent/fluent]",
+            ###MASKED### "serviceAccount:${local.env.cloud.id}.svc.id.goog[fluent/fluent]",
           ]
         }
         generate_key = false
