@@ -15,6 +15,15 @@ locals {
           "serviceusage.services.use",
         ]
       }
+      bucketList = {
+        title       = "List/get buckets for services"
+        description = "Custom role for listing buckets and there metadata"
+        permissions = [
+          "resourcemanager.projects.get",
+          "storage.buckets.list",
+          "storage.buckets.get",
+        ]
+      }
     }
 
     service_accounts = {
