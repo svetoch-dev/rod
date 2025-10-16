@@ -15,6 +15,15 @@ locals {
           "serviceusage.services.use",
         ]
       }
+      bucketList = {
+        title       = "List/get buckets for services"
+        description = "Custom role for listing buckets and there metadata"
+        permissions = [
+          "resourcemanager.projects.get",
+          "storage.buckets.list",
+          "storage.buckets.get",
+        ]
+      }
     }
 
     service_accounts = {
@@ -84,6 +93,20 @@ locals {
         }
         generate_key = false
       }
+      fluent = {
+        description = "service account for fluent"
+        roles = [
+          "projects/${local.env.cloud.id}/roles/bucketList"
+        ]
+        custom_roles = []
+        sa_iam_bindings = {
+          "roles/iam.workloadIdentityUser" = [
+            ##MASKED##  "serviceAccount:${local.env.cloud.id}.svc.id.goog[fluent/fluent]",
+          ]
+        }
+        generate_key = false
+      }
+
     }
 
     roles = {

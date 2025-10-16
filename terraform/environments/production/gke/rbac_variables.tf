@@ -29,6 +29,13 @@ locals {
           "iam.gke.io/gcp-service-account" = "postgres@${local.env.cloud.id}.iam.gserviceaccount.com"
         }
       }
+      fluent = {
+        namespace = "fluent"
+        name      = "fluent"
+        annotations = {
+          "iam.gke.io/gcp-service-account" = "fluent@${local.env.cloud.id}.iam.gserviceaccount.com"
+        }
+      }
       "example.postgres" = {
         name      = "postgres"
         namespace = "example"
