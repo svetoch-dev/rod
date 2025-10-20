@@ -40,21 +40,18 @@ This intial setup has been done only **once**. After initial setup all k8s resou
 ###  Installation of argocd CRDs
 
 ```
-kubectl apply -f environments/gcp-int/manifests/crds/argocd/
-```
-
-### Create an argocd namespace
-```
-kubectl create namespace argocd
+kubectl apply -f argocd/charts/infra/crds/argocd/
 ```
 
 ###  Installation of argocd helm release
 
 ```
 helm repo add argo https://argoproj.github.io/argo-helm
-cd charts/argocd
+cd arogcd/charts/infra/charts/argocd
 helm dependency update
-helm upgrade --values=environments/gcp-int/argocd/values.yaml argocd-gcp-int charts/argocd/ --namespace argocd  --install
+cd -
+kubectl delete secret argocd-redis -n argocd
+helm upgrade --install  argocd-gcp-int argocd/charts/infra/charts/argocd/ --set  "redis.enabled=false" --values=argocd/environments/gcp-int/argocd/values.yaml --values argocd/charts/infra/charts/globals.yaml --namespace argocd  --set "global.environment.name=gcp-int" --set "argocd.redis.enabled=true" --set "probes.enabled=false"
 ```
 
 ### Creating a root argocd application
@@ -72,12 +69,13 @@ spec:
     namespace: argocd
   project: default
   source:
-    path: argocd/charts/environments
-    repoURL: https://github.com/somecompany/infrastructure.git
+    repoURL: <repo_url>
+    path: infra/argocd/charts/infra/charts/environments
     targetRevision: master
     helm:
-      valueFiles: 
-        - ../../envs.yaml
+      valueFiles:
+        - ../globals.yaml
+        - ../../../../envs.yaml
   syncPolicy:
     automated:
       prune: true
