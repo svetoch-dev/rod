@@ -36,9 +36,6 @@ repository:
 
 root:
   enabled: true
-  syncPolicy:
-    automated:
-      selfHeal: true
 
 envs:
   gcp-prd:
@@ -67,9 +64,6 @@ envs:
       {{- tpl .Values.defaultValuesTpl $context | nindent 2 }}
     finalizers:
       - resources-finalizer.argocd.argoproj.io
-    syncPolicy:
-      automated:
-        selfHeal: true
   gcp-dev:
     enabled: true
     values: |
@@ -96,9 +90,6 @@ envs:
       {{- tpl .Values.defaultValuesTpl $context | nindent 2 }}
     finalizers:
       - resources-finalizer.argocd.argoproj.io
-    syncPolicy:
-      automated:
-        selfHeal: true
   gcp-int:
     enabled: true
     values: |
@@ -128,6 +119,3 @@ envs:
       - {SOME_DOMAIN_ENVS}
     finalizers:
       - resources-finalizer.argocd.argoproj.io
-    syncPolicy:
-      automated:
-        selfHeal: true
