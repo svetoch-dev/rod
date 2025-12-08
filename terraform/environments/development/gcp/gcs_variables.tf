@@ -13,9 +13,9 @@ locals {
     format("%s-loki-%s", var.company.name, local.env.short_name) = {
       #force_destroy should be oposite to deletion_protection
       force_destroy      = local.env.cloud.buckets.deletion_protection ? false : true
-      storage_class      = "MULTI_REGIONAL"
+      storage_class      = "STANDARD"
       bucket_policy_only = true
-      location           = local.env.cloud.multi_region
+      location           = local.env.cloud.region
       admins = [
         "serviceAccount:grafana-loki@${local.env.cloud.id}.iam.gserviceaccount.com"
       ]
@@ -76,7 +76,7 @@ locals {
           type = "Delete"
         },
         condition = {
-          age = "3"
+          age = "1"
         }
       }]
     }
