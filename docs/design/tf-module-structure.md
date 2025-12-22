@@ -32,7 +32,8 @@ There are several major issues with current state
 
 ## Desired state
 
-One way to fix current state issues is to introduce a new intermediate module that will abstract away cloud specific implementation
+One way to fix issues in current tf modules structure is to introduce a new intermediate module that will abstract away cloud specific implementation
+
 
 ```
                                                                |                           -> tf-modules/aws/s3
@@ -42,12 +43,102 @@ One way to fix current state issues is to introduce a new intermediate module th
                                                                |
                                                                |                           -> tf-modules/modules/gcp/networking
 environtments/<some_env>/cloud -> tf-modules/modules/rod/cloud |-> tf-modules/modules/gcp  -> tf-modules/modules/gcp/gcs
-                                                               |                           -> ....
+                                                               |                           -> ...
                                                                |
                                                                |
                                                                |                           -> tf-modules/modules/yc/ycs
                                                                |-> tf-modules/modules/yc   -> tf-modules/modules/yc/networking
-                                                               
+                                                               |                           -> ...
 
 ```
+
+In this setup 
+
+
+1. We will have a main.tf with this code
+
+```
+...
+
+module "cloud" {
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud?ref=rod-v0.1.0"
+  cloud = {
+    name     = "aws",
+    id       = "123456789012",
+    region   = "us-east1",
+    registry = "123456789012.dkr.ecr.us-east-1.amazonaws.com/",
+    buckets  = {
+      "deletion_protection =  "true"
+    },
+    default_zone    =  "us-east1-b",
+    multi_region    =  "US"
+  }
+
+}
+```
+
+2. Based on `var.cloud.name` a specific cloud module will be chosen
+
+```
+...
+
+module "aws" {
+  source     = "../../aws"
+  count      = var.cloud.name == "aws" ? 1 : 0
+  id         = "123456789012",
+  region     = "us-east1",
+  s3         = local.aws_s3
+  networking = local.aws_networking
+  ...
+}
+
+module "gcp" {
+  source     = "../../gcp"
+  count      = var.cloud.name == "gcp" ? 1 : 0
+  project = {
+    id     = var.cloud.id
+    region = var.cloud.region
+  }
+
+  activate_apis = local.gcp_activate_apis
+  networks      = local.gcp_networks
+  gke_clusters  = local.gcp_gke_clusters
+  ....
+}
+
+```
+
+3. Cloud module will then create needed resources based on local variables in `<cloud>_<component>_variables.tf` files
+
+
+4. There should also be an ability to override any setting in `modules/rod/cloud` module like so
+
+```
+...
+
+module "cloud" {
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud?ref=rod-v0.1.0"
+  cloud = {
+    name     = "aws",
+    id       = "123456789012",
+    region   = "us-east1",
+    registry = "123456789012.dkr.ecr.us-east-1.amazonaws.com/",
+    buckets  = {
+      "deletion_protection =  "true"
+    },
+    default_zone    =  "us-east1-b",
+    multi_region    =  "US"
+  }
+
+  aws_s3 = {
+    "company-loki-prd" = {
+      name  = "company-loki-prd-v2"
+    }
+  }
+
+}
+```
+
+This could be achieved via this providers
+https://github.com/isometry/terraform-provider-deepmerge
 
