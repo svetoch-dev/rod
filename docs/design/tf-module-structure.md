@@ -19,20 +19,24 @@ environments/<some_env>/github -> tf-modules/module/github -> ....
                                                            -> ....
 ```
 
-Where tf-modules is https://github.com/svetoch-dev/tf-modules
+tf-modules repository can be found here https://github.com/svetoch-dev/tf-modules
 
 
 ### Issues
 
-There are several major issues with current state
-
-1. Hard to support multiple projects. Projects at least have 2 envs (int + prd). So, for example, if we need to add a new bucket to our code the minimum amount of times we need to repeat ourselfs  is `2*n + 2(rod template)` where n - is number of projects. As you can see it will quickly become unsupportable with many projects
-2. Cloud specific. Every root module in `environments/<some_env>` is cloud or service specific so it becomes very hard to operate projects in different clouds
+The current structure has several significant limitations:
 
 
-## Desired state
+1. **Hard to support multiple projects**
+   Projects typically have at least two environments (e.g., `int` and `prd`). Adding a new resource, like a bucket, requires repeating code at least `2*n + 2` times (where `n` is the number of projects). This approach quickly becomes unsustainable as the number of projects grows.
 
-One way to fix issues in current tf modules structure is to introduce a new intermediate module that will abstract away cloud specific implementation
+2. **Cloud-specific root modules**
+   Every root module in `environments/<some_env>` is tied to a specific cloud or service. This makes managing projects across multiple clouds difficult and error-prone.
+
+
+## Desired State
+
+To address these issues, we propose introducing an **intermediate module** that abstracts away cloud-specific implementations.
 
 
 ```
@@ -52,10 +56,18 @@ environtments/<some_env>/cloud -> tf-modules/modules/rod/cloud |-> tf-modules/mo
 
 ```
 
-In this setup 
+
+### Benefits
+
+- Single entry point for cloud-specific resources (`modules/rod/cloud`)
+- Reduced code duplication across projects and environments
+- Easier multi-cloud support
 
 
-1. We will have a main.tf with this code
+
+### Setup
+
+1. Main Terraform Module in envrionment
 
 ```
 ...
@@ -77,7 +89,7 @@ module "cloud" {
 }
 ```
 
-2. Based on `var.cloud.name` a specific cloud module will be chosen
+2. Based on `var.cloud.name` a specific cloud module is chosen
 
 ```
 ...
@@ -108,10 +120,10 @@ module "gcp" {
 
 ```
 
-3. Cloud module will then create needed resources based on local variables in `<cloud>_<component>_variables.tf` files
+3. Resources are created based on local variables in `<cloud>_<component>_variables.tf` files
 
 
-4. There should also be an ability to override any setting in `modules/rod/cloud` module like so
+4. Overriding defaults. Any setting in `modules/rod/cloud` can be overridden:
 
 ```
 ...
