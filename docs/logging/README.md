@@ -14,7 +14,7 @@ Having such information engineers can tell
 
 Logging consists of several components
 * log collectors
-* log aggregation system
+* log aggregation and storage system
 * visualization
 
 
@@ -24,13 +24,13 @@ Logging consists of several components
 
 ## Explanation
 
-This architecture is based on Loki and fluent-bit as a common logging system for kubernetes clusters
+This architecture is based on Fluent-bit, Loki and Grafana as a common logging system for kubernetes clusters
 
 Architecture components:
 * Fluent-bit - log collector, used for:
     * Pulling and pushing logs
-    * Filtering labels
-    * Transformation logs to a preset format
+    * Filtering and enriching labels
+    * Transformation logs to a preset format (JSON)
 * Loki used for
     * API for issueing queries (LogQL)
     * Responsible for ingesting and storing logs and processing queries
@@ -53,8 +53,8 @@ Cons:
 
 ## Fluent-bit
 
-We use a node logging agent fluent-bit on each node (DaemonSet).
-Using `Fluent-bit` we can
+We use a node logging agent `fluent-bit` (operated by fluentbit-operator) on each `node` (DaemonSet).
+Using `Fluent-bit` we can:
 * pulling pods(containers) logs (from stdout/stderr)
 * pulling node logs
 * getting kubernetes events
@@ -72,9 +72,17 @@ Using `Fluent-bit` we can
   * container
   * stream
   * level
-  * company
 
-We can use fluent-bit as a sidecar in cases where it is necessary to read log files inside the container, and there is no way to send data to stdout, but the operator does not provide such an opportunity.
+
+### Getting postgres logs
+
+We use `fluent-bit` as a `sidecar` in cases where it is necessary to read log files inside the container, and there is no way to send data to stdout, but the operator does not provide such an opportunity.
+This method of obtaining logs allows us not to change the settings of the postgresql cluster (in terms of logs) and use the standard settings of the postgres logs (in json format).
+Fluent-bit sidecar performs several functions:
+1. Reads log files
+2. Filters and enriches labels
+3. Sends logs to loki
+
 
 ### Getting logs of controll plane
 
@@ -96,14 +104,13 @@ Our architecture assumes the use of a managed Kubernetes service. In such enviro
    Fluent Bit processes the incoming log records and ships them to Loki for indexing and querying.  
 
 
-
 ## Loki
 
 `Loki` is a modular system that contains many components that can either be run in logical groups (in `simple scalable deployment` mode with targets `read`, `write`, `backend`. These targets can be scaled independently, letting you customize your Loki deployment to meet your business needs for log ingestion and log query so that your infrastructure costs better match how you use Loki.). The simple scalable deployment is the default configuration installed by the Loki Helm Chart. This deployment mode is the easiest way to deploy Loki at scale. It strikes a balance between deploying in monolithic mode or deploying each component as a separate microservice.
-In this mode `loki`:
+We use `ssd` mode, in this mode `loki`:
 * scale up to a few TBs of logs per day
 * the easiest way to deploy Loki at scale
-* read, write, and backend can be scaled independently, letting you customize your Loki deployment to meet your business needs for log ingestion and log query so that your infrastructure costs better match how you use Loki.
+* read, write, and backend can be scaled independently, letting us customize our Loki deployment to meet your business needs for log ingestion and log query so that your infrastructure costs better match how you use Loki.
 
 ![Loki](https://grafana.com/docs/loki/latest/get-started/scalable-monolithic-mode.png)
 
@@ -122,8 +129,8 @@ replication_factor:
 * Distributor sends chunks to multiple Ingester
 * Minimum – 3 for 3 nodes
 * Allows 1 out of 3 nodes not to work
-* maxFailure = (replication_factor / 2) +1
+* maxFailure = (replication_factor/2)+1
 
-A quorum is defined as floor( replication_factor / 2 ) + 1. So, for our replication_factor of 3, we require that two writes succeed. If less than two writes succeed, the distributor returns an error and the write operation will be retried. (If a write is acknowledged by 2 out of 3 ingesters, we can tolerate the loss of one ingester but not two, as this would result in data loss.)
+A quorum is defined as floor (replication_factor/2)+1. So, for our replication_factor of 3, we require that two writes succeed. If less than two writes succeed, the distributor returns an error and the write operation will be retried. (If a write is acknowledged by 2 out of 3 ingesters, we can tolerate the loss of one ingester but not two, as this would result in data loss.)
 
 A load balancer must sit in front of the distributor to properly balance incoming traffic to them. In Kubernetes, the service load balancer provides this service.
