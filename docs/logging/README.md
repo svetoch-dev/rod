@@ -30,7 +30,7 @@ Architecture components:
 * Fluent-bit - log collector, used for:
     * Pulling and pushing logs
     * Filtering and enriching labels
-    * Transformation logs to a preset format (JSON)
+    * Transforming logs to a preset format (JSON)
 * Loki used for
     * API for issueing queries (LogQL)
     * Responsible for ingesting and storing logs and processing queries
