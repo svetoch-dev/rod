@@ -115,7 +115,12 @@ envs:
 
       {{- tpl .Values.defaultValuesTpl $context | nindent 2 }}
 
-      externalEnvDomains:
-      - {SOME_DOMAIN_ENVS}
+      externalEnvs:
+        {SOME_EXTERNAL_ENV}:
+          domain: {SOME_DOMAIN}
+        {SOME_EXTERNAL_ENV}:
+          domain: {SOME_DOMAIN}
+
+
     finalizers:
       - resources-finalizer.argocd.argoproj.io
