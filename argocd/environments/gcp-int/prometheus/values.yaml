@@ -60,7 +60,7 @@ prometheus-rules:
           # Logs
           Fluentbit_no_output_bytes_processed:
             enabled: true
-          Fluentbit_gcp_no_output_bytes_processed:
+          Fluentbit_cloud_no_output_bytes_processed:
             enabled: true
           Fluentbit_input_error:
             enabled: true
