@@ -57,6 +57,15 @@ prometheus-rules:
             enabled: true
           Statefulset_not_ready:
             enabled: true
+          # Logs
+          Fluentbit_no_output_bytes_processed:
+            enabled: true
+          Fluentbit_cloud_no_output_bytes_processed:
+            enabled: true
+          Fluentbit_input_error:
+            enabled: true
+          Fluentbit_output_error:
+            enabled: true
           # Redis
           Redis_missing_master:
             enabled: true
@@ -72,6 +81,9 @@ prometheus-rules:
         rules:
           # Deployment
           Container_too_many_restarts:
+            enabled: true
+          # Logs
+          Fluentbit_high_average_latency:
             enabled: true
           # Redis
           Redis_disconnected_slaves:
