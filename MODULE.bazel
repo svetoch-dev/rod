@@ -76,19 +76,9 @@ bazel_dep(name = "rules_distroless", version = "0.5.1")
 
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 oci.pull(
-    name = "logical-backup",
-    #v1.14.0
-    digest = "sha256:c8c600e4ca0acdfb7843e2943ae0274763c8f1c03fef5245dc0912a4cbd15c18",
-    image = "ghcr.io/zalando/postgres-operator/logical-backup",
-    platforms = [
-        "linux/amd64",
-        "linux/arm64",
-    ],
-)
-oci.pull(
     name = "postgres-exporter",
-    #v0.17.1
-    digest = "sha256:38606faa38c54787525fb0ff2fd6b41b4cfb75d455c1df294927c5f611699b17",
+    #v0.18.1
+    digest = "sha256:fb96c4413985d4b23ab02b19022b3d70a86c8e0a62f41ab15ebb6f4673781a5d",
     image = "quay.io/prometheuscommunity/postgres-exporter",
     platforms = [
         "linux/amd64",
@@ -97,32 +87,18 @@ oci.pull(
 )
 oci.pull(
     name = "spilo17",
-    #v17-bb39d81
-    digest = "sha256:69bf8719ff25c0f1e7bb2de464ed89c3aa459f4816f752ed2da146a7d451a96b",
-    image = "docker.io/gramal/spilo",
-    platforms = [
-        "linux/amd64",
-    ],
-)
-oci.pull(
-    name = "spilo15",
-    #15-f0c5f71
-    digest = "sha256:0838d144f4fdbe01d5ec161f5fe68fd40250dd96268f2ea2097e8a6ab82b9db3",
-    image = "docker.io/gramal/spilo",
+    #spilo-17:4.0-p3
+    digest = "sha256:17bf371c924196e4671f19d129fa86a80f7dcea7b2666cedca955ec0fba0b72b",
+    image = "ghcr.io/zalando/spilo-17",
     platforms = [
         "linux/amd64",
     ],
 )
 use_repo(
     oci,
-    "logical-backup",
-    "logical-backup_linux_amd64",
-    "logical-backup_linux_arm64",
     "postgres-exporter",
     "postgres-exporter_linux_amd64",
     "postgres-exporter_linux_arm64",
-    "spilo15",
-    "spilo15_linux_amd64",
     "spilo17",
     "spilo17_linux_amd64",
 )
