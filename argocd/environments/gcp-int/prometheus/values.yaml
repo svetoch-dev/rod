@@ -66,6 +66,8 @@ prometheus-rules:
             enabled: true
           Fluentbit_output_error:
             enabled: true
+          Loki_high_5xx_rate:
+            enabled: true
           # Redis
           Redis_missing_master:
             enabled: true
