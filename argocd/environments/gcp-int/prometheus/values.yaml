@@ -6,8 +6,6 @@ ingresses:
 
 operator:
   enabled: true
-  prometheusOperator:
-    enabled: true
 
 alertmanager-configs:
   enabled: true
