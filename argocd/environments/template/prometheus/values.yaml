@@ -8,8 +8,6 @@ ingresses:
 
 operator:
   enabled: true
-  prometheusOperator:
-    enabled: true
 
 alertmanager-configs:
   enabled: true
@@ -82,6 +80,8 @@ prometheus-rules:
           Fluentbit_input_error:
             enabled: true
           Fluentbit_output_error:
+            enabled: true
+          Loki_high_5xx_rate:
             enabled: true
           # Postgres
           Available_postgresql_connections_are_running_out:

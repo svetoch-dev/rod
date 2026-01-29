@@ -6,8 +6,6 @@ ingresses:
 
 operator:
   enabled: true
-  prometheusOperator:
-    enabled: true
 
 alertmanager-configs:
   enabled: true
@@ -65,6 +63,8 @@ prometheus-rules:
           Fluentbit_input_error:
             enabled: true
           Fluentbit_output_error:
+            enabled: true
+          Loki_high_5xx_rate:
             enabled: true
           # Redis
           Redis_missing_master:
