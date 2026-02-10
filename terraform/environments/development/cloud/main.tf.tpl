@@ -57,9 +57,9 @@ module "cloud" {
           available_zones = data.google_compute_zones.available.names
       }
       network = {
-          vm_cidr          = "10.8.0.0/20"
-          k8s_pod_cidr     = "10.12.0.0/14"
-          k8s_service_cidr = "10.9.0.0/20"
+          vm_cidr          = "10.16.0.0/20"
+          k8s_pod_cidr     = "10.20.0.0/14"
+          k8s_service_cidr = "10.17.0.0/20"
       }
       buckets = local.env.cloud.buckets
     }
