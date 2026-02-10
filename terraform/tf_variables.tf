@@ -17,6 +17,18 @@ variable "company" {
   )
 }
 
+variable "apps" {
+  description = "Application related info"
+  type = map(
+    object(
+      {
+        name = string
+      }
+    )
+  )
+  default = {}
+}
+
 variable "ci" {
   description = "ci related info"
   type = object(
