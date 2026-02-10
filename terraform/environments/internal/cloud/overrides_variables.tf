@@ -19,6 +19,14 @@ locals {
       service_accounts = {
         posgres = null
       }
+      roles = {
+        owners = {
+          role = "roles/owner"
+          members = [
+            "serviceAccount:runner@${local.env.cloud.id}.iam.gserviceaccount.com"
+          ]
+        }
+      }
     }
     gcp_buckets = {
       format("%s-postgres-%s", var.company.name, local.env.short_name)        = null
