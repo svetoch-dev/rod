@@ -25,6 +25,18 @@ variable "ci" {
       group = string
     }
   )
+  default = null
+}
+
+variable "repo" {
+  description = "git repository related info"
+  type = object(
+    {
+      type  = string
+      group = string
+    }
+  )
+  default = null
 }
 
 variable "envs" {
