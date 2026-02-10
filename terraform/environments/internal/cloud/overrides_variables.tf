@@ -8,9 +8,9 @@ locals {
             local.env.cloud.name == "gcp" ? { "id" : data.google_project.project.number } : {},
           )["id"]
           location = {
-            region       = local.env.region
-            default_zone = local.env.default_zone
-            multi_region = local.env.multi_region
+            region       = local.env.cloud.region
+            default_zone = local.env.cloud.default_zone
+            multi_region = local.env.cloud.multi_region
             available_zones = merge(
               local.env.cloud.name == "gcp" ? { "zones" : data.google_compute_zones.available.names } : {},
             )["zones"]
