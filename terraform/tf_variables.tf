@@ -55,13 +55,9 @@ variable "envs" {
           {
             name         = string
             id           = string
-            location     = object(
-              {
-                region       = string
-                default_zone = string
-                multi_region = string
-              }
-            )
+            region       = string
+            default_zone = string
+            multi_region = string
             network = object(
               {
                 vm_cidr          = string

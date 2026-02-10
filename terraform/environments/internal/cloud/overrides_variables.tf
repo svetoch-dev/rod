@@ -5,11 +5,14 @@ locals {
       {
         cloud = {
           numeric_id = merge(
-            local.env.cloud.name == "gcp" ? {"id": data.google_project.project.number } : {},
+            local.env.cloud.name == "gcp" ? { "id" : data.google_project.project.number } : {},
           )["id"]
           location = {
+            region       = local.env.region
+            default_zone = local.env.default_zone
+            multi_region = local.env.multi_region
             available_zones = merge(
-              local.env.cloud.name == "gcp" ? {"zones": data.google_compute_zones.available.names } : {},
+              local.env.cloud.name == "gcp" ? { "zones" : data.google_compute_zones.available.names } : {},
             )["zones"]
           }
         }
