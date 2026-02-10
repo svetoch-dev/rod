@@ -36,21 +36,5 @@ locals {
         runner = null
       }
     }
-    gcp_networks = {
-      main = {
-        firewall_rules = {
-          admission-webhooks = {
-            allow = {
-              tcp = {
-                ports = [
-                  "8080", #konghq
-                  "9443", #rabbitmq operator
-                ]
-              }
-            }
-          }
-        }
-      }
-    }
   }
 }
