@@ -55,9 +55,20 @@ variable "envs" {
           {
             name         = string
             id           = string
-            region       = string
-            default_zone = string
-            multi_region = string
+            location     = object(
+              {
+                region       = string
+                default_zone = string
+                multi_region = string
+              }
+            )
+            network = object(
+              {
+                vm_cidr          = string
+                k8s_pod_cidr     = string
+                k8s_service_cidr = string
+              }
+            )
             registry     = string
             buckets = object(
               {

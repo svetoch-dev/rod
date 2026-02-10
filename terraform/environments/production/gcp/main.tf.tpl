@@ -25,6 +25,9 @@ terraform {
     null = {
       source  = "hashicorp/null"
     }
+    deepmerge = {
+      source  = "isometry/deepmerge"
+    }
   }
 
   backend "{tf_backend.type}" {
@@ -40,31 +43,8 @@ data "terraform_remote_state" "remote_state" {
 
 module "cloud" {
   source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud?ref=fb613ec03205c373c0c6fea81d480b107a744ae3"
-  company = var.company
-  ci = var.ci
-
-  env = {
-    name          = local.env.name
-    short_name    = local.env.short_name
-    cloud = {
-      name       = local.env.cloud.name
-      id         = local.env.cloud.id
-      numeric_id = data.google_project.project.number
-      location = {
-          region          = local.env.cloud.region
-          default_zone    = local.env.cloud.default_zone
-          multi_region    = local.env.cloud.multi_region
-          available_zones = data.google_compute_zones.available.names
-      }
-      network = {
-          vm_cidr          = "10.8.0.0/20"
-          k8s_pod_cidr     = "10.12.0.0/14"
-          k8s_service_cidr = "10.9.0.0/20"
-      }
-      buckets = local.env.cloud.buckets
-    }
-    kubernetes = local.env.kubernetes
-  }
-
+  company   = var.company
+  ci        = var.ci
+  env       = local.overrides.env
   overrides = local.overrides
 }
