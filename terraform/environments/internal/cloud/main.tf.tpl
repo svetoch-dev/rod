@@ -42,7 +42,7 @@ data "terraform_remote_state" "remote_state" {
 }
 
 module "cloud" {
-  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud?ref=c67e6455eef2d38726740899db022e3552d9c9f8"
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud?ref=rod-v0.1.0"
   company   = var.company
   ci        = var.ci
   env       = provider::deepmerge::mergo(
