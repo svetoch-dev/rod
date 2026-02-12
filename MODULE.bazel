@@ -7,14 +7,13 @@ http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "ht
 
 http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
 
-bazel_dep(name = "buildifier_prebuilt", version = "8.2.0.2", dev_dependency = True)
+bazel_dep(name = "buildifier_prebuilt", version = "8.2.1.2", dev_dependency = True)
 
 bazel_dep(name = "aspect_bazel_lib", version = "2.14.0")
 
 bazel_lib_toolchains = use_extension("@aspect_bazel_lib//lib:extensions.bzl", "toolchains")
 use_repo(bazel_lib_toolchains, "zstd_toolchains")
 
-bazel_dep(name = "rules_pkg", version = "1.0.1")
 bazel_dep(name = "rules_multirun", version = "0.10.0")
 bazel_dep(name = "svetoch_bazel_lib")
 git_override(
@@ -46,13 +45,17 @@ use_repo(tools, "helm_executable")
 bazel_dep(name = "rules_tf")
 git_override(
     module_name = "rules_tf",
-    commit = "2cb8d57eba4c190d37914c44af17a7d0b7b4f07f",
+    commit = "972e20e677514021345d095f258f2e5e31d5a3c6",
     remote = "https://github.com/ggramal/rules_tf",
 )
 
 tf = use_extension("@rules_tf//tf:extensions.bzl", "tf")
-tf.toolchain(version = "1.7.4")
+tf.toolchain(version = "1.14.4")
 use_repo(tf, "tf_executable")
+
+register_toolchains(
+    "@tf_executable//:all",
+)
 
 load_file = use_extension("@svetoch_bazel_lib//tools:extensions.bzl", "load_file")
 load_file.json(
@@ -124,8 +127,8 @@ http_archive(
 http_file(
     name = "bazelisk",
     downloaded_file_path = "bazelisk",
-    sha256 = "fd8fdff418a1758887520fa42da7e6ae39aefc788cf5e7f7bb8db6934d279fc4",
-    url = "https://github.com/bazelbuild/bazelisk/releases/download/v1.25.0/bazelisk-linux-amd64",
+    sha256 = "22e7d3a188699982f661cf4687137ee52d1f24fec1ec893d91a6c4d791a75de8",
+    url = "https://github.com/bazelbuild/bazelisk/releases/download/v1.28.1/bazelisk-linux-amd64",
 )
 
 ##################

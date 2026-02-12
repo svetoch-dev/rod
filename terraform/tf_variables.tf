@@ -17,6 +17,18 @@ variable "company" {
   )
 }
 
+variable "apps" {
+  description = "Application related info"
+  type = map(
+    object(
+      {
+        name = string
+      }
+    )
+  )
+  default = {}
+}
+
 variable "ci" {
   description = "ci related info"
   type = object(
@@ -25,6 +37,18 @@ variable "ci" {
       group = string
     }
   )
+  default = null
+}
+
+variable "repo" {
+  description = "git repository related info"
+  type = object(
+    {
+      type  = string
+      group = string
+    }
+  )
+  default = null
 }
 
 variable "envs" {
@@ -58,6 +82,13 @@ variable "envs" {
             region       = string
             default_zone = string
             multi_region = string
+            network = object(
+              {
+                vm_cidr          = string
+                k8s_pod_cidr     = string
+                k8s_service_cidr = string
+              }
+            )
             registry     = string
             buckets = object(
               {

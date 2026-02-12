@@ -25,6 +25,9 @@ terraform {
     null = {
       source  = "hashicorp/null"
     }
+    deepmerge = {
+      source  = "isometry/deepmerge"
+    }
   }
 
   backend "{tf_backend.type}" {
@@ -38,20 +41,21 @@ data "terraform_remote_state" "remote_state" {
   config = each.value.config
 }
 
-
-module "gcp" {
-  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/gcp?ref=gcp-v2.7.0"
-  project = {
-    id     = local.env.cloud.id
-    region = local.env.cloud.region
-  }
-
-  activate_apis = local.activate_apis
-  networks      = local.networks
-  gke_clusters  = local.gke_clusters
-  logging       = local.logging
-  iam           = local.iam
-  dns_zones     = local.dns_zones
-  gcs           = local.gcs
-  gars          = local.gars
+module "cloud" {
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud?ref=rod-v0.1.0"
+  company   = var.company
+  ci        = var.ci
+  env       = provider::deepmerge::mergo(
+    local.env,
+    {
+      cloud = {
+        location = {
+          region       = local.env.cloud.region
+          default_zone = local.env.cloud.default_zone
+          multi_region = local.env.cloud.multi_region
+        }
+      }
+    }
+  )
+  overrides = local.overrides
 }
