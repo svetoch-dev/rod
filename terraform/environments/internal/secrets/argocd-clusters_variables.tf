@@ -1,11 +1,11 @@
 locals {
   argocd-clusters = {
-    for cluster_name, cluster_obj in local.gke_clusters :
-    "${cluster_obj.name}-cluster" => {
-      name = "${cluster_obj.name}-cluster"
+    for cluster_name, cluster_obj in local.remote_state.k8s_clusters :
+    "${cluster_name}-cluster" => {
+      name = "${cluster_name}-cluster"
       secrets_data = {
-        name   = cluster_obj.name
-        server = "https://${data.google_container_cluster.gke_clusters[cluster_obj.name].endpoint}"
+        name   = cluster_name
+        server = "https://${local.remote_state.k8s_clusters[cluster_name].endpoint}"
         config = <<EOF
 {
   "execProviderConfig": {
@@ -15,7 +15,7 @@ locals {
   },
   "tlsClientConfig": {
     "insecure": false,
-    "caData": "${data.google_container_cluster.gke_clusters[cluster_obj.name].master_auth[0].cluster_ca_certificate}"
+    "caData": "${local.remote_state.k8s_clusters[cluster_name].ca_certificate}"
   }
 }
 EOF
@@ -30,6 +30,6 @@ EOF
         "argocd.argoproj.io/secret-type" = "cluster"
       }
     }
-    if cluster_obj.name != local.env.short_name && cluster_obj.enabled
+    if cluster_name != local.env.short_name
   }
 }

@@ -2,7 +2,6 @@ locals {
   overrides = {
     gcp_iam = {
       service_accounts = {
-        grafana    = null
         argocd     = null
         runner     = null
         runner-app = null

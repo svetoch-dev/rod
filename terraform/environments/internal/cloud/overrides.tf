@@ -2,7 +2,7 @@ locals {
   overrides = {
     gcp_iam = {
       service_accounts = {
-        posgres = null
+        postgres = null
       }
       roles = {
         owners = {

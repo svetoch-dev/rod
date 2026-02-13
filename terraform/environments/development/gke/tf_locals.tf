@@ -1,15 +1,14 @@
 locals {
-  gke_clusters = {
-    this = {
-      location = local.env.kubernetes.location
-      project  = local.env.cloud.id
-      name     = local.env.short_name
-      enabled  = local.env.kubernetes.enabled
-    }
-  }
   remote_state_config = {
+    cloud = {
+      config = {
+        bucket = "${var.company.name}-tf-state"
+        prefix = "${local.env.name}/cloud"
+      }
+    }
   }
 
   remote_state = {
+    k8s_clusters = data.terraform_remote_state.remote_state["cloud"].outputs.this.k8s_clusters,
   }
 }
