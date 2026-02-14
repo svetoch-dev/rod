@@ -90,10 +90,16 @@ variable "envs" {
               }
             )
             registry     = string
-            buckets = object(
+            buckets = optional(
+              object(
+                {
+                  deletion_protection = optional(bool, true)
+                  multi_regional      = optional(bool, false)
+                }
+              )
               {
-                deletion_protection = bool
-                multi_regional      = optional(bool, false)
+                deletion_protection = true
+                multi_regional      = false
               }
             )
           }
