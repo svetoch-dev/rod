@@ -1,12 +1,9 @@
-# Terraform gcp
-Definition of gcp env
-
-## Initial configuration steps
-
-1. Navigate in gcp console to `Compute engine` if `Enable API` screen apears click `enable`
-
+# Terraform cloud
+Definition of cloud resources
 
 ## Running locally
+
+### GCP
 
 You need to
 1. Install `gcloud` cli
