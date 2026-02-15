@@ -1,8 +1,14 @@
 locals {
   overrides = {
+    gcp_registries = {
+      containers = {
+        writers = [
+          "serviceAccount:runner-app@${var.envs.internal.cloud.id}.iam.gserviceaccount.com"
+        ]
+      }
+    }
     gcp_iam = {
       service_accounts = {
-        grafana    = null
         argocd     = null
         runner     = null
         runner-app = null

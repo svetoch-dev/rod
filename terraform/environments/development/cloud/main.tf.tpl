@@ -36,13 +36,13 @@ terraform {
 
 data "terraform_remote_state" "remote_state" {
   for_each = local.remote_state_config
-  backend  = "gcs"
+  backend  = local.env.tf_backend.type
 
   config = each.value.config
 }
 
 module "cloud" {
-  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud?ref=rod-v0.1.0"
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud?ref=rod-v0.2.0"
   company   = var.company
   ci        = var.ci
   env       = provider::deepmerge::mergo(

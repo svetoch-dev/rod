@@ -90,9 +90,16 @@ variable "envs" {
               }
             )
             registry     = string
-            buckets = object(
+            buckets = optional(
+              object(
+                {
+                  deletion_protection = optional(bool, true)
+                  multi_regional      = optional(bool, false)
+                }
+              ),
               {
-                deletion_protection = bool
+                deletion_protection = true
+                multi_regional      = false
               }
             )
           }
@@ -103,10 +110,17 @@ variable "envs" {
               enabled             = bool
               regional            = bool
               deletion_protection = bool
-              location            = string
+              node_locations      = list(string)
               auth_group          = string
             }
-          )
+          ),
+          {
+            enabled             = false
+            regional            = false
+            node_locations      = []
+            auth_group          = ""
+            deletion_protection = false
+          }
         )
       }
     )
