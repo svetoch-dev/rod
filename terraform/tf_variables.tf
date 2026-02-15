@@ -96,7 +96,7 @@ variable "envs" {
                   deletion_protection = optional(bool, true)
                   multi_regional      = optional(bool, false)
                 }
-              )
+              ),
               {
                 deletion_protection = true
                 multi_regional      = false
