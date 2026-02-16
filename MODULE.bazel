@@ -18,7 +18,7 @@ bazel_dep(name = "rules_multirun", version = "0.10.0")
 bazel_dep(name = "svetoch_bazel_lib")
 git_override(
     module_name = "svetoch_bazel_lib",
-    commit = "b363a71806fb55befe14331f3255e70002cd2136",
+    commit = "db2e112113c61c0246f385391d4b6319d2dd2304",
     remote = "https://github.com/svetoch-dev/bazel-lib",
 )
 
@@ -60,7 +60,7 @@ register_toolchains(
 load_file = use_extension("@svetoch_bazel_lib//tools:extensions.bzl", "load_file")
 load_file.json(
     name = "tfvars",
-    src = "//:terraform/terraform.tfvars.json",
+    src = "//:terraform.tfvars.json",
     variable_name = "tfvars",
 )
 use_repo(load_file, "tfvars")
