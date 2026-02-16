@@ -3,6 +3,8 @@ load("@svetoch_bazel_lib//tools/lint:lint.bzl", "all_lint_fix")
 load("@svetoch_bazel_lib//tools/lint/bazel:buildifier.bzl", "bazel_lint", "bazel_lint_fix")
 load("@svetoch_bazel_lib//tools/lint/py:black.bzl", "py_lint_fix")
 
+exports_files(["terraform.tfvars.json"])
+
 bazel_lint(buildifier_test = buildifier_test)
 
 bazel_lint_fix(buildifier = buildifier)

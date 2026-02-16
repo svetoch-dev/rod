@@ -1,5 +1,0 @@
-exports_files(
-    [
-        "terraform.tfvars.json",
-    ],
-)
