@@ -25,7 +25,7 @@ module "k8s" {
   k8s_api   = local.k8s_api
   ci        = var.ci
   int_env   = var.envs.internal
-  apps      = {}
+  apps      = var.apps
   env       = local.env
   overrides = local.overrides
 }
