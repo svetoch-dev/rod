@@ -24,7 +24,7 @@ module "k8s" {
   source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/k8s?ref=44fcbbf7e8a869fcd7a7cd2a441e74772be5e22d"
   k8s_api   = local.k8s_api
   ci        = var.ci
-  int_env   = var.envs.int
+  int_env   = var.envs.internal
   apps      = {}
   env       = local.env
   overrides = local.overrides
