@@ -21,6 +21,7 @@ module "cloud" {
   company   = var.company
   ci        = var.ci
   apps      = var.apps
+  int_env   = var.envs.internal
 
   provider_config =  {
     id            = local.env.cloud.id
