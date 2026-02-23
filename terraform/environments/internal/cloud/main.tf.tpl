@@ -17,17 +17,11 @@ data "terraform_remote_state" "remote_state" {
 }
 
 module "cloud" {
-  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud/{env.cloud.name}?ref=b39696df2200a94bd1f4e951f4210f50d8bb1b25"
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud/{env.cloud.name}?ref=rod-v0.5.0"
   company   = var.company
   ci        = var.ci
   apps      = {}
   int_env   = var.envs.internal
-  provider_config =  {
-    id            = local.env.cloud.id
-    region        = local.env.cloud.region
-    default_zone  = local.env.cloud.default_zone
-    folder_id     = local.env.cloud.folder_id
-  }
   env       = provider::deepmerge::mergo(
     local.env,
     {
