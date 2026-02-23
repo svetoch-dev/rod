@@ -1,30 +1,5 @@
-provider "google" {
-  project = local.env.cloud.id
-  region  = local.env.cloud.region
-  zone    = local.env.cloud.default_zone
-}
-
-provider "google-beta" {
-  project = local.env.cloud.id
-  region  = local.env.cloud.region
-  zone    = local.env.cloud.default_zone
-}
-
-
 terraform {
   required_providers {
-    google = {
-      source  = "hashicorp/google"
-    }
-    google-beta = {
-      source  = "hashicorp/google-beta"
-    }
-    random = {
-      source  = "hashicorp/random"
-    }
-    null = {
-      source  = "hashicorp/null"
-    }
     deepmerge = {
       source  = "isometry/deepmerge"
     }
@@ -42,9 +17,11 @@ data "terraform_remote_state" "remote_state" {
 }
 
 module "cloud" {
-  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud?ref=rod-v0.2.0"
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud/{env.cloud.name}?ref=rod-v0.5.0"
   company   = var.company
   ci        = var.ci
+  apps      = {}
+  int_env   = var.envs.internal
   env       = provider::deepmerge::mergo(
     local.env,
     {
