@@ -1,6 +1,5 @@
 locals {
   secrets = merge(
-    local.prometheus,
     local.argocd-clusters,
     local.argocd-repos,
     local.import_secrets,
@@ -20,7 +19,7 @@ locals {
       "cloud-${env_name}" => {
         config = {
           bucket = env_obj.tf_backend.configs.bucket
-          prefix = "${env_name}/gcp"
+          prefix = "${env_name}/cloud"
         }
       }
     }

@@ -1,8 +1,5 @@
 locals {
-  secrets = merge(
-    local.prometheus,
-    local.import_secrets
-  )
+  secrets = local.import_secrets
 
   remote_state_config = {
     cloud = {
