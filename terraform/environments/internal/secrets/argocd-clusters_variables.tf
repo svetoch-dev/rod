@@ -10,7 +10,7 @@ locals {
 {
   "execProviderConfig": {
     "command": "argocd-k8s-auth",
-    "args": ["gcp"],
+    "args": ["${local.env.cloud.name}"],
     "apiVersion": "client.authentication.k8s.io/v1beta1"
   },
   "tlsClientConfig": {
