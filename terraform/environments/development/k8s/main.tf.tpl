@@ -21,11 +21,10 @@ module "cloud_config" {
 }
 
 module "k8s" {
-  source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/k8s?ref=v0.1.0"
+  source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/k8s?ref=c0c77f349b8e90866d46ec68912b486b086ac93b"
   k8s_api   = local.k8s_api
   ci        = var.ci
   int_env   = var.envs.internal
-  apps      = var.apps
   env       = local.env
   overrides = local.overrides
 }
