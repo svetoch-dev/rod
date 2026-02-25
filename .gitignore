@@ -21,6 +21,8 @@ terraform.tfplan
 
 ## bazel ##
 bazel-*
+.bazelrc.ci
+.bazelrc.cloud
 MODULE.bazel.lock
 
 ## argocd ##

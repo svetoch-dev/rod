@@ -18,8 +18,8 @@ locals {
       for env_name, env_obj in var.envs :
       "cloud-${env_name}" => {
         config = {
-          bucket = env_obj.tf_backend.configs.bucket
-          prefix = "${env_name}/cloud"
+          for key, value in env_obj.tf_backend.configs :
+          key => can(tostring(value)) ? replace(value, "/secrets", "/cloud") : value
         }
       }
     }
