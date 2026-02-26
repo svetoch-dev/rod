@@ -1,43 +1,6 @@
 # Terraform
 Definitions of various systems used to setup infrastructure
 
-## Running with bazel
-To run terraform commands you **need** to use `bazel`
-
-### run tests
-To run all terraform tests (`fmt`,`validate`) you can execute
-
-```
-bazel test //...
-```
-
-### plan/apply
-
-To run all plan/apply you can execute
-
-```
-$ bazel build $(bazel query 'attr(name, "^plan$", "//...")')
-$ bazel query 'attr(name, "^apply$", "//...")' | xargs -I{} bazel run {}
-```
-
-To run `plan/apply` in certain `state` you need to `cd terraform/environments/<env>/<state>/` and then execute `bazel run :plan` or `bazel run :apply`. Example `cd terraform/environments/gcp; bazel run plan`
-
-### run various terraform commands
-There is a possibility to run various tf commands via `bazel run :tf -- <command> <command args>`.
-
-Examples:
-* `bazel run :tf -- import 'module.secrets["some-service"].module.import_secret["some-secret"].secret_resource.secret' 'SuperSecret'`
-* `bazel run :tf -- force-unlock -force 1730215139325387`
-* `bazel run :tf -- plan -parallelism=100`
-
-### fix lint
-
-To fix linting issues run this command
-
-```
-$ bazel query 'filter("fmt_fix", "//...")' | xargs -I{} bazel run {}
-```
-
 ## Definitions
 `state` - logically grouped infrastructure definition that has its own folder and statefile
 
