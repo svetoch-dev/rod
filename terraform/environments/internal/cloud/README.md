@@ -3,4 +3,4 @@ Definition of cloud resources
 
 ## Running locally
 
-Follow instructions in [howto docs](../../../../docs/howto/README.md#Terraform)
+Follow instructions in [how to docs](../../../../docs/howto/README.md#Terraform)
