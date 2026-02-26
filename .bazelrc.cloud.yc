@@ -1,4 +1,7 @@
-build --action_env AWS_SECRET_ACCESS_KEY=
-build --action_env AWS_ACCESS_KEY_ID=
+build --action_env AWS_SECRET_ACCESS_KEY
+build --action_env AWS_ACCESS_KEY_ID
 build --action_env AWS_ENDPOINT_URL_S3="https://storage.yandexcloud.net"
 build --action_env YC_TOKEN
+run --run_env AWS_SECRET_ACCESS_KEY
+run --run_env AWS_ACCESS_KEY_ID
+run --run_env AWS_ENDPOINT_URL_S3="https://storage.yandexcloud.net"
