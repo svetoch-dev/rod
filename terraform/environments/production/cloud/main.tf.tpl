@@ -17,7 +17,7 @@ data "terraform_remote_state" "remote_state" {
 }
 
 module "cloud" {
-  source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud/{env.cloud.name}?ref=6e94dfd7b6baf45cab577c83d3f8422364ff6f7e"
+  source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud/{env.cloud.name}?ref=v0.5.0"
   company   = var.company
   ci        = var.ci
   int_env   = var.envs.internal
