@@ -12,12 +12,12 @@ prepare_step() {
     echo perparing env
 
     #Enable bazel disk cache for ci
-    echo 'build --disk_cache=.cache' > .bazelrc-ci
+    echo 'build --disk_cache=.cache' > .bazelrc.ci
 
     git config --global --add safe.directory $CI_BUILDS_DIR/$CI_PROJECT_PATH
     echo git config --global --add safe.directory $CI_BUILDS_DIR/$CI_PROJECT_PATH
-    git config --global user.name 'github_actions'
-    git config --global user.email 'github_actions@users.noreply.github.com'
+    git config --global user.name 'ci'
+    git config --global user.email 'ci@svetoch.dev'
     git fetch
     echo git checkout $GIT_HEAD_REF
     git checkout $GIT_HEAD_REF

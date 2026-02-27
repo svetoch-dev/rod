@@ -9,8 +9,8 @@ locals {
   remote_state_config = {
     cloud = {
       config = {
-        bucket = "${var.company.name}-tf-state"
-        prefix = "${local.env.name}/gcp"
+        for key, value in local.env.tf_backend.configs :
+        key => can(tostring(value)) ? replace(value, "/k8s", "/cloud") : value
       }
     }
   }
