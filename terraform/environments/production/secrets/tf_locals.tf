@@ -1,5 +1,11 @@
 locals {
-  secrets = local.import_secrets
+  k8s_api = {
+    endpoint = "https://${local.remote_state.k8s_clusters[local.env.short_name].endpoint}"
+    ca_cert = base64decode(
+      local.remote_state.k8s_clusters[local.env.short_name].ca_certificate
+    )
+    token = module.cloud_config.this.token
+  }
 
   remote_state_config = {
     cloud = {

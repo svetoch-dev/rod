@@ -1,11 +1,5 @@
 terraform {
   required_providers {
-    secret = {
-      source  = "inspectorioinc/secret"
-    }
-    google = {
-      source  = "hashicorp/google"
-    }
     kubernetes = {
       source  = "hashicorp/kubernetes"
     }
@@ -22,25 +16,26 @@ data "terraform_remote_state" "remote_state" {
   config = each.value.config
 }
 
-data "google_client_config" "provider" {}
-
-provider "kubernetes" {
-  host  = "https://${local.remote_state.k8s_clusters[local.env.short_name].endpoint}"
-  token = data.google_client_config.provider.access_token
-  cluster_ca_certificate = base64decode(
-    local.remote_state.k8s_clusters[local.env.short_name].ca_certificate
-  )
+module "cloud_config" {
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/{env.cloud.name}/client_config?ref=v0.1.0"
+  provider_config =  {
+    id            = local.env.cloud.id
+    region        = local.env.cloud.region
+    default_zone  = local.env.cloud.default_zone
+    folder_id     = local.env.cloud.folder_id
+  }
 }
 
-module "secrets" {
-  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/secrets?ref=secrets-v0.3.0"
+provider "kubernetes" {
+  host                   = local.k8s_api.endpoint
+  token                  = local.k8s_api.token
+  cluster_ca_certificate = local.k8s_api.ca_cert
+}
 
-  for_each          = local.secrets
-  name              = each.value.name
-  secrets_to_import = try(each.value.secrets_to_import, [])
-  secrets_data      = try(each.value.secrets_data, {})
-  annotations       = each.value.annotations
-  labels            = each.value.labels
-  k8s               = each.value.k8s
-  base64_secrets    = try(each.value.base64_secrets, false)
+module "rod_secrets" {
+  source       = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/secrets?ref=7993aa6d22d9d1523708520e92dee26f6635e253"
+  env          = local.env
+  k8s_clusters = {}
+  repos        = {}
+  overrides    = local.overrides
 }
