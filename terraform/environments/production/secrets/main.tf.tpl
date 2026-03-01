@@ -33,7 +33,7 @@ provider "kubernetes" {
 }
 
 module "rod_secrets" {
-  source       = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/secrets?ref=7993aa6d22d9d1523708520e92dee26f6635e253"
+  source       = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/secrets?ref=ea4086b799043f998d123907f770db1d1fcd3a0c"
   env          = local.env
   k8s_clusters = {}
   repos        = {}
