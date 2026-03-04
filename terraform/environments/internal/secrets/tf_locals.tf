@@ -28,7 +28,14 @@ locals {
   )
 
   remote_state = {
-    repos = data.terraform_remote_state.remote_state["repo"].outputs.repos
+    argocd_repos = {
+      for repo_name, repo_obj in data.terraform_remote_state.remote_state["repo"].outputs.repos : repo_name => {
+        private_key_openssh = repo_obj.deploy_keys.argocd.private_key_openssh
+        org                 = repo_obj.org
+        ssh_url             = repo_obj.ssh_url
+      }
+      if contains(keys(repo_obj.deploy_keys), "argocd")
+    }
     k8s_clusters = {
       for env_name, env_obj in var.envs :
       env_obj.short_name => {

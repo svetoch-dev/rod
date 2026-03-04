@@ -19,10 +19,10 @@ data "terraform_remote_state" "remote_state" {
 module "cloud_config" {
   source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/{env.cloud.name}/client_config?ref=v0.1.0"
   provider_config =  {
-    id           = local.env.cloud.id
-    region       = local.env.cloud.region
-    default_zone = local.env.cloud.default_zone
-    folder_id    = local.env.cloud.folder_id
+    id            = local.env.cloud.id
+    region        = local.env.cloud.region
+    default_zone  = local.env.cloud.default_zone
+    folder_id     = local.env.cloud.folder_id
   }
 }
 
@@ -33,9 +33,12 @@ provider "kubernetes" {
 }
 
 module "rod_secrets" {
-  source       = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/secrets?ref=ea4086b799043f998d123907f770db1d1fcd3a0c"
-  env          = local.env
-  k8s_clusters = local.remote_state.k8s_clusters
-  repos        = local.remote_state.repos
-  overrides    = local.overrides
+  source          = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/secrets?ref=012f05cce6c27f9c11b742f03ebf7182da3144e8"
+  env             = local.env
+  argocd_repos    = local.remote_state.argocd_repos
+  overrides       = local.overrides
+  argocd_clusters = {
+    for cluster_name, cluster_obj in local.remote_state.k8s_clusters : cluster_name => cluster_obj
+    if cluster_name != "int"
+  }
 }
