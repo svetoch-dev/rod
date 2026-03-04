@@ -33,7 +33,7 @@ provider "kubernetes" {
 }
 
 module "secrets" {
-  source          = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/secrets?ref=9b42b471b64b081a9327fda1374453370aaa4bef"
+  source          = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/secrets?ref=101f08e24dde549a4e98cdd0825cb2fe56e694ce"
   env             = local.env
   argocd_repos    = local.remote_state.argocd_repos
   overrides       = local.overrides
