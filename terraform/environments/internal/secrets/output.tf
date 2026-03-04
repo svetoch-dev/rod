@@ -1,4 +1,4 @@
-output "rod_secrets" {
-  value     = module.rod_secrets.secrets
+output "secrets" {
+  value     = module.secrets.rod_secrets
   sensitive = true
 }

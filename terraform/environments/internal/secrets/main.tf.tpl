@@ -32,8 +32,8 @@ provider "kubernetes" {
   cluster_ca_certificate = local.k8s_api.ca_cert
 }
 
-module "rod_secrets" {
-  source          = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/secrets?ref=012f05cce6c27f9c11b742f03ebf7182da3144e8"
+module "secrets" {
+  source          = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/secrets?ref=9b42b471b64b081a9327fda1374453370aaa4bef"
   env             = local.env
   argocd_repos    = local.remote_state.argocd_repos
   overrides       = local.overrides
