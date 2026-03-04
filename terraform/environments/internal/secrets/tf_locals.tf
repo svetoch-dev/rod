@@ -1,13 +1,15 @@
 locals {
-  secrets = merge(
-    local.argocd-clusters,
-    local.argocd-repos,
-    local.import_secrets,
-  )
+  k8s_api = {
+    endpoint = "https://${local.remote_state.k8s_clusters[local.env.short_name].endpoint}"
+    ca_cert = base64decode(
+      local.remote_state.k8s_clusters[local.env.short_name].ca_certificate
+    )
+    token = module.cloud_config.this.token
+  }
 
   remote_state_config = merge(
     {
-      github = {
+      repo = {
         config = {
           bucket = local.env.tf_backend.configs.bucket
           prefix = "${local.env.name}/github"
@@ -26,12 +28,20 @@ locals {
   )
 
   remote_state = {
-    github = {
-      repos = data.terraform_remote_state.remote_state["github"].outputs.repos
+    argocd_repos = {
+      for repo_name, repo_obj in data.terraform_remote_state.remote_state["repo"].outputs.repos : repo_name => {
+        private_key_openssh = repo_obj.deploy_keys.argocd.private_key_openssh
+        org                 = repo_obj.org
+        ssh_url             = repo_obj.ssh_url
+      }
+      if contains(keys(repo_obj.deploy_keys), "argocd")
     }
     k8s_clusters = {
       for env_name, env_obj in var.envs :
-      env_obj.short_name => data.terraform_remote_state.remote_state["cloud-${env_name}"].outputs.this.k8s_clusters[env_obj.short_name]
+      env_obj.short_name => {
+        for key, value in data.terraform_remote_state.remote_state["cloud-${env_name}"].outputs.this.k8s_clusters[env_obj.short_name] : key => value
+        if contains(["ca_certificate", "endpoint"], key)
+      }
       if env_obj.kubernetes.enabled
     }
   }
