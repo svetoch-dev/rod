@@ -12,7 +12,7 @@ locals {
       repo = {
         config = {
           bucket = local.env.tf_backend.configs.bucket
-          prefix = "${local.env.name}/github"
+          prefix = "${local.env.name}/repo"
         }
       }
     },
