@@ -11,8 +11,8 @@ locals {
     {
       repo = {
         config = {
-          bucket = local.env.tf_backend.configs.bucket
-          prefix = "${local.env.name}/github"
+          for key, value in local.env.tf_backend.configs :
+          key => can(tostring(value)) ? replace(value, "/secrets", "/repo") : value
         }
       }
     },

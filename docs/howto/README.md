@@ -8,7 +8,8 @@
 
 1. [gcp prerequisites](tf_run_gcp.md)
 2. [yc prerequisites](tf_run_yc.md)
-3. [Running tf](tf_run.md)
+3. [github_prerequisites](tf_run_github.md)
+4. [Running tf](tf_run.md)
 
 ## Miscellaneous
 
