@@ -14,7 +14,7 @@ data "terraform_remote_state" "remote_state" {
 }
 
 module "repos" {
-  source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/repos/{repo.type}?ref=rod-repo"
+  source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/repos/{repo.type}?ref=v0.7.0"
   repo      = var.repo
   overrides = local.overrides
 }
