@@ -1,5 +1,5 @@
-output "repo" {
+output "repos" {
   description = "Repositories"
-  value       = module.repo.repos
+  value       = module.repos.repo
   sensitive   = true
 }

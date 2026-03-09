@@ -23,7 +23,7 @@ module "cloud_config" {
   }
 }
 
-module "repo" {
+module "repos" {
   source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/repos/{repo.type}?ref=rod-repo"
   repo      = var.repo
   overrides = local.overrides

@@ -29,7 +29,7 @@ locals {
 
   remote_state = {
     argocd_repos = {
-      for repo_name, repo_obj in data.terraform_remote_state.remote_state["repo"].outputs.repo : repo_name => {
+      for repo_name, repo_obj in data.terraform_remote_state.remote_state["repo"].outputs.repos : repo_name => {
         private_key_openssh = repo_obj.deploy_keys.argocd.private_key_openssh
         org                 = repo_obj.org
         ssh_url             = repo_obj.ssh_url
