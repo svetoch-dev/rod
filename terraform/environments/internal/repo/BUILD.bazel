@@ -1,6 +1,6 @@
 load("@svetoch_bazel_lib//tools/macros:tf.bzl", "tf")
 
 tf(
-    apply_target = "gh_apply",
-    plan_target = "gh_plan",
+    apply_target = "rapply",
+    plan_target = "rplan",
 )
