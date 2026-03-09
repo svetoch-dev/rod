@@ -2,8 +2,8 @@ locals {
   remote_state_config = {
     secrets = {
       config = {
-        bucket = "${var.company.name}-tf-state"
-        prefix = "${local.env.name}/secrets"
+        for key, value in local.env.tf_backend.configs :
+        key => can(tostring(value)) ? replace(value, "/repo", "/secrets") : value
       }
     }
   }
