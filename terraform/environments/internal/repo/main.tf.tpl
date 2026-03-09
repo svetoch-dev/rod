@@ -13,16 +13,6 @@ data "terraform_remote_state" "remote_state" {
   config   = each.value.config
 }
 
-module "cloud_config" {
-  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/{env.cloud.name}/client_config?ref=v0.6.0"
-  provider_config =  {
-    id            = local.env.cloud.id
-    region        = local.env.cloud.region
-    default_zone  = local.env.cloud.default_zone
-    folder_id     = local.env.cloud.folder_id
-  }
-}
-
 module "repos" {
   source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/repos/{repo.type}?ref=rod-repo"
   repo      = var.repo
