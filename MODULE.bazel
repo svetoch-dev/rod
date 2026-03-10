@@ -7,8 +7,7 @@ http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "ht
 
 http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
 
-bazel_dep(name = "buildifier_prebuilt", version = "8.2.1.2", dev_dependency = True)
-
+bazel_dep(name = "buildifier_prebuilt", version = "8.2.1.2")
 bazel_dep(name = "aspect_bazel_lib", version = "2.14.0")
 
 bazel_lib_toolchains = use_extension("@aspect_bazel_lib//lib:extensions.bzl", "toolchains")
@@ -16,10 +15,9 @@ use_repo(bazel_lib_toolchains, "zstd_toolchains")
 
 bazel_dep(name = "rules_multirun", version = "0.10.0")
 bazel_dep(name = "svetoch_bazel_lib")
-git_override(
+local_path_override(
     module_name = "svetoch_bazel_lib",
-    commit = "f9764d66e95bde79c5f45439410a76c89196e181",
-    remote = "https://github.com/svetoch-dev/bazel-lib",
+    path = "../bazel-lib",
 )
 
 ######################
