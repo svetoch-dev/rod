@@ -37,8 +37,5 @@ module "secrets" {
   env             = local.env
   argocd_repos    = local.remote_state.argocd_repos
   overrides       = local.overrides
-  argocd_clusters = {
-    for cluster_name, cluster_obj in local.remote_state.k8s_clusters : cluster_name => cluster_obj
-    if cluster_name != "int"
-  }
+  argocd_clusters = local.remote_state.k8s_clusters
 }

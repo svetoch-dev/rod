@@ -42,7 +42,7 @@ locals {
         for key, value in data.terraform_remote_state.remote_state["cloud-${env_name}"].outputs.this.k8s_clusters[env_obj.short_name] : key => value
         if contains(["ca_certificate", "endpoint"], key)
       }
-      if env_obj.kubernetes.enabled
+      if env_obj.kubernetes.enabled && env_obj.short_name != "int"
     }
   }
 }
