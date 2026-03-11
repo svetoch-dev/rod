@@ -1,4 +1,4 @@
 output "this" {
-  value = module.cloud
+  value     = module.cloud
   sensitive = true
 }

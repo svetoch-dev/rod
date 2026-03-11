@@ -4,6 +4,7 @@ from libs.py.tf.tfvars import tfvars
 from libs.py.settings import bazel_settings
 from scripts.init.tf.apply.env import apply_env_targets
 
+
 def destroy():
     os.chdir(bazel_settings.workspace)
     tf_vars = tfvars()
@@ -16,8 +17,8 @@ def destroy():
 
         envs.append(env_obj)
 
-    #Destroy int env last
-    switch_index(envs, int_env, len(envs) - 1 )
+    # Destroy int env last
+    switch_index(envs, int_env, len(envs) - 1)
 
     for env_obj in envs:
         apply_targets = apply_env_targets(env_obj.name)

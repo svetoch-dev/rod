@@ -12,7 +12,7 @@ command(
 
 command(
     name = "infra_destroy",
-    command = "//scripts/e2e/poststeps:destroy",
+    command = "//tests/e2e/poststeps:destroy",
 )
 
 multirun(

@@ -1,5 +1,5 @@
-load("@svetoch_bazel_lib//tools/lint/py:black.bzl", "py_lint")
 load("@aspect_rules_py//py:defs.bzl", "py_binary")
+load("@svetoch_bazel_lib//tools/lint/py:black.bzl", "py_lint")
 
 py_lint()
 
@@ -10,7 +10,7 @@ py_binary(
     deps = [
         "@svetoch_bazel_lib//libs/py/helpers",
         "@svetoch_bazel_lib//libs/py/settings",
-        "@svetoch_bazel_lib//scripts/init/tf/apply:env",
         "@svetoch_bazel_lib//libs/py/tf",
+        "@svetoch_bazel_lib//scripts/init/tf/apply:env",
     ],
 )
