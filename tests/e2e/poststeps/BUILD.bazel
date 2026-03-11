@@ -1,6 +1,16 @@
 load("@svetoch_bazel_lib//tools/lint/py:black.bzl", "py_lint")
-load(":poststeps.bzl", "destroy")
+load("@aspect_rules_py//py:defs.bzl", "py_binary")
 
 py_lint()
 
-destroy()
+py_binary(
+    name = "destroy",
+    srcs = ["destroy.py"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@svetoch_bazel_lib//libs/py/helpers",
+        "@svetoch_bazel_lib//libs/py/settings",
+        "@svetoch_bazel_lib//scripts/init/tf/apply:env",
+        "@svetoch_bazel_lib//libs/py/tf",
+    ],
+)
