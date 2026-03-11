@@ -21,7 +21,6 @@ def prepare():
             env_obj.short_name = "prd"
             env_obj.name = "production"
 
-
     Path(bazel_settings.tfvars_file).write_text(
         tf_vars.model_dump_json(indent=2),
         encoding="utf-8",
