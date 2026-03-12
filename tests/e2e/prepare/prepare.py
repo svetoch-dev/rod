@@ -21,7 +21,6 @@ def prepare():
         if not env_obj.cloud.folder_id:
             env_obj.cloud.folder_id = ""
 
-
     Path(bazel_settings.tfvars_file).write_text(
         tf_vars.model_dump_json(indent=2),
         encoding="utf-8",
