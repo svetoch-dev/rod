@@ -1,6 +1,6 @@
 import os
 from libs.py.helpers import run_command, switch_index
-from libs.py.tf.tfvars import tfvars
+from libs.py.tf.tfvars import tfvars, env_key
 from libs.py.settings import bazel_settings
 from libs.py.tf.apply import apply_env_targets
 
@@ -21,7 +21,8 @@ def destroy():
     switch_index(envs, int_env, len(envs) - 1)
 
     for env_obj in envs:
-        apply_targets = apply_env_targets(env_obj.name)
+        env_name = env_key(env_obj, tf_vars)
+        apply_targets = apply_env_targets(env_name)
         # We must destroy states in reverse
         # to how they were applied
         for target in apply_targets[::-1]:
