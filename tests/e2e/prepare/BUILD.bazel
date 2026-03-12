@@ -1,0 +1,16 @@
+load("@aspect_rules_py//py:defs.bzl", "py_binary")
+load("@svetoch_bazel_lib//tools/lint/py:black.bzl", "py_lint")
+
+py_lint()
+
+py_binary(
+    name = "prepare",
+    srcs = glob(
+        ["*.py"],
+    ),
+    visibility = ["//visibility:public"],
+    deps = [
+        "@svetoch_bazel_lib//libs/py/settings",
+        "@svetoch_bazel_lib//libs/py/tf",
+    ],
+)

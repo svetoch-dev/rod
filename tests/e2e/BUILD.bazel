@@ -1,12 +1,8 @@
 load("@rules_multirun//:defs.bzl", "command", "multirun")
-load("//scripts/e2e/prepare:prepare.bzl", "get_e2e_prepare_args")
-
-prepare_args = get_e2e_prepare_args()
 
 command(
     name = "prepare",
-    arguments = prepare_args,
-    command = "//scripts/e2e/prepare",
+    command = "//tests/e2e/prepare",
 )
 
 command(
@@ -16,7 +12,7 @@ command(
 
 command(
     name = "infra_destroy",
-    command = "//scripts/e2e/poststeps:destroy",
+    command = "//tests/e2e/poststeps:destroy",
 )
 
 multirun(
