@@ -7,7 +7,11 @@ def prepare():
     tf_vars = tfvars()
     tf_vars.repo.name = "rod-e2e"
     envs = tf_vars.envs
-    envs["production"] = envs.pop("template")
+
+    if "template" in envs.keys():
+        envs["production"] = envs.pop("template")
+        envs["production"].short_name = "prd"
+        envs["production"].name = "production"
 
     for env_name, env_obj in tf_vars.envs.items():
         env_obj.cloud.buckets.deletion_protection = False
@@ -17,9 +21,6 @@ def prepare():
         if not env_obj.cloud.folder_id:
             env_obj.cloud.folder_id = ""
 
-        if env_obj.short_name == "tpl":
-            env_obj.short_name = "prd"
-            env_obj.name = "production"
 
     Path(bazel_settings.tfvars_file).write_text(
         tf_vars.model_dump_json(indent=2),
