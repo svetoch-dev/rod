@@ -1,3 +1,3 @@
-# Tf (terraform)
+# Tf
 
-Check out tf docks [here](../docs/tf/README.md)
+Check out tf docs [here](../docs/tf/README.md)

@@ -1,8 +1,9 @@
-# Tf (terraform)
+# Tf
 
 ## Definitions
-`root module` - logically grouped infrastructure definitions that have thier own folder and statefile (example `terraform/environments/internal/cloud`, `terraform/environments/internal/secrets` etc)
-`submodule` - a tf module that creates resources and is used in `root module` example
+* `root module` - logically grouped infrastructure definitions that have thier own folder and statefile (example `terraform/environments/internal/cloud`, `terraform/environments/internal/secrets` etc)
+
+* `submodule` - a tf module that creates resources and is used in `root module` example
 
 ```
 module "repos" {
@@ -21,7 +22,7 @@ module "repos" {
 * We give each `api dependant provider` a separate `root module` thus a separate folder
   * MOTIVATION: for example you have a postgres provider that points to a cloudsql and a gcp provider that creates this cloudsql instance and other gcp objects. If for some reason the postgres provider will not be able to connect to cloudsql instance you will not be able to do `terraform plan/apply` for any of the resource described in this root module
 * We do not store multiple `api dependant providers` of the same type but with different configs in one `root module` (postgres is an exception to this)
-* Its ok to mix `api dependant providers` (gcp/aws/k8s/cloudflare) and `api independant providers` (null,random etc) in one `state`
+* Its ok to mix `api dependant providers` (gcp/aws/k8s/cloudflare) and `api independant providers` (null,random etc) in one `root module`
 * Data is shared between `root modules` using output variables and `terraform_remote_state` data resource
 
 ## Rod submodules
@@ -47,7 +48,7 @@ tf()
 ```
 
 * tf macro
-  * renders `@svetoch_bazel_lib//terraform/tf_variables.tf.tpl` to a `tf_variables.tf`file in `root module`
+  * renders [tf_variables.tf.tpl](https://github.com/svetoch-dev/bazel-lib/blob/master/terraform/tf_variables.tf.tpl) to a `tf_variables.tf` file in `root module`
   * renders `terraform.tfvars.json` and adds it to `root module`
   * renders `main.tf.tpl` in `root module`
   * creates `tf_fmt, tf_fmt_test, tf_validate_test, tf_plan, tf_apply, tf_bin` rule targets
@@ -57,7 +58,7 @@ tf()
 
 ### tf_variables.tf
 
-* `tf_variables.tf` if a special file that each `root module` has. Global variables are stored in it. Variables like
+* `tf_variables.tf` if a special file that each `root module` has. Global variables are stored in it
   * Env definitions
   * company info
   * ci info
@@ -68,7 +69,7 @@ tf()
 
 * `terraform.tfvars.json` stores  values for vars defined in `tf_variables.tf`
   * `terraform.tfvars.json` also can contain templates and is rendered by bazel
-  * `terraform.tfvars.json` is a single file that is always stored at repo root
+  * `terraform.tfvars.json` is a single file that is always stored at the repo root
 
 ### main.tf.tpl
 
