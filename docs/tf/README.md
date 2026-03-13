@@ -1,11 +1,14 @@
 # Tf
 
 ## Definitions
-* `root module` - logically grouped infrastructure definitions that have thier own folder and statefile (example `terraform/environments/internal/cloud`, `terraform/environments/internal/secrets` etc)
 
-* `submodule` - a tf module that creates resources and is used in `root module` example
+* `root module` — a logically grouped set of infrastructure definitions with its own folder and state file, for example:
+  * `terraform/environments/internal/cloud`
+  * `terraform/environments/internal/secrets`
 
-```
+* `submodule` — a Terraform module that creates resources and is used inside a `root module`, for example:
+
+```hcl
 module "repos" {
   source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/repos/{repo.type}?ref=v0.7.2"
   repo      = var.repo
@@ -13,87 +16,99 @@ module "repos" {
 }
 ```
 
-
 ## Concepts
-* We are using a single per provider module and turn off/on its components based on passed variables
-  * MOTIVATION: this DRYs the code and decreases configuration drift between envs
-* We give each env its own folder under `terraform/environments` dir 
-* Each environment has a set of `root modules` describing this env
-* We give each `api dependant provider` a separate `root module` thus a separate folder
-  * MOTIVATION: for example you have a postgres provider that points to a cloudsql and a gcp provider that creates this cloudsql instance and other gcp objects. If for some reason the postgres provider will not be able to connect to cloudsql instance you will not be able to do `terraform plan/apply` for any of the resource described in this root module
-* We do not store multiple `api dependant providers` of the same type but with different configs in one `root module` (postgres is an exception to this)
-* Its ok to mix `api dependant providers` (gcp/aws/k8s/cloudflare) and `api independant providers` (null,random etc) in one `root module`
-* Data is shared between `root modules` using output variables and `terraform_remote_state` data resource
+
+* We use a single module per provider and enable or disable its components through input variables.
+  * MOTIVATION: this keeps the code DRY and reduces configuration drift between environments.
+* Each environment has its own folder under `terraform/environments`.
+* Each environment contains a set of `root modules` that describe that environment.
+* Each `API-dependent provider` should have its own `root module`, and therefore its own folder.
+  * MOTIVATION: for example, imagine a PostgreSQL provider that connects to a Cloud SQL instance, while a GCP provider creates that Cloud SQL instance and other GCP resources. If the PostgreSQL provider cannot connect to Cloud SQL for some reason, then `terraform plan/apply` would fail for all resources defined in the same `root module`.
+* We do not keep multiple `API-dependent providers` of the same type but with different configurations in a single `root module`.
+  * `postgres` is an exception to this rule.
+* It is fine to mix `API-dependent providers` (`gcp`, `aws`, `k8s`, `cloudflare`) with `API-independent providers` (`null`, `random`, etc.) in the same `root module`.
+* Data is shared between `root modules` through output values and the `terraform_remote_state` data source.
 
 ## Rod submodules
 
-Rod submodules are a special kind of modules that are related to [rod](https://github.com/svetoch-dev/rod) template. Each rod submodules
+Rod submodules are a special type of module related to the [rod](https://github.com/svetoch-dev/rod) template.
 
-* Has predefined set of resources used in template
-* Has the ability to override default resource attributes via the `overrides` input var
+Each rod submodule:
 
-Check out [this](./proposals/tf-module-structure.md) doc for more info
+* has a predefined set of resources used by the template
+* allows overriding default resource attributes through the `overrides` input variable
 
+See [this](./proposals/tf-module-structure.md) document for more details.
 
 ## Bazel
 
-* We run tf via bazel and [rules_tf](https://github.com/ggramal/rules_tf).
-* We also use bazel macros for plan/apply/lint/etc targets. Tf macros can be found [here](https://github.com/svetoch-dev/bazel-lib/blob/master/tools/macros/tf.bzl).
-* Each `root module` must have a tf macro initialized like this in its BUILD.bazel
+* We run Terraform through Bazel using [rules_tf](https://github.com/ggramal/rules_tf).
+* We also use Bazel macros for `plan`, `apply`, `lint`, and related targets.
+* Terraform macros can be found [here](https://github.com/svetoch-dev/bazel-lib/blob/master/tools/macros/tf.bzl).
+* Each `root module` must initialize the Terraform macro in its `BUILD.bazel` file like this:
 
-```
+```python
 load("@svetoch_bazel_lib//tools/macros:tf.bzl", "tf")
 
 tf()
 ```
 
-* tf macro
-  * renders [tf_variables.tf.tpl](https://github.com/svetoch-dev/bazel-lib/blob/master/terraform/tf_variables.tf.tpl) to a `tf_variables.tf` file in `root module`
-  * renders `terraform.tfvars.json` and adds it to `root module`
-  * renders `main.tf.tpl` in `root module`
-  * creates `tf_fmt, tf_fmt_test, tf_validate_test, tf_plan, tf_apply, tf_bin` rule targets
-
+* The `tf` macro:
+  * renders [tf_variables.tf.tpl](https://github.com/svetoch-dev/bazel-lib/blob/master/terraform/tf_variables.tf.tpl) into `tf_variables.tf` inside the `root module`
+  * renders `terraform.tfvars.json` and adds it to the `root module`
+  * renders `main.tf.tpl` in the `root module`
+  * creates the following Bazel targets:
+    * `tf_fmt`
+    * `tf_fmt_test`
+    * `tf_validate_test`
+    * `tf_plan`
+    * `tf_apply`
+    * `tf_bin`
 
 ## root module structure
 
 ### tf_variables.tf
 
-* `tf_variables.tf` if a special file that each `root module` has. Global variables are stored in it
-  * Env definitions
-  * company info
-  * ci info
-  * etc
-* `tf_variables.tf` is rendered by bazel from [tf_variables.tf.tpl](https://github.com/svetoch-dev/bazel-lib/blob/master/terraform/tf_variables.tf.tpl) file.
+* `tf_variables.tf` is a special file present in each `root module`.
+* It stores global variables such as:
+  * environment definitions
+  * company information
+  * CI information
+  * other shared values
+* `tf_variables.tf` is rendered by Bazel from [tf_variables.tf.tpl](https://github.com/svetoch-dev/bazel-lib/blob/master/terraform/tf_variables.tf.tpl).
 
 ### terraform.tfvars.json
 
-* `terraform.tfvars.json` stores  values for vars defined in `tf_variables.tf`
-  * `terraform.tfvars.json` also can contain templates and is rendered by bazel
-  * `terraform.tfvars.json` is a single file that is always stored at the repo root
+* `terraform.tfvars.json` stores values for variables defined in `tf_variables.tf`.
+* `terraform.tfvars.json` can also contain templates and is rendered by Bazel.
+* `terraform.tfvars.json` is a single file that is always stored at the repository root.
 
 ### main.tf.tpl
 
-* `main.tf.tpl`  file that each `root module` must have. `main.tf.tpl` should describe all submodules used and a `terraform` block
+* `main.tf.tpl` is a required file for each `root module`.
+* It should define all submodules used by the `root module`, as well as the `terraform` block.
 
 ### *_variables.tf
 
-* `*_variables.tf` is a conventional name for files storing submodule attributes (example: `dns_variables.tf`, `k8s_variables.tf` etc). Those attributes are stored in as `local` vars in  `locals {}` block
+* `*_variables.tf` is the conventional name for files that store submodule attributes, for example:
+  * `dns_variables.tf`
+  * `k8s_variables.tf`
+* These attributes are typically stored as local variables inside a `locals {}` block.
 
 ### overrides.tf
 
-* File that stores overrided values of `rod` modules
-
+* Stores overridden values for `rod` modules.
 
 ### tf_locals.tf
 
-* File that stores configuration for  `data terraform_remote_state` used by `root module`
+* Stores configuration for `data "terraform_remote_state"` used by the `root module`.
 
 ### output.tf
-* `root module` output
 
+* Defines `root module` outputs.
 
 ## Running
 
 ### Locally
 
-Check out the READMEs in `root module` folders
+Check the `README.md` files inside individual `root module` folders.
