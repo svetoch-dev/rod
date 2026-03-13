@@ -11,6 +11,5 @@ py_binary(
         "@svetoch_bazel_lib//libs/py/helpers",
         "@svetoch_bazel_lib//libs/py/settings",
         "@svetoch_bazel_lib//libs/py/tf",
-        "@svetoch_bazel_lib//scripts/init/tf/apply:env",
     ],
 )
