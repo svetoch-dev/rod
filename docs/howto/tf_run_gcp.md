@@ -1,6 +1,6 @@
-# Terraform gcp prerequisites
+# Tf gcp prerequisites
 
-Before running terraform in gcp you need to
+Before running tf with `env.cloud.type` configured to `gcp` in `terraform.tfvars.json`
 
 1. Install `gcloud` cli
 2. Set credentials by one of two ways:

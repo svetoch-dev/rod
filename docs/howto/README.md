@@ -1,15 +1,11 @@
 # Guides how to do stuff
 
-## terraform.tfvars.json
+## Running tf localy
 
-1. [gcp configuration](tf_variables_gcp.md)
-
-## Terraform
-
-1. [gcp prerequisites](tf_run_gcp.md)
-2. [yc prerequisites](tf_run_yc.md)
-3. [github_prerequisites](tf_run_github.md)
-4. [Running tf](tf_run.md)
+1. [Running tf](tf_run.md)
+2. [gcp](tf_run_gcp.md)
+3. [yc](tf_run_yc.md)
+4. [github](tf_run_github.md)
 
 ## Miscellaneous
 
