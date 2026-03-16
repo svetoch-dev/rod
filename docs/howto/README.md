@@ -1,5 +1,9 @@
 # Guides how to do stuff
 
+## Argocd
+
+1. [Update helm-charts submodule](argocd_update_submodule.md)
+
 ## Running tf localy
 
 1. [Running tf](tf_run.md)
