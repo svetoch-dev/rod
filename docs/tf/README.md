@@ -15,6 +15,58 @@ module "repos" {
   overrides = local.overrides
 }
 ```
+## Directory structure
+
+```
+terraform/
+├── environments
+│   ├── <env 1>
+│   │   ├── <root module 1>
+│   │   │   ...
+│   │   └── <root module n>
+│   │       ...
+│   ├── <env n>
+│   │   ├── <root module 1>
+│   │   │   ...
+│   │   └── <root module n>
+│   │       ...
+└── modules(optional)
+    ├── <submodule 1>
+    │   ....
+    │
+    │
+    └── <submodule n>
+        ....
+```
+
+Example
+
+```
+terraform/
+└── environments
+    ├── internal
+    │   ├── cloud
+    │   │   ...
+    │   ├── k8s
+    │   │   ...
+    │   ├── k8s
+    │   │   ...
+    │   ├── repo
+    │   │   ...
+    │   └── secrets
+    │       ...
+    └── production
+        ├── cloud
+        │   ...
+        ├── k8s
+        │   ...
+        ├── k8s
+        │   ...
+        ├── repo
+        │   ...
+        └── secrets
+            ...
+```
 
 ## Concepts
 
