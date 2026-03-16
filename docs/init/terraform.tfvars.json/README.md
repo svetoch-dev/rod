@@ -1,6 +1,6 @@
 # Configuring terraform.tfvars.json
 
-`terraform.tfvars.json` is the main configuration file for `rod` template. To create infrastuctre you need configure `terraform.tfvars.json` based on you project needs and setup. There are some cloud,repo and company specific configuration that you **must** change
+`terraform.tfvars.json` is the main configuration file for `rod` template. To create infrastuctre you need configure `terraform.tfvars.json` based on your project needs and setup. There are some cloud,repo and company specific configuration that you **must** change
 
 ## Company
 
