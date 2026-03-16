@@ -35,8 +35,8 @@ bazel run @svetoch_bazel_lib//scripts/init
 This script
 
 * Removes `.git` folder from cloned rod repo
-* Initializes terraform (more info can be found [here]())
+* Initializes terraform (more info can be found [here](../tf/init/README.md))
 * Initializes new git repo based on `repo` configs in `terraform.tfvars.json` (NOT IMPLEMENTED)
 * Makes an initial commit and pushes it (NOT IMPLEMENTED)
-* Initializes argocd (more info can be found [here]()) (NOT IMPLEMENTED)
+* Initializes argocd (more info can be found [here](../argocd/init/README.md)) (NOT IMPLEMENTED)
 * Pushes all custom images (mainly needed for ci/monitoring) in `deps/images` folder
