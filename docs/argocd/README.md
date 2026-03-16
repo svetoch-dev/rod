@@ -14,8 +14,10 @@ If you need to make changes to the application or an infrastructure component yo
 2. Make changes to your app under `argocd/environments/<your env>/<your app>/values.yaml` and commit them
 3. Make a PR/MR and head for `master` branch
 4. After PR/MR is reviewed and merged head to `argocd` and login - `https://ag.int.<you company domain name>` example `https://ag.int.acme.com`
-5. Find your app an [review the diff](img/argocd_diff.png) by pressing the `diff` button 
-6. [Press sync button](img/argocd_sync.png) to synchronize your changes
+5. Find your app an review the diff by pressing the `diff` button 
+![diff](img/argocd_diff.png)
+6. Press sync button to synchronize your changes
+![sync](img/argocd_sync.png) 
 
 If you make sophisticated changes
 
