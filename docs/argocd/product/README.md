@@ -1,6 +1,6 @@
 # Product Helm charts
 
-Charts in this directory are responsible for creating Kubernetes resources for product applications.
+charts in `argocd/charts/app` are charts that are responsible for creating Kubernetes resources for product applications.
 
 ## Common chart
 
@@ -15,7 +15,7 @@ service:
 
 This tells Helm not to create a Kubernetes `Service` resource.
 
-## Example app chart
+## Example app chart (NOT IMPLEMENTED)
 
 The chart in `argocd/charts/app/example` represents an example microservice-based application.
 
