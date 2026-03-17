@@ -1,6 +1,6 @@
-# Terraform yc prerequisites
+# Tf yc prerequisites
 
-Before running terraform in yandex cloud you need to
+Before running tf with `env.cloud.type` configured to `yc` in `terraform.tfvars.json`
 
 1. Install `yc` cli
 2. `yc init`
