@@ -145,7 +145,7 @@ In this case, Argo CD will look for:
 
 ### Product apps
 
-If an app has `app: true` set in `argocd/environments/<env_name>/env.yaml`, Argo CD will look for its chart under `argocd/charts/app`.
+If an app has `app: true` parameter set in `argocd/environments/<env_name>/env.yaml`, Argo CD will look for its chart under `argocd/charts/app`.
 
 The values file lookup stays the same.
 
