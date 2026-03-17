@@ -7,19 +7,23 @@ http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "ht
 
 http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
 
-bazel_dep(name = "buildifier_prebuilt", version = "8.2.1.2")
-bazel_dep(name = "aspect_bazel_lib", version = "2.14.0")
+bazel_dep(name = "buildifier_prebuilt", version = "8.5.1")
+bazel_dep(name = "aspect_bazel_lib", version = "2.22.5")
 
 bazel_lib_toolchains = use_extension("@aspect_bazel_lib//lib:extensions.bzl", "toolchains")
 use_repo(bazel_lib_toolchains, "zstd_toolchains")
 
 bazel_dep(name = "rules_multirun", version = "0.10.0")
 bazel_dep(name = "svetoch_bazel_lib")
-git_override(
+local_path_override(
     module_name = "svetoch_bazel_lib",
-    commit = "edaa0c35e6bf0e20b639b4b35e41fd7662a58f41",
-    remote = "https://github.com/svetoch-dev/bazel-lib",
+    path = "../bazel-lib",
 )
+#git_override(
+#    module_name = "svetoch_bazel_lib",
+#    commit = "edaa0c35e6bf0e20b639b4b35e41fd7662a58f41",
+#    remote = "https://github.com/svetoch-dev/bazel-lib",
+#)
 
 ######################
 # Binary tools support
@@ -73,62 +77,8 @@ override_repo(
 # Container support
 ###################
 
-bazel_dep(name = "rules_oci", version = "2.2.2")
-bazel_dep(name = "rules_distroless", version = "0.5.1")
-
-oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
-oci.pull(
-    name = "postgres-exporter",
-    #v0.18.1
-    digest = "sha256:fb96c4413985d4b23ab02b19022b3d70a86c8e0a62f41ab15ebb6f4673781a5d",
-    image = "quay.io/prometheuscommunity/postgres-exporter",
-    platforms = [
-        "linux/amd64",
-        "linux/arm64",
-    ],
-)
-oci.pull(
-    name = "spilo17",
-    #spilo-17:4.0-p3
-    digest = "sha256:17bf371c924196e4671f19d129fa86a80f7dcea7b2666cedca955ec0fba0b72b",
-    image = "ghcr.io/zalando/spilo-17",
-    platforms = [
-        "linux/amd64",
-    ],
-)
-use_repo(
-    oci,
-    "postgres-exporter",
-    "postgres-exporter_linux_amd64",
-    "postgres-exporter_linux_arm64",
-    "spilo17",
-    "spilo17_linux_amd64",
-)
-
-apt = use_extension("@rules_distroless//apt:extensions.bzl", "apt")
-
-#bazel run @noble//:lock
-apt.install(
-    name = "noble",
-    lock = "//deps/deb:noble.lock.json",
-    manifest = "//deps/deb:noble.yaml",
-)
-use_repo(apt, "noble")
-
-http_archive(
-    name = "ca-certificates",
-    build_file_content = "exports_files([\"data.tar.zst\"])",
-    sha256 = "641de77d8f142cfd62a1a6f964ba67b20754d3337c480efb529d086075a06c9a",
-    type = ".deb",
-    urls = ["https://snapshot.ubuntu.com/ubuntu/20240917T000000Z/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb"],
-)
-
-http_file(
-    name = "bazelisk",
-    downloaded_file_path = "bazelisk",
-    sha256 = "22e7d3a188699982f661cf4687137ee52d1f24fec1ec893d91a6c4d791a75de8",
-    url = "https://github.com/bazelbuild/bazelisk/releases/download/v1.28.1/bazelisk-linux-amd64",
-)
+bazel_dep(name = "rules_oci", version = "2.3.0")
+bazel_dep(name = "rules_distroless", version = "0.6.2")
 
 ##################
 # Python support

@@ -1,101 +1,12 @@
-load("@aspect_bazel_lib//lib:tar.bzl", "mtree_mutate", "mtree_spec", "tar")
-load("@rules_distroless//distroless:defs.bzl", "passwd")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
-load("@svetoch_bazel_lib//tools/macros:deb_packages.bzl", "deb_packages")
+load("@rules_oci//oci:defs.bzl", "oci_load")
 load("@svetoch_bazel_lib//tools/macros:img.bzl", "img_push")
 
-#github actions runner uses a user with uid=1001 https://github.com/actions/runner-images/issues/10936
-#because of this there is a permission missmatch  running in a container where user
-#has uid=1000
-passwd(
-    name = "passwd",
-    entries = [
-        {
-            "uid": 0,
-            "gid": 0,
-            "home": "/root",
-            "shell": "/bin/bash",
-            "username": "root",
-        },
-        {
-            "uid": 100,
-            "gid": 65534,
-            "home": "/home/_apt",
-            "shell": "/usr/sbin/nologin",
-            "username": "_apt",
-        },
-        {
-            "uid": 1001,
-            "gid": 1000,
-            "home": "/home/ubuntu",
-            "shell": "/bin/bash",
-            "username": "ubuntu",
-        },
-    ],
-)
-
-PACKAGES = [
-    "@noble//git",
-    "@noble//curl",
-    "@noble//sed",
-    "@noble//mawk",
-    "@noble//gcc",
-    "@noble//findutils",
-    "@noble//python3",
-    "@noble//gzip",
-    "@noble//libc-bin",
-]
-
-_packages_tar = deb_packages(PACKAGES)
-
-mtree_spec(
-    name = "mtree_bazelisk",
-    srcs = ["@bazelisk//file"],
-)
-
-mtree_mutate(
-    name = "change_owner_bazelisk",
-    mtree = "mtree_bazelisk",
-    owner = "1001",
-    package_dir = "usr/local/bin",
-)
-
-tar(
-    name = "bazelisk",
-    srcs = ["@bazelisk//file"],
-    mtree = "change_owner_bazelisk",
-)
-
-tar(
-    name = "links",
-    mtree = [
-        #Some bug with mtree_mutate with strip_prefix = "file"
-        #so we need to use a symlink here
-        "./usr/local/bin/bazel type=link link=/usr/local/bin/file/bazelisk",
-        #symlink awk to mawk the same how its done in ubuntu
-        "./usr/bin/awk type=link link=/usr/bin/mawk",
-        #change permissions of home dir
-        "./home/ubuntu/ uid=1001 gid=0 mode=0755 type=dir",
-    ],
-)
-
-oci_image(
-    name = "bazelisk_img",
-    base = "//deps/images/base:ubuntu_noble",
-    tars = [
-        _packages_tar,
-        ":passwd",
-        ":bazelisk",
-        ":links",
-    ],
-    user = "1001",
-)
 
 #bazel run :bazelisk_docker
 #docker run --rm -it bazelisk:latest
 oci_load(
     name = "bazelisk_docker",
-    image = ":bazelisk_img",
+    image = "@svetoch_bazel_lib//deps/images/bazelisk:bazelisk_img",
     repo_tags = [
         "bazelisk:latest",
     ],
@@ -103,7 +14,7 @@ oci_load(
 
 img_push(
     envs = ["int"],
-    image = "bazelisk_img",
+    image = "@svetoch_bazel_lib//deps/images/bazelisk:bazelisk_img",
     remote_tags = "image_tag.txt",
     service_name = "bazelisk",
 )
