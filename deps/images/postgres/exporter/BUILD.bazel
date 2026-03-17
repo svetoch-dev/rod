@@ -2,7 +2,6 @@ load("@rules_oci//oci:defs.bzl", "oci_load")
 load("@svetoch_bazel_lib//tools/macros:img.bzl", "img_push")
 load("@svetoch_bazel_lib//tools/utils:common.bzl", "app_envs")
 
-
 #bazel run :postgres-exporter_docker
 #docker run --rm -it postgres-exporter:latest
 oci_load(

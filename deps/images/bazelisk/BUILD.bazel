@@ -1,7 +1,6 @@
 load("@rules_oci//oci:defs.bzl", "oci_load")
 load("@svetoch_bazel_lib//tools/macros:img.bzl", "img_push")
 
-
 #bazel run :bazelisk_docker
 #docker run --rm -it bazelisk:latest
 oci_load(
