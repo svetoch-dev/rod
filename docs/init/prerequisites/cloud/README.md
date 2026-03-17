@@ -19,4 +19,4 @@ Cloud related steps that need to be done before spinning up `rod` template
 3. [Create internal resource folder](https://yandex.cloud/ru/docs/resource-manager/operations/folder/create) with name `internal`
 4. [Create product resource folder(s)](https://yandex.cloud/ru/docs/resource-manager/operations/folder/create). Example names - `development`, `preprod`, `production`, `sandbox` etc
 5. [Install yc cli](https://yandex.cloud/ru/docs/cli/operations/install-cli)
-6. Execute `export export YC_TOKEN=$(yc iam create-token)`
+6. Execute `export YC_TOKEN=$(yc iam create-token)`
