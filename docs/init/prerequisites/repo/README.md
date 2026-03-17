@@ -14,7 +14,7 @@ Git repo related steps that need to be done before spinning up `rod` template
 ## Gitlab
 
 1. Create an `infrastructure` (can be called what ever you like) repo inside your github group or your personal profile
-2. `export GITLAB_BASE_URL=<gitlab_server>/api/v4`. Set `gitlab_server` to  https://gitlab.com/api/v4/ for saas gitlab
+2. `export GITLAB_BASE_URL=<gitlab_server>/api/v4`. Set `gitlab_server` to  https://gitlab.com/api/v4/ for SaaS gitlab
 3. [Create personal token](https://docs.gitlab.com/user/profile/personal_access_tokens/)
 4. `export GITLAB_TOKEN=<token>`
 
