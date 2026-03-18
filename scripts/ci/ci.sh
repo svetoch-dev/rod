@@ -24,8 +24,8 @@ prepare_step() {
 
     #Download gcp docker cred helper
     #and configure creds for container
-    curl -fsSL $DOCKER_CRED_URL | tar xz docker-credential-gcr && chmod +x docker-credential-gcr 
-    mkdir ~/tools/ && mv ./docker-credential-gcr ~/tools/ 
+    curl -fsSL $DOCKER_CRED_URL | tar xz docker-credential-gcr && chmod +x docker-credential-gcr
+    mkdir ~/tools/ && mv ./docker-credential-gcr ~/tools/docker-credential-gcloud
 
     bazel run @svetoch_bazel_lib//scripts/init/images/prepare
 }
