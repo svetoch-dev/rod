@@ -1,39 +1,12 @@
-load("@aspect_bazel_lib//lib:tar.bzl", "mtree_mutate", "mtree_spec", "tar")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
+load("@rules_oci//oci:defs.bzl", "oci_load")
 load("@svetoch_bazel_lib//tools/macros:img.bzl", "img_push")
 load("@svetoch_bazel_lib//tools/utils:common.bzl", "app_envs")
-
-mtree_spec(
-    name = "mtree",
-    srcs = ["entrypoint.sh"],
-)
-
-mtree_mutate(
-    name = "strip_package",
-    mtree = "mtree",
-    strip_prefix = package_name(),
-)
-
-tar(
-    name = "entrypoint",
-    srcs = ["entrypoint.sh"],
-    mtree = "strip_package",
-)
-
-oci_image(
-    name = "exporter_img",
-    base = "@postgres-exporter",
-    entrypoint = ["/entrypoint.sh"],
-    tars = [
-        ":entrypoint",
-    ],
-)
 
 #bazel run :postgres-exporter_docker
 #docker run --rm -it postgres-exporter:latest
 oci_load(
     name = "postgres-exporter_docker",
-    image = ":exporter_img",
+    image = "@svetoch_bazel_lib//deps/images/postgres/exporter:exporter_img",
     repo_tags = [
         "postgres-exporter:latest",
     ],
@@ -41,7 +14,7 @@ oci_load(
 
 img_push(
     envs = app_envs().keys(),
-    image = "exporter_img",
+    image = "@svetoch_bazel_lib//deps/images/postgres/exporter:exporter_img",
     remote_tags = "image_tag.txt",
     service_name = "postgres-exporter",
 )
