@@ -9,4 +9,4 @@ Definition of repo resources
 
 ## Running locally
 
-Follow instructions in [how to docs](../../../../docs/howto/README.md#Terraform)
+Follow instructions in [how to docs](https://github.com/svetoch-dev/rod-docs/tree/master/docs/howto#running-tf-localy)
