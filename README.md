@@ -88,8 +88,8 @@ Even though total costs increased, **cost per user decreased significantly**.
 
 ### Summary
 
-> Cheap solutions minimize cost today.  
-> Cost-efficient solutions minimize cost over time.
+* Cheap solutions minimize cost today.  
+* Cost-efficient solutions minimize cost over time.
 
 
 
