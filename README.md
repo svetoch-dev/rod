@@ -23,7 +23,7 @@ Key aspects of good `infrastructure` are:
 5. **Maintainability**. Good infrastructure should be easy to change safely. Clear structure, automation, documentation, standard patterns, and low operational burden are essential.
 6. **Security**. Security should be built in from the start, not added later. Access control, network isolation, secret management, patching, auditing, and secure defaults are all critical.
 
-**Because infrastructure `needs` are fundamentally the same across most server software, we can create an `infrastructure` template that:**
+Because infrastructure `needs` are fundamentally the same across most server software, we can create an `infrastructure` template that:
 * **includes the key properties of good infrastructure**
 * **can be reused for any kind of server software**
 
