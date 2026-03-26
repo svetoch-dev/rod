@@ -33,6 +33,22 @@ Because infrastructure `needs` are fundamentally the same across most server sof
 2. People that need cost-efficient infrastructure
 3. People that want to move fast without introducing technical debt
 
+## Docs
+
+Documentation can be found in [rod-docs](https://github.com/svetoch-dev/rod-docs) repo
+
+## State of the project
+
+its still in a WIP(work in progress) state
+
+### Cloud support
+
+- [x] GCP
+- [ ] Yandex Cloud
+- [ ] Alibaba Cloud
+- [ ] AWS
+- [ ] Hetzner
+
 ## Infrastructure costs
 
 Aproximate infrastructure costs for various clouds:
@@ -42,11 +58,6 @@ Aproximate infrastructure costs for various clouds:
 * internal and production  environments in separate clusters (best isolation) [~306$/month](https://cloud.google.com/products/calculator?dl=CjhDaVF5TVRJNVlqUTVOUzA0TXpnekxUUTJNRFV0T1RSbE15MDJNbVZtT0Rka01tWXhOVFVRQVE9PRAOGiRGMTg4QzczQi1GNUQ5LTQzNDgtOTU2NC0wRkY4REZEREY3OTY)
 * internal and production  environments in single cluster [~187$/month](https://cloud.google.com/products/calculator?dl=CjhDaVJoWXpFM1lqQmtZeTA1WmprMExUUXdPVFF0T1dObVppMDNOVEZpTWprMU5HRmpNVGdRQVE9PRAPGiQyMDc1MThFQS0yQjIwLTRGMEYtQUI5NC1BOUMwQTAxQzFGMzU)
 * internal, development and production  environments in separate clusters [~490$/month](https://cloud.google.com/products/calculator?dl=CjhDaVEyTXpKa05qTXhNUzFqWm1NeUxUUmtZamN0WWprMU9TMHpPV1UxTWpnM056RTBZelVRQVE9PRAOGiRGMTg4QzczQi1GNUQ5LTQzNDgtOTU2NC0wRkY4REZEREY3OTY)
-
-### YC
-
-TBD
-
 ## Cost efficiency vs cheapness
 
 Cheap infrastructure is not the same as cost-efficient infrastructure.
@@ -93,8 +104,6 @@ Even though total costs increased, **cost per user decreased significantly**.
 
 
 
-## State of the project
-its still in a WIP(work in progress) state
 
 
 ## Prerequisites
