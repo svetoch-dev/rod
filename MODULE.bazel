@@ -11,7 +11,6 @@ use_repo(bazel_lib_toolchains, "zstd_toolchains")
 
 bazel_dep(name = "rules_multirun", version = "0.10.0")
 bazel_dep(name = "svetoch_bazel_lib")
-
 git_override(
     module_name = "svetoch_bazel_lib",
     commit = "493ffe438fc2a7a9e7c544b380a75c08266f7851",
