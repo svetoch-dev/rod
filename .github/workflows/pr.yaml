@@ -22,6 +22,7 @@ jobs:
     container:
       image: "europe-north1-docker.pkg.dev/svetochdev-internal/containers/bazelisk:v1.28.1-1"
     steps:
-    - uses: actions/checkout@v4.2.2
+    - name: Clone Git branch
+      uses: actions/checkout@v6.0.2
     - name: test
       run: bazel test //...

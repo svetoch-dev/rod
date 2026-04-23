@@ -1,6 +1,11 @@
 load("@rules_oci//oci:defs.bzl", "oci_load")
 load("@svetoch_bazel_lib//tools/macros:img.bzl", "img_push")
 
+exports_files(
+    ["image_tag.txt"],
+    visibility = ["//visibility:public"],
+)
+
 #bazel run :bazelisk_docker
 #docker run --rm -it bazelisk:latest
 oci_load(

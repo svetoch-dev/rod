@@ -22,7 +22,8 @@ jobs:
     container:
       image: "europe-west1-docker.pkg.dev/svetochdev-internal/containers/bazelisk:v1.25.0-2"
     steps:
-    - uses: actions/checkout@v4.2.2
+    - name: Clone Git branch
+      uses: actions/checkout@v6.0.2
     - name: test
       run: bazel test //...
   run-mr:
@@ -33,7 +34,8 @@ jobs:
     env:
       GOOGLE_APPLICATION_CREDENTIALS: "${{ github.workspace }}/key.json"
     steps:
-    - uses: actions/checkout@v4.2.2
+    - name: Clone Git branch
+      uses: actions/checkout@v6.0.2
       with:
         fetch-depth: 0
     - name: export google creds
