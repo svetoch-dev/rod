@@ -1,12 +1,5 @@
 #!/bin/bash
 set -o pipefail -o errexit -o nounset
-DOCKER_CRED_VERSION=2.1.25
-DOCKER_CRED_OS=linux
-DOCKER_CRED_ARCH=amd64
-DOCKER_CRED_URL="https://github.com/GoogleCloudPlatform/docker-credential-gcr/releases/download/v${DOCKER_CRED_VERSION}/docker-credential-gcr_${DOCKER_CRED_OS}_${DOCKER_CRED_ARCH}-${DOCKER_CRED_VERSION}.tar.gz"
-#Used for docker-credential-gcr
-export PATH=$PATH:$HOME/tools/
-
 
 prepare_step() {
     echo perparing env
@@ -21,11 +14,6 @@ prepare_step() {
     git fetch
     echo git checkout $GIT_HEAD_REF
     git checkout $GIT_HEAD_REF
-
-    #Download gcp docker cred helper
-    #and configure creds for container
-    curl -fsSL $DOCKER_CRED_URL | tar xz docker-credential-gcr && chmod +x docker-credential-gcr
-    mkdir ~/tools/ && mv ./docker-credential-gcr ~/tools/docker-credential-gcloud
 
     bazel run @svetoch_bazel_lib//scripts/init/images/prepare
 }
