@@ -20,7 +20,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container:
-      image: "europe-west1-docker.pkg.dev/svetochdev-internal/containers/bazelisk:v1.25.0-2"
+      image: "${{ vars.BAZELISK_IMAGE }}"
     steps:
     - name: Clone Git branch
       uses: actions/checkout@v6.0.2
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     container:
-      image: "europe-west1-docker.pkg.dev/svetochdev-internal/containers/bazelisk:v1.25.0-2"
+      image: "${{ vars.BAZELISK_IMAGE }}"
     env:
       GOOGLE_APPLICATION_CREDENTIALS: "${{ github.workspace }}/key.json"
     steps:

@@ -22,7 +22,7 @@ jobs:
     env:
       GOOGLE_APPLICATION_CREDENTIALS: "${{ github.workspace }}/key.json"
     container:
-      image: "europe-west1-docker.pkg.dev/svetochdev-internal/containers/bazelisk:v1.25.0-2"
+      image: "${{ vars.BAZELISK_IMAGE }}"
     steps:
     - name: Clone Git branch
       uses: actions/checkout@v6.0.2
