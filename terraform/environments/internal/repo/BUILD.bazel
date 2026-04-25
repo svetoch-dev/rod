@@ -4,11 +4,11 @@ genrule(
     name = "local_bazelisk_tag",
     srcs = ["//deps/images/bazelisk:image_tag.txt"],
     outs = ["bazelisk_tag.txt"],
-    cmd  = "cp $(location //deps/images/bazelisk:image_tag.txt) $(location bazelisk_tag.txt)",
+    cmd = "cp $(location //deps/images/bazelisk:image_tag.txt) $(location bazelisk_tag.txt)",
 )
 
 tf(
     apply_target = "rapply",
-    extra_srcs   = [":local_bazelisk_tag"],
-    plan_target  = "rplan",
+    extra_srcs = [":local_bazelisk_tag"],
+    plan_target = "rplan",
 )
