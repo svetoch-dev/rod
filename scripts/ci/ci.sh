@@ -15,7 +15,7 @@ prepare_step() {
     echo git checkout $GIT_HEAD_REF
     git checkout $GIT_HEAD_REF
 
-    bazel run @svetoch_bazel_lib//scripts/init/images/prepare
+    bazel run @svetoch_bazel_lib//rod/scripts/init/images/prepare
 }
 
 run_step() {

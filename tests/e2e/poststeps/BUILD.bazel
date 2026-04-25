@@ -8,8 +8,8 @@ py_binary(
     srcs = ["destroy.py"],
     visibility = ["//visibility:public"],
     deps = [
-        "@svetoch_bazel_lib//libs/py/helpers",
-        "@svetoch_bazel_lib//libs/py/settings",
-        "@svetoch_bazel_lib//libs/py/tf",
+        "@svetoch_bazel_lib//rod/libs/py/helpers",
+        "@svetoch_bazel_lib//rod/libs/py/settings",
+        "@svetoch_bazel_lib//rod/libs/py/tf",
     ],
 )
