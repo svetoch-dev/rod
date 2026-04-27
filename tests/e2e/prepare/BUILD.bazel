@@ -10,7 +10,7 @@ py_binary(
     ),
     visibility = ["//visibility:public"],
     deps = [
-        "@svetoch_bazel_lib//libs/py/settings",
-        "@svetoch_bazel_lib//libs/py/tf",
+        "@svetoch_bazel_lib//rod/libs/py/settings",
+        "@svetoch_bazel_lib//rod/libs/py/tf",
     ],
 )

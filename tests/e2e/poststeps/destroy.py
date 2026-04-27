@@ -1,8 +1,8 @@
 import os
-from libs.py.helpers import run_command, switch_index
-from libs.py.tf.tfvars import tfvars, env_key
-from libs.py.settings import bazel_settings
-from libs.py.tf.apply import apply_env_targets
+from rod.libs.py.helpers import run_command, switch_index
+from rod.libs.py.tf.tfvars import tfvars, env_key
+from rod.libs.py.settings import bazel_settings
+from rod.libs.py.tf.apply import apply_env_targets
 
 
 def destroy():

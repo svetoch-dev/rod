@@ -7,7 +7,7 @@ command(
 
 command(
     name = "infra_create",
-    command = "@svetoch_bazel_lib//scripts/init",
+    command = "@svetoch_bazel_lib//rod/scripts/init",
 )
 
 command(

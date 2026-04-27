@@ -1,6 +1,6 @@
 from pathlib import Path
-from libs.py.tf.tfvars import tfvars
-from libs.py.settings import bazel_settings
+from rod.libs.py.tf.tfvars import tfvars
+from rod.libs.py.settings import bazel_settings
 
 
 def prepare():
