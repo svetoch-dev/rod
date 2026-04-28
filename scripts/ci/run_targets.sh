@@ -24,5 +24,5 @@ do
   done
 done
 
-$COMMIT_PUSH && bazel run //scripts/deploy:push_commit
+$COMMIT_PUSH && bazel run @svetoch_bazel_lib//rod/scripts/deploy:push_commit
 exit $EXIT_STATUS
