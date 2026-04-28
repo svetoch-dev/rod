@@ -11,17 +11,17 @@ data "terraform_remote_state" "remote_state" {
 }
 
 module "cloud_config" {
-  source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/{env.cloud.name}/client_config?ref=v0.16.0"
+  source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/{env.cloud.name}/client_config?ref=v0.16.1"
   provider_config =  {
     id            = local.env.cloud.id
-    region        = local.env.cloud.region
-    default_zone  = local.env.cloud.default_zone
+    region        = local.env.cloud.location.region
+    default_zone  = local.env.cloud.location.default_zone
     folder_id     = local.env.cloud.folder_id
   }
 }
 
 module "k8s" {
-  source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/k8s?ref=v0.16.0"
+  source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/k8s?ref=33b39cac56d526de1e0f01af44fab98e07f62d91"
   k8s_api   = local.k8s_api
   ci        = var.ci
   int_env   = var.envs.internal

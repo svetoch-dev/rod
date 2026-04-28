@@ -1,0 +1,12 @@
+prefix_rule(
+    pattern = ["git", ["status", "diff", "log", "show", "branch", "rev-parse", "remote", "ls-files", "ls-remote"]],
+    decision = "allow",
+    justification = "Allow safe read-only git inspection commands.",
+    match = [
+        "git status",
+        "git diff",
+        "git log --oneline -20",
+        "git show HEAD",
+        "git branch --show-current",
+    ],
+)
