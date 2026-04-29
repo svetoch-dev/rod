@@ -35,5 +35,3 @@ argocd/charts/**/charts
 ## python ##
 venv
 
-## Codex ##
-.codex

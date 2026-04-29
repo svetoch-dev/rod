@@ -1,10 +1,4 @@
 terraform {
-  required_providers {
-    deepmerge = {
-      source  = "isometry/deepmerge"
-    }
-  }
-
   backend "{tf_backend.type}" {
   }
 }
@@ -17,21 +11,10 @@ data "terraform_remote_state" "remote_state" {
 }
 
 module "cloud" {
-  source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud/{env.cloud.name}?ref=v0.16.0"
+  source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud/{env.cloud.name}?ref=v0.17.0"
   company   = var.company
   ci        = var.ci
   int_env   = var.envs.internal
-  env       = provider::deepmerge::mergo(
-    local.env,
-    {
-      cloud = {
-        location = {
-          region       = local.env.cloud.region
-          default_zone = local.env.cloud.default_zone
-          multi_region = local.env.cloud.multi_region
-        }
-      }
-    }
-  )
+  env       = local.env
   overrides = local.overrides
 }

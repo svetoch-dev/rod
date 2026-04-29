@@ -1,0 +1,5 @@
+prefix_rule(
+    pattern = ["bazel", ["test", "build"]],
+    decision = "allow",
+    justification = "Allow bazel test",
+)
