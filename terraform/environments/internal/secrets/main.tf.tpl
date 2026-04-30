@@ -39,6 +39,6 @@ module "secrets" {
   overrides       = local.overrides
   argocd_clusters = {
     for cluster_name, cluster_obj in local.remote_state.k8s_clusters : cluster_name => cluster_obj
-    if cluster_name != "int"
+    if clou!= "int"
   }
 }
