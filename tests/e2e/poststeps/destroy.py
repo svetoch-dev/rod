@@ -12,7 +12,7 @@ def destroy():
     int_env = None
 
     for env_name, env_obj in tf_vars.envs.items():
-        if env_obj.short_name == "int":
+        if env_obj.type == "internal":
             int_env = env_obj.model_copy(deep=True)
 
         envs.append(env_obj)
