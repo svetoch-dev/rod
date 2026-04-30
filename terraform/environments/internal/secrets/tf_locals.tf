@@ -38,10 +38,16 @@ locals {
     }
     k8s_clusters = {
       for env_name, env_obj in var.envs :
-      env_obj.short_name => {
-        for key, value in data.terraform_remote_state.remote_state["cloud-${env_name}"].outputs.this.k8s_clusters[env_obj.short_name] : key => value
-        if contains(["ca_certificate", "endpoint"], key)
-      }
+      env_obj.short_name => merge(
+        {
+          for key, value in data.terraform_remote_state.remote_state["cloud-${env_name}"].outputs.this.k8s_clusters[env_obj.short_name] :
+          key => value
+          if contains(["ca_certificate", "endpoint"], key)
+        },
+        {
+          type = env_obj.type
+        }
+      )
       if env_obj.kubernetes.enabled
     }
   }
