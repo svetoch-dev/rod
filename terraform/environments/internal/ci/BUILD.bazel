@@ -1,0 +1,7 @@
+load("@svetoch_bazel_lib//tools/macros:tf.bzl", "tf")
+
+tf(
+    apply_target = "capply",
+    extra_srcs = ["//deps/images/bazelisk:image_tag.txt"],
+    plan_target = "cplan",
+)

@@ -13,7 +13,7 @@ bazel_dep(name = "rules_multirun", version = "0.10.0")
 bazel_dep(name = "svetoch_bazel_lib")
 git_override(
     module_name = "svetoch_bazel_lib",
-    commit = "21c1c5c2b37e0e6c7d7f1206c26f78a1a91ed83c",
+    commit = "28169065335c7b208a62399618a12f5a55ff8b3b",
     remote = "https://github.com/svetoch-dev/bazel-lib",
 )
 
