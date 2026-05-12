@@ -11,7 +11,7 @@ data "terraform_remote_state" "remote_state" {
 }
 
 module "ci" {
-  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/ci/{ci.type}?ref=1846ac50e0cc558e934453c82156089c5f5f56d0"
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/ci/{ci.type}?ref=v0.18.0"
   bazelisk_image     = "${local.env.registry.url}/bazelisk:${local.bazelisk_img_version}"
   repo               = var.repo
   ci                 = var.ci
