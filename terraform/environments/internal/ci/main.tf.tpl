@@ -11,10 +11,10 @@ data "terraform_remote_state" "remote_state" {
 }
 
 module "ci" {
-  source         = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/ci/{ci.type}?ref=877b557d9d6692f896452309e8a75a56213ad181"
-  bazelisk_image = "${local.env.registry.url}/bazelisk:${local.bazelisk_img_version}"
-  repo           = var.repo
-  ci             = var.ci
-  ci_vars        = local.ci_vars
-  overrides      = local.overrides
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/ci/{ci.type}?ref=1846ac50e0cc558e934453c82156089c5f5f56d0"
+  bazelisk_image     = "${local.env.registry.url}/bazelisk:${local.bazelisk_img_version}"
+  repo               = var.repo
+  ci                 = var.ci
+  app_env_ci_configs = local.app_env_ci_configs
+  overrides          = local.overrides
 }

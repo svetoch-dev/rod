@@ -7,5 +7,5 @@ You need to
 1. Install `gh` (Github cli) cli (https://github.com/cli/cli/releases)
 2. Issue `gh auth login` and go through the auth process
 3. Run `export GITHUB_TOKEN=$(gh auth token)`
-3. Run `bazel build :cplan`
-4. Run `bazel run :capply`
+3. Run `bazel build :mplan`
+4. Run `bazel run :mapply`

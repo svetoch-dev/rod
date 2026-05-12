@@ -1,9 +1,9 @@
 locals {
   overrides = {
-    #cis = {
-    #  app-name_env.short-name = {
-    #    ...
-    #  }
-    #}
+    cis = {
+      #env.short-name_app-name = {
+      #  ...
+      #}
+    }
   }
 }

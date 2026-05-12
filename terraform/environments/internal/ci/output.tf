@@ -1,5 +1,5 @@
 output "ci" {
-  description = "CI vars"
-  value       = module.ci.ci_vars
+  description = "CI configs"
+  value       = module.ci.cis
   sensitive   = true
 }
