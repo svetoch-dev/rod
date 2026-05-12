@@ -1,11 +1,13 @@
-# Terraform github
-Definition of github objects
+# Terraform cis
+Definition of cis resources
+
+## Initial configuration steps
+
+1. `../cloud/` `state` must be fully applied
+2. '../k8s/` `state` must be fully applied
+3. `../secrets/` `state` must be fully applied
+4. `../repo` `state` must be fulle applied
 
 ## Running locally
 
-You need to
-1. Install `gh` (Github cli) cli (https://github.com/cli/cli/releases)
-2. Issue `gh auth login` and go through the auth process
-3. Run `export GITHUB_TOKEN=$(gh auth token)`
-3. Run `bazel build :mplan`
-4. Run `bazel run :mapply`
+Follow instructions in [how to docs](https://github.com/svetoch-dev/rod-docs/tree/master/docs/howto#running-tf-localy)
