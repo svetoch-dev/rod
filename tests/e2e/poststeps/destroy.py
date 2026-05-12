@@ -27,7 +27,7 @@ def destroy():
         # to how they were applied
         for target in apply_targets[::-1]:
             target = target.replace(":apply", ":tf")
-            target = target.replace(":rapply", ":tf")
+            target = target.replace(":mapply", ":tf")
             command = ["bazel", "run", target, "--", "destroy", "-auto-approve"]
             run_command(command)
 
