@@ -1,7 +1,14 @@
 import sys
 import click
 from pathlib import Path
-from rod.libs.py.tf.tfvars import tfvars, TfVars, TfBackend, Dns, Registry, Location
+from rod.libs.py.tf.tfvars import (
+    tfvars,
+    TfVars,
+    TfBackend,
+    Dns,
+    Registry,
+    Location,
+)
 from rod.libs.py.settings import bazel_settings
 
 
@@ -25,6 +32,8 @@ def prepare_gcp(tfvars: TfVars):
         "multi_region": "EU",
     }
     for env_name, env_obj in tfvars.envs.items():
+        pod_cidr = env_obj.cloud.network.k8s_pod_cidr
+        env_obj.cloud.network.k8s_pod_cidr = pod_cidr.replace("/16", "/14")
         env_obj.cloud.name = "gcp"
         env_obj.tf_backend = TfBackend(**tf_backend)
         env_obj.registry = Registry(**registry)
@@ -45,7 +54,7 @@ def prepare_yc(tfvars: TfVars):
         "configs": {
             "bucket": "{company.name}-tf-state",
             "use_lockfile": "true",
-            "region": "{env.cloud.region}",
+            "region": "{env.cloud.location.region}",
             "key": "{env.name}/{tf_backend.state_name}/default.tfstate",
             "skip_region_validation": "true",
             "skip_credentials_validation": "true",
@@ -61,7 +70,9 @@ def prepare_yc(tfvars: TfVars):
         "multi_region": "",
     }
     for env_name, env_obj in tfvars.envs.items():
-        env_obj.cloud.name = "gcp"
+        pod_cidr = env_obj.cloud.network.k8s_pod_cidr
+        env_obj.cloud.network.k8s_pod_cidr = pod_cidr.replace("/14", "/16")
+        env_obj.cloud.name = "yc"
         env_obj.tf_backend = TfBackend(**tf_backend)
         env_obj.registry = Registry(**registry)
         env_obj.dns = Dns(**dns)
