@@ -13,7 +13,7 @@ bazel_dep(name = "rules_multirun", version = "0.10.0")
 bazel_dep(name = "svetoch_bazel_lib")
 git_override(
     module_name = "svetoch_bazel_lib",
-    commit = "22a358163b7bfe62dea10168f488c0495ffac4a7",
+    commit = "3665398722ac18effa01a331b74f703c4ce653fb",
     remote = "https://github.com/svetoch-dev/bazel-lib",
 )
 
@@ -40,7 +40,7 @@ use_repo(tools, "helm_executable")
 bazel_dep(name = "rules_tf")
 git_override(
     module_name = "rules_tf",
-    commit = "972e20e677514021345d095f258f2e5e31d5a3c6",
+    commit = "841d00ec6a9d619e278c6adf37b343bda7f1a554",
     remote = "https://github.com/ggramal/rules_tf",
 )
 
