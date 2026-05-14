@@ -1,17 +1,16 @@
 locals {
   bazelisk_img_version = var.ci.bazelisk_img_version == "" ? trimspace(file("../../../../deps/images/bazelisk/image_tag.txt")) : var.ci.bazelisk_img_version
-
   remote_state_config = {
-    secrets = {
-      config = {
-        for key, value in local.env.tf_backend.configs :
-        key => can(tostring(value)) ? replace(value, "/ci", "/secrets") : value
-      }
-    }
+    #  secrets = {
+    #    config = {
+    #      for key, value in local.env.tf_backend.configs :
+    #      key => can(tostring(value)) ? replace(value, "/ci", "/secrets") : value
+    #    }
+    #  }
   }
 
   remote_state = {
-    secrets = data.terraform_remote_state.remote_state["secrets"].outputs.secrets,
+    # secrets = data.terraform_remote_state.remote_state["secrets"].outputs.secrets,
   }
 
   app_env_ci_configs = flatten([

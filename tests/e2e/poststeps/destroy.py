@@ -17,12 +17,30 @@ def destroy():
 
         envs.append(env_obj)
 
+    # Destroy int secrets first
+    command = [
+        "bazel",
+        "run",
+        f"//{bazel_settings.tf_env_dir}/{int_env.name}/secrets:tf",
+        "--",
+        "destroy",
+        "-auto-approve",
+    ]
+    run_command(command)
     # Destroy int env last
     switch_index(envs, int_env, len(envs) - 1)
 
     for env_obj in envs:
         env_name = env_key(env_obj, tf_vars)
-        apply_targets = apply_env_targets(env_name)
+        if env_obj.type == "internal":
+            apply_targets = apply_env_targets(
+                env_name,
+                exclude_targets=[
+                    f"//{bazel_settings.tf_env_dir}/{env_name}/secrets:apply"
+                ],
+            )
+        else:
+            apply_targets = apply_env_targets(env_name)
         # We must destroy states in reverse
         # to how they were applied
         for target in apply_targets[::-1]:
