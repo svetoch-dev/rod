@@ -14,9 +14,9 @@ def destroy():
     int_env = None
 
     for env_name, env_obj in tf_vars.envs.items():
-        #Yandex cloud registry does not support (at all)
-        #deleting registry if it is not empty so
-        #before destroying we need to remove all images first
+        # Yandex cloud registry does not support (at all)
+        # deleting registry if it is not empty so
+        # before destroying we need to remove all images first
         if env_obj.cloud.name == "yc":
             registry_id = env_obj.registry.url.strip("/").split("/")[-1]
             registry = YcRegistry(env_obj.cloud.folder_id, registry_id=registry_id)
