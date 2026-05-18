@@ -80,6 +80,7 @@ def prepare_yc(tfvars: TfVars):
         env_obj.kubernetes.node_locations = ["ru-central1-d"]
         if env_obj.type == "product":
             env_obj.cloud.id = "b1grv6akrivi20i4ahdj"
+            env_obj.kubernetes.regional = False
             env_obj.cloud.folder_id = "b1gj0no4panln7k2nk0a"
         if env_obj.type == "internal":
             env_obj.cloud.id = "b1grv6akrivi20i4ahdj"
