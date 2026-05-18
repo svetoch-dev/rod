@@ -1,8 +1,10 @@
 import os
+import sys
 from rod.libs.py.helpers import run_command, switch_index
 from rod.libs.py.tf.tfvars import tfvars, env_key
 from rod.libs.py.settings import bazel_settings
 from rod.libs.py.tf.apply import apply_env_targets
+from rod.libs.py.yc.registry import YcRegistry
 
 
 def destroy():
@@ -12,6 +14,14 @@ def destroy():
     int_env = None
 
     for env_name, env_obj in tf_vars.envs.items():
+        #Yandex cloud registry does not support (at all)
+        #deleting registry if it is not empty so
+        #before destroying we need to remove all images first
+        if env_obj.cloud.name == "yc":
+            registry_id = env_obj.registry.url.strip("/").split("/")[-1]
+            registry = YcRegistry(env_obj.cloud.folder_id, registry_id=registry_id)
+            registry.purge_images()
+
         if env_obj.type == "internal":
             int_env = env_obj.model_copy(deep=True)
 
