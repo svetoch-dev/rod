@@ -103,8 +103,8 @@ def prepare(cloud: str):
 
     for env_name, env_obj in tf_vars.envs.items():
         for app_name, app_obj in env_obj.apps.items():
-          app_obj.repo = None
-          app_obj.cd = None
+            app_obj.repo = None
+            app_obj.cd = None
         env_obj.cloud.buckets.deletion_protection = False
         env_obj.kubernetes.deletion_protection = False
         env_obj.initial_start = True
