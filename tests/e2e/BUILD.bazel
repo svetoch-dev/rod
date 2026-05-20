@@ -8,6 +8,9 @@ command(
 command(
     name = "infra_create",
     command = "@svetoch_bazel_lib//rod/scripts/init",
+    environment = {
+        "ROD_INIT_TEST": "true",
+    },
 )
 
 command(

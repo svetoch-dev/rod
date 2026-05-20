@@ -80,6 +80,7 @@ def prepare_yc(tfvars: TfVars):
         env_obj.kubernetes.node_locations = ["ru-central1-d"]
         if env_obj.type == "product":
             env_obj.cloud.id = "b1grv6akrivi20i4ahdj"
+            env_obj.kubernetes.regional = False
             env_obj.cloud.folder_id = "b1gj0no4panln7k2nk0a"
         if env_obj.type == "internal":
             env_obj.cloud.id = "b1grv6akrivi20i4ahdj"
@@ -101,6 +102,9 @@ def prepare(cloud: str):
         envs["production"].name = "production"
 
     for env_name, env_obj in tf_vars.envs.items():
+        for app_name, app_obj in env_obj.apps.items():
+            app_obj.repo = None
+            app_obj.cd = None
         env_obj.cloud.buckets.deletion_protection = False
         env_obj.kubernetes.deletion_protection = False
         env_obj.initial_start = True
