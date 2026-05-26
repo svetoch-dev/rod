@@ -17,6 +17,7 @@ def prepare_gcp(tfvars: TfVars):
     }
     for env_name, env_obj in tfvars.envs.items():
         env_obj.cloud.location = Location(**location)
+        env_obj.test = True
         env_obj.cloud.folder_id = ""
         env_obj.kubernetes.node_locations = ["europe-west2-a"]
         if env_obj.type == "product":
