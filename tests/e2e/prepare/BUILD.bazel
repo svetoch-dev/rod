@@ -13,6 +13,7 @@ py_binary(
     deps = [
         "@svetoch_bazel_lib//rod/libs/py/settings",
         "@svetoch_bazel_lib//rod/libs/py/tf",
+        "@svetoch_bazel_lib//rod/scripts/init:prepare",
         requirement("click"),
     ],
 )

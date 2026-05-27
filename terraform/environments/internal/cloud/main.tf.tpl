@@ -10,9 +10,8 @@ data "terraform_remote_state" "remote_state" {
   config = each.value.config
 }
 
-
 module "cloud" {
-  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud/{env.cloud.name}?ref=v0.19.0"
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/cloud/{env.cloud.name}/{env.type}?ref=v0.21.0"
   company   = var.company
   ci        = var.ci
   int_env   = var.envs.internal
