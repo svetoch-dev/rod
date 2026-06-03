@@ -33,11 +33,6 @@ prometheus-rules:
   enabled: true
   PrometheusAlerts:
     prometheus-main:
-      AbsentMetricCritical:
-        enabled: true
-        rules:
-          probe_success:
-            enabled: true
       CriticalMetric:
         enabled: true
         rules:
@@ -97,4 +92,3 @@ prometheus-rules:
             enabled: true
           PVC_low_capacity:
             enabled: true
-

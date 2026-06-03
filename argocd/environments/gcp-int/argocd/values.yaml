@@ -13,3 +13,13 @@ probes:
   probes:
     argocd:
       enabled: true
+
+prometheus-rules:
+  enabled: true
+  PrometheusAlerts:
+    argocd:
+      AbsentMetricCritical:
+        enabled: true
+        rules:
+          probe_success:
+            enabled: true
