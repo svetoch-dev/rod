@@ -105,6 +105,9 @@ prometheus-rules:
           # Logs
           Fluentbit_high_average_latency:
             enabled: true
+          # Metrics
+          ThanosCompactorHalted:
+            enabled: true
           # Postgres
           Postgres_logical_backup_error:
             enabled: true

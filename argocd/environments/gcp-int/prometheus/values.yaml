@@ -80,6 +80,9 @@ prometheus-rules:
           # Logs
           Fluentbit_high_average_latency:
             enabled: true
+          # Metrics
+          ThanosCompactorHalted:
+            enabled: true
           # Redis
           Redis_disconnected_slaves:
             enabled: true
