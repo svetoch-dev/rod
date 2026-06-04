@@ -19,3 +19,13 @@ kong:
   ingressController:
     admissionWebhook:
       enabled: true
+
+prometheus-rules:
+  enabled: true
+  PrometheusAlerts:
+    kong:
+      AbsentMetricCritical:
+        enabled: true
+        rules:
+          kong_http_requests_total:
+            enabled: true

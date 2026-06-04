@@ -33,11 +33,6 @@ prometheus-rules:
   enabled: true
   PrometheusAlerts:
     prometheus-main:
-      AbsentMetricCritical:
-        enabled: true
-        rules:
-          probe_success:
-            enabled: true
       CriticalMetric:
         enabled: true
         rules:
@@ -85,6 +80,9 @@ prometheus-rules:
           # Logs
           Fluentbit_high_average_latency:
             enabled: true
+          # Metrics
+          ThanosCompactorHalted:
+            enabled: true
           # Redis
           Redis_disconnected_slaves:
             enabled: true
@@ -97,4 +95,3 @@ prometheus-rules:
             enabled: true
           PVC_low_capacity:
             enabled: true
-

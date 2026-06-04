@@ -38,19 +38,6 @@ prometheus-rules:
   enabled: true
   PrometheusAlerts:
     prometheus-main:
-      AbsentMetricCritical:
-        enabled: true
-        rules:
-          kong_http_requests_total:
-            enabled: true
-          pg_stat_activity_count:
-            enabled: true
-          pg_stat_database_xact_commit:
-            enabled: true
-          pg_up:
-            enabled: true
-          probe_success:
-            enabled: true
       CriticalMetric:
         enabled: true
         interval: "31s"
@@ -117,6 +104,9 @@ prometheus-rules:
             enabled: true
           # Logs
           Fluentbit_high_average_latency:
+            enabled: true
+          # Metrics
+          ThanosCompactorHalted:
             enabled: true
           # Postgres
           Postgres_logical_backup_error:
