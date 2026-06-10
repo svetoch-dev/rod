@@ -1,0 +1,18 @@
+load("@aspect_bazel_lib//lib:tar.bzl", "tar")
+load("@rules_oci//oci:defs.bzl", "oci_load")
+load("@svetoch_bazel_lib//tools/macros:img.bzl", "img_push")
+
+oci_load(
+    name = "argocd_docker",
+    image = "@svetoch_bazel_lib//deps/images/argocd:argocd_img",
+    repo_tags = [
+        "argocd:yc"
+    ],
+)
+
+img_push(
+    envs = ["int"],
+    image = "@svetoch_bazel_lib//deps/images/argocd:argocd_img",
+    remote_tags = "image_tag.txt",
+    service_name = "argocd",
+)
