@@ -114,6 +114,8 @@ prometheus-rules:
           # Redis
           Redis_disconnected_slaves:
             enabled: true
+          RedisSentinel_master_down:
+            enabled: true
           # Resources
           High_cpu_throttling:
             enabled: true
