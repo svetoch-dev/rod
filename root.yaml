@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  project: default
+  source:
+    repoURL: git@github.com:svetoch-dev/rod.git
+    path: argocd/environments
+    targetRevision: master
+    helm:
+      valueFiles:
+        - ../globals.yaml
+        - ../../../../envs.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

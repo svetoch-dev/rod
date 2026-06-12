@@ -38,7 +38,7 @@ def prepare_yc(tfvars: TfVars):
 
 @click.command()
 @click.argument(
-    "cloud", required=False, default="gcp", type=click.Choice(["gcp", "yc"])
+    "cloud", required=False, default="yc", type=click.Choice(["gcp", "yc"])
 )
 def prepare(cloud: str):
     prepare_tfvars(cloud, {"prd": "production"})

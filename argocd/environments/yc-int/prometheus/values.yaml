@@ -1,0 +1,97 @@
+ingresses:
+  alertmanager-main:
+    enabled: true
+  prometheus-main:
+    enabled: true
+
+operator:
+  enabled: true
+
+alertmanager-configs:
+  enabled: true
+  configs:
+    main:
+      enabled: true
+      receivers: "{{ .Values.global.alerts.receivers | toYaml }}"
+
+prometheus-node-exporter:
+  enabled: true
+
+kube-state-metrics:
+  enabled: true
+
+alertmanager-main:
+  enabled: true
+
+prometheus-main:
+  enabled: true
+
+prometheus-blackbox-exporter:
+  enabled: true
+
+prometheus-rules:
+  enabled: true
+  PrometheusAlerts:
+    prometheus-main:
+      CriticalMetric:
+        enabled: true
+        rules:
+          # Blackbox
+          api:
+            enabled: true
+          # k8s
+          Daemonset_not_ready:
+            enabled: true
+          Pod_replicas_not_ready:
+            enabled: true
+          Pods_waiting_state:
+            enabled: true
+          Pods_waiting_state_kube-system:
+            enabled: true
+          Statefulset_not_ready:
+            enabled: true
+          # Logs
+          Fluentbit_no_output_bytes_processed:
+            enabled: true
+          Fluentbit_cloud_no_output_bytes_processed:
+            enabled: true
+          Fluentbit_input_error:
+            enabled: true
+          Fluentbit_output_error:
+            enabled: true
+          Loki_high_5xx_rate:
+            enabled: true
+          # Redis
+          Redis_missing_master:
+            enabled: true
+          Redis_too_many_masters:
+            enabled: true
+          # Resources
+          OOM_killed_pods:
+            enabled: true
+          PVC_low_capacity:
+            enabled: true
+      WarningMetric:
+        enabled: true
+        rules:
+          # Deployment
+          Container_too_many_restarts:
+            enabled: true
+          # Logs
+          Fluentbit_high_average_latency:
+            enabled: true
+          # Metrics
+          ThanosCompactorHalted:
+            enabled: true
+          # Redis
+          Redis_disconnected_slaves:
+            enabled: true
+          # Resources
+          High_cpu_throttling:
+            enabled: true
+          High_memory_usage:
+            enabled: true
+          OOM_killed_pods_(on_node):
+            enabled: true
+          PVC_low_capacity:
+            enabled: true

@@ -1,0 +1,18 @@
+grafana-operator:
+  enabled: true
+
+ingresses:
+  main:
+    enabled: true
+
+grafana-main:
+  enabled: true
+
+datasource:
+  enabled: true
+
+dashboard:
+  enabled: true
+
+fluentbit-filters:
+  enabled: true
