@@ -3,48 +3,53 @@ global:
     domain: rod.svetoch.dev
     name: rod
 
+  ci:
+    type: gha
+
   repo:
     type: github
-    provider: github.com
     name: infrastructure
     group: svetoch-dev
-    revision: master
 
   envs:
     production:
-      enabled: true
+      enabled: false
       name: production
       short_name: prd
       type: product
       users: {}
       registry:
+        type: gar
         url: "{PRD_CONTAINER_REGISTRY}"
       dns:
-        root: rod.svetoch.dev
-        domain: "{{ .Values.global.env.short_name }}.{{ .Values.global.env.dns.root }}"
+        domain: "{{ .Values.global.env.short_name }}.{{ .Values.global.company.domain }}"
+        type: gcp
       cloud:
         name: "{CLOUD_TYPE}"
-        buckets:
-          type: "{BUCKET_TYPE}"
+        id: rod-production
+        location:
+          region: europe-west2
         network:
           int_nat_gw: "{INT_NAT_GW}"
       kubernetes:
         server: "https://{PRD_K8S_IP}"
     development:
-      enabled: true
+      enabled: false
       name: development
       short_name: dev
       type: product
       users: {}
       registry:
+        type: gar
         url: "{DEV_CONTAINER_REGISTRY}"
       dns:
-        root: rod.svetoch.dev
-        domain: "{{ .Values.global.env.short_name }}.{{ .Values.global.env.dns.root }}"
+        domain: "{{ .Values.global.env.short_name }}.{{ .Values.global.company.domain }}"
+        type: gcp
       cloud:
         name: "{CLOUD_TYPE}"
-        buckets:
-          type: "{BUCKET_TYPE}"
+        id: rod-development
+        location:
+          region: europe-west2
         network:
           int_nat_gw: "{INT_NAT_GW}"
       kubernetes:
@@ -56,14 +61,16 @@ global:
       type: internal
       users: {}
       registry:
+        type: gar
         url: "{INT_CONTAINER_REGISTRY}"
       dns:
-        root: rod.svetoch.dev
-        domain: "{{ .Values.global.env.short_name }}.{{ .Values.global.env.dns.root }}"
+        domain: "{{ .Values.global.env.short_name }}.{{ .Values.global.company.domain }}"
+        type: gcp
       cloud:
         name: "{CLOUD_TYPE}"
-        buckets:
-          type: "{BUCKET_TYPE}"
+        id: rod-internal
+        location:
+          region: europe-west2
         network:
           int_nat_gw: "{INT_NAT_GW}"
       kubernetes:
