@@ -1,126 +1,81 @@
 global:
   company:
+    domain: rod.svetoch.dev
     name: rod
-    domain:
-      root: rod.svetoch.dev
-    teams:
-      domain: ""
-      admin:
-        emails: []
-      qa:
-        emails: []
-      dev:
-        emails: []
-      pm:
-        emails: []
-  network:
-    int_nat_gw: {INT_NAT_GW}
-  alerts:
-    receivers:
-      - name: default
-        telegramConfigs:
-          - useDefaults: true
-  bucket:
-    type: {BUCKET_TYPE}
 
-  cloud:
-    type: {CLOUD_TYPE}
+  ci:
+    type: gha
 
+  repo:
+    type: github
+    name: infrastructure
+    group: svetoch-dev
+
+  envs:
+    production:
+      enabled: false
+      name: production
+      short_name: prd
+      type: product
+      users: {}
+      registry:
+        type: gar
+        url: "{PRD_CONTAINER_REGISTRY}"
+      dns:
+        domain: "{{ .Values.global.env.short_name }}.{{ .Values.global.company.domain }}"
+        type: gcp
+      cloud:
+        name: "{CLOUD_TYPE}"
+        id: rod-production
+        location:
+          region: europe-west2
+        network:
+          int_nat_gw: "{INT_NAT_GW}"
+      kubernetes:
+        server: "https://{PRD_K8S_IP}"
+    development:
+      enabled: false
+      name: development
+      short_name: dev
+      type: product
+      users: {}
+      registry:
+        type: gar
+        url: "{DEV_CONTAINER_REGISTRY}"
+      dns:
+        domain: "{{ .Values.global.env.short_name }}.{{ .Values.global.company.domain }}"
+        type: gcp
+      cloud:
+        name: "{CLOUD_TYPE}"
+        id: rod-development
+        location:
+          region: europe-west2
+        network:
+          int_nat_gw: "{INT_NAT_GW}"
+      kubernetes:
+        server: "https://{DEV_K8S_IP}"
+    internal:
+      enabled: true
+      name: internal
+      short_name: int
+      type: internal
+      users: {}
+      registry:
+        type: gar
+        url: "{INT_CONTAINER_REGISTRY}"
+      dns:
+        domain: "{{ .Values.global.env.short_name }}.{{ .Values.global.company.domain }}"
+        type: gcp
+      cloud:
+        name: "{CLOUD_TYPE}"
+        id: rod-internal
+        location:
+          region: europe-west2
+        network:
+          int_nat_gw: "{INT_NAT_GW}"
+      kubernetes:
+        server: https://kubernetes.default.svc
 #Be carefull check the syncPolicy
 #when setting enabled: false for envs
 #or deleting this file. It may cause
 #deletion of all your resources in all envs
-repository:
-  url: "git@github.com:ggramal/infrastructure.git"
-  revision: master
-
-root:
-  enabled: true
-
-envs:
-  gcp-prd:
-    enabled: true
-    values: |
-      {{- /* Changing env name
-             will probably recreate all
-             k8s objects in this env
-      */ -}}
-      {{- $env := dict "name" "gcp-prd" }}
-      {{- $env := set $env "short_name" "prd" }}
-      {{- $env := set $env "long_name" "production" }}
-      {{- $env := set $env "registry" "{PRD_CONTAINER_REGISTRY}}" }}
-      {{- $env := set $env "server" "https://{PRD_K8S_IP}" }}
-
-      {{- $domain  := dict "root" .Values.global.company.domain.root }}
-      {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.global.company.domain.root) }}
-
-      {{- $cloud := mustDeepCopy .Values.global.cloud }}
-
-      {{- $context := mustDeepCopy . }}
-      {{- $context := set $context "env" $env }}
-      {{- $context := set $context "domain" $domain }}
-      {{- $context := set $context "cloud" $cloud }}
-
-      {{- tpl .Values.defaultValuesTpl $context | nindent 2 }}
-    finalizers:
-      - resources-finalizer.argocd.argoproj.io
-  gcp-dev:
-    enabled: true
-    values: |
-      {{- /* Changing env name
-             will probably recreate all
-             k8s objects in this env
-      */ -}}
-      {{- $env := dict "name" "gcp-dev" }}
-      {{- $env := set $env "short_name" "dev" }}
-      {{- $env := set $env "long_name" "development" }}
-      {{- $env := set $env "registry" "{DEV_CONTAINER_REGISTRY}}" }}
-      {{- $env := set $env "server" "https://{DEV_K8S_IP}" }}
-
-      {{- $domain  := dict "root" .Values.global.company.domain.root }}
-      {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.global.company.domain.root) }}
-
-      {{- $cloud := mustDeepCopy .Values.global.cloud }}
-
-      {{- $context := mustDeepCopy . }}
-      {{- $context := set $context "env" $env }}
-      {{- $context := set $context "domain" $domain }}
-      {{- $context := set $context "cloud" $cloud }}
-
-      {{- tpl .Values.defaultValuesTpl $context | nindent 2 }}
-    finalizers:
-      - resources-finalizer.argocd.argoproj.io
-  gcp-int:
-    enabled: true
-    values: |
-      {{- /* Changing env name
-             will probably recreate all
-             k8s objects in this env
-      */ -}}
-      {{- $env := dict "name" "gcp-int" }}
-      {{- $env := set $env "short_name" "int" }}
-      {{- $env := set $env "long_name" "internal" }}
-      {{- $env := set $env "registry" "{INT_CONTAINER_REGISTRY}}" }}
-      {{- $env := set $env "server"  "https://kubernetes.default.svc" }}
-
-      {{- $domain  := dict "root" .Values.global.company.domain.root }}
-      {{- $domain  := set $domain "env" (printf "%s.%s" $env.short_name .Values.global.company.domain.root) }}
-
-      {{- $cloud := mustDeepCopy .Values.global.cloud }}
-
-      {{- $context := mustDeepCopy . }}
-      {{- $context := set $context "env" $env }}
-      {{- $context := set $context "domain" $domain }}
-      {{- $context := set $context "cloud" $cloud }}
-
-      {{- tpl .Values.defaultValuesTpl $context | nindent 2 }}
-
-      externalEnvs:
-        {SOME_EXTERNAL_ENV}:
-          domain: {SOME_DOMAIN}
-        {SOME_EXTERNAL_ENV}:
-          domain: {SOME_DOMAIN}
-
-
-    finalizers:
-      - resources-finalizer.argocd.argoproj.io

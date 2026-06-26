@@ -1,3 +1,2 @@
 external-dns:
   enabled: true
-  provider: google
