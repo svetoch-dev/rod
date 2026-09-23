@@ -1,5 +1,7 @@
 import os
 import sys
+import grpc
+
 from rod.libs.py.helpers import run_command, switch_index
 from rod.libs.py.tf.tfvars import tfvars, env_key
 from rod.libs.py.settings import bazel_settings
@@ -19,8 +21,15 @@ def destroy():
         # before destroying we need to remove all images first
         if env_obj.cloud.name == "yc":
             registry_id = env_obj.registry.url.strip("/").split("/")[-1]
-            registry = YcRegistry(env_obj.cloud.folder_id, registry_id=registry_id)
-            registry.purge_images()
+            try:
+                registry = YcRegistry(
+                    env_obj.cloud.folder_id, registry_id=registry_id
+                )
+                registry.purge_images()
+            except grpc.RpcError as error:
+                if error.code() != grpc.StatusCode.NOT_FOUND:
+                    raise
+                print(f"Registry {registry_id} not found, skipping image cleanup")
 
         if env_obj.type == "internal":
             int_env = env_obj.model_copy(deep=True)
