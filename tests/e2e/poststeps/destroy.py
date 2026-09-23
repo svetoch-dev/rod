@@ -19,7 +19,7 @@ def destroy():
         # Yandex cloud registry does not support (at all)
         # deleting registry if it is not empty so
         # before destroying we need to remove all images first
-        if env_obj.cloud.name == "yc":
+        if env_obj.cloud.name == "yc" and env_obj.registry.url:
             registry_id = env_obj.registry.url.strip("/").split("/")[-1]
             try:
                 registry = YcRegistry(
