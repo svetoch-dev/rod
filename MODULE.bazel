@@ -13,7 +13,7 @@ bazel_dep(name = "rules_multirun", version = "0.10.0")
 bazel_dep(name = "svetoch_bazel_lib")
 git_override(
     module_name = "svetoch_bazel_lib",
-    commit = "5b693c36477a2839a6d4e3668c04995f5c5c1bf4",
+    commit = "03ab00f312fac96b7567bb5c1dbaa122589acc1c",
     remote = "https://github.com/svetoch-dev/bazel-lib",
 )
 
@@ -70,7 +70,7 @@ override_repo(
 ###################
 
 bazel_dep(name = "rules_oci", version = "2.3.0")
-bazel_dep(name = "rules_distroless", version = "0.6.2")
+bazel_dep(name = "rules_distroless", version = "0.8.0")
 
 ##################
 # Python support
