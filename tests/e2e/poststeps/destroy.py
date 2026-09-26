@@ -22,12 +22,10 @@ def destroy():
         if env_obj.cloud.name == "yc" and env_obj.registry.url:
             registry_id = env_obj.registry.url.strip("/").split("/")[-1]
             try:
-                registry = YcRegistry(
-                    env_obj.cloud.folder_id, registry_id=registry_id
-                )
+                registry = YcRegistry(env_obj.cloud.folder_id, registry_id=registry_id)
                 registry.purge_images()
-            except grpc.RpcError as error:
-                if error.code() != grpc.StatusCode.NOT_FOUND:
+            except grpc.RpcError as err:
+                if err.code() != grpc.StatusCode.NOT_FOUND:
                     raise
                 print(f"Registry {registry_id} not found, skipping image cleanup")
 
