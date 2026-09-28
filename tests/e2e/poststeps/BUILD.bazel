@@ -1,5 +1,6 @@
 load("@aspect_rules_py//py:defs.bzl", "py_binary")
 load("@svetoch_bazel_lib//tools/lint/py:black.bzl", "py_lint")
+load("@svetoch_bazel_lib_py_deps//:requirements.bzl", "requirement")
 
 py_lint()
 
@@ -12,5 +13,6 @@ py_binary(
         "@svetoch_bazel_lib//rod/libs/py/settings",
         "@svetoch_bazel_lib//rod/libs/py/tf",
         "@svetoch_bazel_lib//rod/libs/py/yc:registry",
+        requirement("grpcio"),
     ],
 )

@@ -30,7 +30,7 @@ def prepare_yc(tfvars: TfVars):
     for env_name, env_obj in tfvars.envs.items():
         if env_obj.type == "product":
             env_obj.cloud.id = "b1grv6akrivi20i4ahdj"
-            env_obj.cloud.folder_id = "b1gj0no4panln7k2nk0a"
+            env_obj.cloud.folder_id = "b1gettr3ebktsmcth16v"
         if env_obj.type == "internal":
             env_obj.cloud.id = "b1grv6akrivi20i4ahdj"
             env_obj.cloud.folder_id = "b1gfu8oas3od212hedtu"
