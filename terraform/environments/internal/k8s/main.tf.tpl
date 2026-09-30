@@ -22,9 +22,10 @@ module "cloud_config" {
 
 module "k8s" {
   source    = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/k8s/{env.type}?ref=v0.24.0"
-  k8s_api   = local.k8s_api
-  ci        = var.ci
-  int_env   = var.envs.internal
-  env       = local.env
-  overrides = local.overrides
+  k8s_api                = local.k8s_api
+  ci                     = var.ci
+  int_env                = var.envs.internal
+  env                    = local.env
+  overrides              = local.overrides
+  cloud_service_accounts = local.remote_state.iam.service_accounts
 }

@@ -17,5 +17,6 @@ locals {
 
   remote_state = {
     k8s_clusters = data.terraform_remote_state.remote_state["cloud"].outputs.this.k8s_clusters,
+    iam          = data.terraform_remote_state.remote_state["cloud"].outputs.this.iam,
   }
 }
