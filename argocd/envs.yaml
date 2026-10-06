@@ -1,76 +1,14 @@
 global:
-  company:
-    domain: rod.svetoch.dev
-    name: rod
-
-  ci:
-    type: gha
-
-  repo:
-    type: github
-    name: infrastructure
-    group: svetoch-dev
-
   envs:
     production:
-      enabled: false
-      name: production
-      short_name: prd
-      type: product
-      users: {}
-      registry:
-        type: gar
-        url: "{PRD_CONTAINER_REGISTRY}"
-      dns:
-        domain: "{{ .Values.global.env.short_name }}.{{ .Values.global.company.domain }}"
-        type: gcp
       cloud:
-        name: "{CLOUD_TYPE}"
-        id: rod-production
-        location:
-          region: europe-west2
         network:
           int_nat_gw: "{INT_NAT_GW}"
       kubernetes:
         server: "https://{PRD_K8S_IP}"
-    development:
-      enabled: false
-      name: development
-      short_name: dev
-      type: product
-      users: {}
-      registry:
-        type: gar
-        url: "{DEV_CONTAINER_REGISTRY}"
-      dns:
-        domain: "{{ .Values.global.env.short_name }}.{{ .Values.global.company.domain }}"
-        type: gcp
-      cloud:
-        name: "{CLOUD_TYPE}"
-        id: rod-development
-        location:
-          region: europe-west2
-        network:
-          int_nat_gw: "{INT_NAT_GW}"
-      kubernetes:
-        server: "https://{DEV_K8S_IP}"
     internal:
       enabled: true
-      name: internal
-      short_name: int
-      type: internal
-      users: {}
-      registry:
-        type: gar
-        url: "{INT_CONTAINER_REGISTRY}"
-      dns:
-        domain: "{{ .Values.global.env.short_name }}.{{ .Values.global.company.domain }}"
-        type: gcp
       cloud:
-        name: "{CLOUD_TYPE}"
-        id: rod-internal
-        location:
-          region: europe-west2
         network:
           int_nat_gw: "{INT_NAT_GW}"
       kubernetes:
