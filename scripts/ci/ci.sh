@@ -5,15 +5,14 @@ prepare_step() {
     echo perparing env
 
     #Enable bazel disk cache for ci
-    echo 'build --disk_cache=.cache' > .bazelrc.ci
+    echo 'build --disk_cache=.cache' > .bazelrc-ci
 
+    #Need this because we need to execute git command and because
+    #of permissions on .git folder
     git config --global --add safe.directory $CI_BUILDS_DIR/$CI_PROJECT_PATH
-    echo git config --global --add safe.directory $CI_BUILDS_DIR/$CI_PROJECT_PATH
     git config --global user.name 'ci'
     git config --global user.email 'ci@svetoch.dev'
     git fetch
-    echo git checkout $GIT_HEAD_REF
-    git checkout $GIT_HEAD_REF
 
     bazel run @svetoch_bazel_lib//rod/scripts/init/images/prepare
 }
