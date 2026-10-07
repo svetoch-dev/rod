@@ -4,7 +4,6 @@ env:
   BAZEL_RUN_TARGETS: "apply push_dev push_prd"
   CI_BUILDS_DIR: "/__w/${{ github.event.repository.name}}"
   CI_PROJECT_PATH: "${{ github.event.repository.name }}"
-  GIT_HEAD_REF: ${{ github.head_ref }}
 
 on:
   push:
@@ -25,7 +24,7 @@ jobs:
       image: "${{ vars.BAZELISK_IMAGE }}"
     steps:
     - name: Clone Git branch
-      uses: actions/checkout@v6.0.2
+      uses: actions/checkout@v7.0.1
       with:
         fetch-depth: 0
     - name: export google creds

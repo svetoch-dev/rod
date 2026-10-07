@@ -4,7 +4,6 @@ env:
   BAZEL_MANUAL_BUILD_TARGETS: "plan"
   CI_BUILDS_DIR: "/__w/${{ github.event.repository.name}}"
   CI_PROJECT_PATH: "${{ github.event.repository.name }}"
-  GIT_HEAD_REF: ${{ github.head_ref }}
   BEFORE_COMMIT_SHA: ${{ github.event.pull_request.base.sha }}
 
 on:
@@ -23,6 +22,6 @@ jobs:
       image: "europe-north1-docker.pkg.dev/svetochdev-internal/containers/bazelisk:v1.28.1-1"
     steps:
     - name: Clone Git branch
-      uses: actions/checkout@v6.0.2
+      uses: actions/checkout@v7.0.1
     - name: test
       run: bazel test //...
