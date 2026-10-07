@@ -5,7 +5,7 @@ prepare_step() {
     echo perparing env
 
     #Enable bazel disk cache for ci
-    echo 'build --disk_cache=.cache' > .bazelrc-ci
+    echo 'build --disk_cache=.cache' > .bazelrc.ci
 
     #Need this because we need to execute git command and because
     #of permissions on .git folder
