@@ -1,5 +1,5 @@
 vedro-controller:
-  enabled: false
+  enabled: true
 
 vedro-resources:
   enabled: false
