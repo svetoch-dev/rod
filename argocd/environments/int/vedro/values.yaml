@@ -1,0 +1,13 @@
+vedro-controller:
+  enabled: true
+  controller:
+    enabled: true
+    serviceAccount:
+      create: false
+      name: vedrosa
+
+vedro-resources:
+  enabled: true
+  providers: {}
+  principals: {}
+  buckets: {}
