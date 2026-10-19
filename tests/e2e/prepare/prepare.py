@@ -2,10 +2,10 @@ import click
 from rod.libs.py.tf.tfvars import (
     tfvars,
     TfVars,
+    EnvTypeEnum,
     Location,
     update_tfvars,
 )
-from rod.libs.py.settings import bazel_settings
 from rod.scripts.init.prepare import prepare_tfvars
 
 
@@ -20,18 +20,18 @@ def prepare_gcp(tfvars: TfVars):
         env_obj.test = True
         env_obj.cloud.folder_id = ""
         env_obj.kubernetes.node_locations = ["europe-west2-a"]
-        if env_obj.type == "product":
+        if env_obj.type == EnvTypeEnum.product:
             env_obj.cloud.id = "rod-production"
-        if env_obj.type == "internal":
+        if env_obj.type == EnvTypeEnum.internal:
             env_obj.cloud.id = "rod-internal"
 
 
 def prepare_yc(tfvars: TfVars):
     for env_name, env_obj in tfvars.envs.items():
-        if env_obj.type == "product":
+        if env_obj.type == EnvTypeEnum.product:
             env_obj.cloud.id = "b1grv6akrivi20i4ahdj"
             env_obj.cloud.folder_id = "b1gettr3ebktsmcth16v"
-        if env_obj.type == "internal":
+        if env_obj.type == EnvTypeEnum.internal:
             env_obj.cloud.id = "b1grv6akrivi20i4ahdj"
             env_obj.cloud.folder_id = "b1gfu8oas3od212hedtu"
 
