@@ -3,7 +3,7 @@ import sys
 import grpc
 
 from rod.libs.py.helpers import run_command, switch_index
-from rod.libs.py.tf.tfvars import tfvars, env_key
+from rod.libs.py.tf.tfvars import EnvTypeEnum, tfvars, env_key
 from rod.libs.py.settings import bazel_settings
 from rod.libs.py.tf.apply import apply_env_targets
 from rod.libs.py.yc.registry import YcRegistry
@@ -29,7 +29,7 @@ def destroy():
                     raise
                 print(f"Registry {registry_id} not found, skipping image cleanup")
 
-        if env_obj.type == "internal":
+        if env_obj.type == EnvTypeEnum.internal:
             int_env = env_obj.model_copy(deep=True)
 
         envs.append(env_obj)
@@ -49,7 +49,7 @@ def destroy():
 
     for env_obj in envs:
         env_name = env_key(env_obj, tf_vars)
-        if env_obj.type == "internal":
+        if env_obj.type == EnvTypeEnum.internal:
             apply_targets = apply_env_targets(
                 env_name,
                 exclude_targets=[

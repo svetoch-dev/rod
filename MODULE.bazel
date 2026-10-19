@@ -13,7 +13,7 @@ bazel_dep(name = "rules_multirun", version = "0.10.0")
 bazel_dep(name = "svetoch_bazel_lib")
 git_override(
     module_name = "svetoch_bazel_lib",
-    commit = "9a9f8bf014da76e6d5d3ace67b5467d177cfc426",
+    commit = "7c107e1591e764f033f31b9b98ea5333fdb30dd0",
     remote = "https://github.com/svetoch-dev/bazel-lib",
 )
 
@@ -29,7 +29,7 @@ git_override(
 
 tools = use_extension("@rules_bin_tools//tools:extensions.bzl", "tools")
 tools.download(
-    helm_version = "v3.18.4",
+    helm_version = "v4.3.0",
 )
 use_repo(tools, "helm_executable")
 
