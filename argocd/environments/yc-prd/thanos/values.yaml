@@ -1,0 +1,13 @@
+ingresses:
+  storegateway:
+    enabled: true
+
+kong-plugins:
+  enabled: true
+
+thanos:
+  enabled: true
+  compactor:
+    enabled: true
+  storegateway:
+    enabled: true

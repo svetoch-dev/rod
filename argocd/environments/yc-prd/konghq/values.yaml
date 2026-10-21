@@ -1,0 +1,31 @@
+kong-plugins:
+  enabled: true
+
+certificates:
+  enabled: true
+  issuers:
+    selfsigned:
+      enabled: true
+  certs:
+    webhook:
+      enabled: true
+  cluster_issuers:
+    letsencrypt:
+      enabled: true
+
+kong:
+  enabled: true
+  replicaCount: 2
+  ingressController:
+    admissionWebhook:
+      enabled: true
+
+prometheus-rules:
+  enabled: true
+  PrometheusAlerts:
+    kong:
+      AbsentMetricCritical:
+        enabled: true
+        rules:
+          kong_http_requests_total:
+            enabled: true

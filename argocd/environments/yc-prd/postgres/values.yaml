@@ -1,0 +1,4 @@
+postgres-operator:
+  enabled: true
+  configLogicalBackup:
+    logical_backup_schedule: "25 00 * * *"

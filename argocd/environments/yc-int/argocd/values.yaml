@@ -1,0 +1,25 @@
+ingresses:
+  server:
+    enabled: true
+
+argocd:
+  enabled: true
+
+redis:
+  enabled: true
+
+probes:
+  enabled: true
+  probes:
+    argocd:
+      enabled: true
+
+prometheus-rules:
+  enabled: true
+  PrometheusAlerts:
+    argocd:
+      AbsentMetricCritical:
+        enabled: true
+        rules:
+          probe_success:
+            enabled: true

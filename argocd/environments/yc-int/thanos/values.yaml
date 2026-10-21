@@ -1,0 +1,8 @@
+thanos:
+  enabled: true
+  compactor:
+    enabled: true
+  storegateway:
+    enabled: true
+  query:
+    enabled: true

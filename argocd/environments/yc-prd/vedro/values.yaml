@@ -1,0 +1,5 @@
+vedro-controller:
+  enabled: true
+
+vedro-resources:
+  enabled: false

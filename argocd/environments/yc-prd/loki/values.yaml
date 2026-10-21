@@ -1,0 +1,9 @@
+ingresses:
+  loki-read:
+    enabled: true
+
+kong-plugins:
+  enabled: true
+
+loki:
+  enabled: true
