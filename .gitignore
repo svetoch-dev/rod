@@ -23,7 +23,6 @@ terraform.tfplan
 bazel-*
 .bazelrc.ci
 .bazelrc.cloud
-MODULE.bazel.lock
 
 ## argocd ##
 argocd/charts/**/charts
