@@ -5,6 +5,12 @@ try-import %workspace%/.bazelrc.cloud
 
 #Needed for in order to use basic auth proxies
 startup --host_jvm_args="-Djdk.http.auth.tunneling.disabledSchemes="
+#Needed if interpreter is used from rules_python
+common --@aspect_rules_py//py:emit_rules_python_providers
+#Use toolchain python 
+common --@rules_python//python/config_settings:bootstrap_impl=script
+common --repo_env=https_proxy
+common --repo_env=DO_NOT_TRACK=1
 test --test_output=errors
 build --action_env https_proxy --workspace_status_command=scripts/stamping/update_status.sh
 build --action_env GITHUB_TOKEN
