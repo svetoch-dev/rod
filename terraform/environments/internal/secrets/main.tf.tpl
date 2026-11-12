@@ -33,13 +33,13 @@ provider "kubernetes" {
 }
 
 module "secrets" {
-  source          = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/secrets?ref=v0.26.0"
+  source                 = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/secrets?ref=v0.26.0"
   ci                     = var.ci
   app_runner_private_key = local.remote_state.app_runner_private_key
   env                    = local.env
   argocd_repos           = local.remote_state.argocd_repos
   overrides              = local.overrides
-  argocd_clusters        = {
+  argocd_clusters = {
     for cluster_name, cluster_obj in local.remote_state.k8s_clusters : cluster_name => cluster_obj
     if cluster_obj.type == "product"
   }
