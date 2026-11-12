@@ -1,5 +1,6 @@
 locals {
-  bazelisk_img_version = var.ci.bazelisk_img_version == "" ? trimspace(file("../../../../deps/images/bazelisk/image_tag.txt")) : var.ci.bazelisk_img_version
+  bazelisk_img_version  = var.ci.bazelisk_img_version == "" ? trimspace(file("../../../../deps/images/bazelisk/image_tag.txt")) : var.ci.bazelisk_img_version
+  ci_deploy_img_version = var.ci.ci_deploy_img_version == "" ? trimspace(file("../../../../deps/images/ci/image_tag.txt")) : var.ci.ci_deploy_img_version
   remote_state_config = {
     #  secrets = {
     #    config = {

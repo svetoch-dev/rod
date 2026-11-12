@@ -28,6 +28,7 @@ locals {
   )
 
   remote_state = {
+    app_runner_private_key = data.terraform_remote_state.remote_state["repo"].outputs.repos["infrastructure"].deploy_keys.app_runner.private_key_openssh
     argocd_repos = {
       for repo_name, repo_obj in data.terraform_remote_state.remote_state["repo"].outputs.repos : repo_name => {
         private_key_openssh = repo_obj.deploy_keys.argocd.private_key_openssh

@@ -2,6 +2,9 @@ load("@svetoch_bazel_lib//tools/macros:tf.bzl", "tf")
 
 tf(
     apply_target = "mapply",
-    extra_srcs = ["//deps/images/bazelisk:image_tag.txt"],
+    extra_srcs = [
+        "//deps/images/bazelisk:image_tag.txt",
+        "//deps/images/ci:image_tag.txt",
+    ],
     plan_target = "mplan",
 )
