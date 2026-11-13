@@ -1,2 +1,5 @@
+vedro:
+  enabled: true
+
 loki:
   enabled: true
