@@ -27,7 +27,7 @@ locals {
           registry_url = app_obj.cd == null ? null : env_obj.registry.url
         }
       }
-      if app_obj.repo != null && length(app_obj.repo) > 0
+      if app_obj.repo != null
     ]
     if env_obj.apps != null
   ])
