@@ -1,3 +1,6 @@
+vedro:
+  enabled: true
+
 ingresses:
   loki-read:
     enabled: true

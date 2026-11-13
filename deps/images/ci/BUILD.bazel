@@ -1,0 +1,22 @@
+load("@rules_oci//oci:defs.bzl", "oci_load")
+load("@svetoch_bazel_lib//tools/macros:img.bzl", "img_push")
+
+exports_files(
+    ["image_tag.txt"],
+    visibility = ["//visibility:public"],
+)
+
+oci_load(
+    name = "ci_deploy_docker",
+    image = "@svetoch_bazel_lib//deps/images/ci:ci_deploy_img",
+    repo_tags = [
+        "ci-deploy:latest",
+    ],
+)
+
+img_push(
+    envs = ["int"],
+    image = "@svetoch_bazel_lib//deps/images/ci:ci_deploy_img",
+    remote_tags = "image_tag.txt",
+    service_name = "ci-deploy",
+)

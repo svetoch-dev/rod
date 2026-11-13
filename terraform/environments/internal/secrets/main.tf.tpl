@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     kubernetes = {
-      source  = "hashicorp/kubernetes"
+      source = "hashicorp/kubernetes"
     }
   }
 
@@ -17,12 +17,12 @@ data "terraform_remote_state" "remote_state" {
 }
 
 module "cloud_config" {
-  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/{env.cloud.name}/client_config?ref=v0.26.0"
-  provider_config =  {
-    id            = local.env.cloud.id
-    region        = local.env.cloud.location.region
-    default_zone  = local.env.cloud.location.default_zone
-    folder_id     = local.env.cloud.folder_id
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/{env.cloud.name}/client_config?ref=v0.28.0"
+  provider_config = {
+    id           = local.env.cloud.id
+    region       = local.env.cloud.location.region
+    default_zone = local.env.cloud.location.default_zone
+    folder_id    = local.env.cloud.folder_id
   }
 }
 
@@ -33,10 +33,12 @@ provider "kubernetes" {
 }
 
 module "secrets" {
-  source          = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/secrets?ref=v0.26.0"
-  env             = local.env
-  argocd_repos    = local.remote_state.argocd_repos
-  overrides       = local.overrides
+  source                 = "git::https://github.com/svetoch-dev/tf-modules.git//modules/rod/secrets?ref=v0.28.0"
+  ci                     = var.ci
+  app_runner_private_key = local.remote_state.app_runner_private_key
+  env                    = local.env
+  argocd_repos           = local.remote_state.argocd_repos
+  overrides              = local.overrides
   argocd_clusters = {
     for cluster_name, cluster_obj in local.remote_state.k8s_clusters : cluster_name => cluster_obj
     if cluster_obj.type == "product"

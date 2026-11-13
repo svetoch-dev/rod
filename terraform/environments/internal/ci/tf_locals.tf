@@ -1,5 +1,6 @@
 locals {
-  bazelisk_img_version = var.ci.bazelisk_img_version == "" ? trimspace(file("../../../../deps/images/bazelisk/image_tag.txt")) : var.ci.bazelisk_img_version
+  bazelisk_img_version  = var.ci.bazelisk_img_version == "" ? trimspace(file("../../../../deps/images/bazelisk/image_tag.txt")) : var.ci.bazelisk_img_version
+  ci_deploy_img_version = var.ci.ci_deploy_img_version == "" ? trimspace(file("../../../../deps/images/ci/image_tag.txt")) : var.ci.ci_deploy_img_version
   remote_state_config = {
     #  secrets = {
     #    config = {
@@ -26,7 +27,7 @@ locals {
           registry_url = app_obj.cd == null ? null : env_obj.registry.url
         }
       }
-      if app_obj.repo != null && length(app_obj.repo) > 0
+      if app_obj.repo != null
     ]
     if env_obj.apps != null
   ])

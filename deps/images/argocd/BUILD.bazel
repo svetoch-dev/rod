@@ -5,7 +5,7 @@ oci_load(
     name = "argocd_docker",
     image = "@svetoch_bazel_lib//deps/images/argocd:argocd_img",
     repo_tags = [
-        "argocd:v3.5.3",
+        "argocd:latest",
     ],
 )
 
