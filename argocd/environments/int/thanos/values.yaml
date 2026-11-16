@@ -1,8 +1,11 @@
-thanos:
+vedro:
   enabled: true
-  compactor:
+
+query:
+  enabled: true
+  ingress:
     enabled: true
-  storegateway:
-    enabled: true
-  query:
-    enabled: true
+compactor:
+  enabled: true
+storegateway:
+  enabled: true
