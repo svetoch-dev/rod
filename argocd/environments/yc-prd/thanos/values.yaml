@@ -1,0 +1,13 @@
+vedro:
+  enabled: true
+
+kong-plugins:
+  enabled: true
+
+compactor:
+  enabled: true
+
+storegateway:
+  enabled: true
+  ingress:
+    enabled: true

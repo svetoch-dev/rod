@@ -1,0 +1,11 @@
+vedro:
+  enabled: true
+
+query:
+  enabled: true
+  ingress:
+    enabled: true
+compactor:
+  enabled: true
+storegateway:
+  enabled: true
