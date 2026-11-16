@@ -6,9 +6,9 @@ certificates:
   certs:
     authn:
       enabled: true
-      ##MASKED##issuerRef:
-      ##MASKED##  kind: ClusterIssuer
-      ##MASKED##  name: '{{ printf "letsencrypt-%s" .Values.global.ingress.class }}'
+      issuerRef:
+        kind: ClusterIssuer
+        name: '{{ printf "letsencrypt-%s" .Values.global.ingress.class }}'
   cluster_issuers:
     letsencrypt:
       enabled: true
