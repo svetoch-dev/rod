@@ -1,4 +1,6 @@
 global:
+  repo:
+    revision: yc
   envs:
     production:
       cloud:
