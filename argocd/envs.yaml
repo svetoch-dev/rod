@@ -9,6 +9,11 @@ global:
       kubernetes:
         server: https://153.51.172.12
     internal:
+      users:
+        gramovich:
+          name: gramovich.al@gmail.com
+          roles:
+          - owner
       cloud:
         network:
           int_nat_gw: 0.0.0.0
