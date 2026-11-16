@@ -1,10 +1,5 @@
-ingresses:
-  query:
-    enabled: true
-
-thanos:
+query:
   enabled: true
-  query:
-    enabled: true
+  thanos:
     extraFlags:
       - "--grpc-client-tls-secure"
