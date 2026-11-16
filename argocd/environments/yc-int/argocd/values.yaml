@@ -1,6 +1,6 @@
 global:
   image:
-    tag: v3.6.1-1
+    tag: v3.6.1
 
 ingresses:
   server:
