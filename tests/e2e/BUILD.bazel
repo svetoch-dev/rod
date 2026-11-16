@@ -1,0 +1,27 @@
+load("@rules_multirun//:defs.bzl", "command", "multirun")
+
+command(
+    name = "prepare",
+    command = "//tests/e2e/prepare",
+)
+
+command(
+    name = "infra_create",
+    command = "@svetoch_bazel_lib//rod/scripts/init",
+    environment = {
+        "ROD_INIT_TEST": "true",
+    },
+)
+
+command(
+    name = "infra_destroy",
+    command = "//tests/e2e/poststeps:destroy",
+)
+
+multirun(
+    name = "e2e",
+    commands = [
+        "prepare",
+        "infra_create",
+    ],
+)
