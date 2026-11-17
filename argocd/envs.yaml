@@ -8,6 +8,14 @@ global:
           name: gramovich.al@gmail.com
           roles:
           - owner
+        dima:
+          name: sto.dzmitry@gmail.com
+          roles:
+          - owner
+        ruslan:
+          name: r.palikarpau@trykitchenhub.com
+          roles:
+          - owner
       cloud:
         network:
           int_nat_gw: 0.0.0.0
@@ -17,6 +25,14 @@ global:
       users:
         gramovich:
           name: gramovich.al@gmail.com
+          roles:
+          - owner
+        dima:
+          name: sto.dzmitry@gmail.com
+          roles:
+          - owner
+        ruslan:
+          name: r.palikarpau@trykitchenhub.com
           roles:
           - owner
       cloud:
