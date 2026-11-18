@@ -1,13 +1,13 @@
-ingresses:
-  storegateway:
-    enabled: true
+vedro:
+  enabled: true
 
 kong-plugins:
   enabled: true
 
-thanos:
+compactor:
   enabled: true
-  compactor:
-    enabled: true
-  storegateway:
+
+storegateway:
+  enabled: true
+  ingress:
     enabled: true
