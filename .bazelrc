@@ -2,6 +2,8 @@
 try-import %workspace%/.bazelrc.ci
 #try-import cloud related configs
 try-import %workspace%/.bazelrc.cloud
+#try-import cloud related configs
+try-import %workspace%/.bazelrc.local
 
 #Needed for in order to use basic auth proxies
 startup --host_jvm_args="-Djdk.http.auth.tunneling.disabledSchemes="
