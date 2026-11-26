@@ -4,16 +4,16 @@ module(name = "rod")
 # Bazel
 ###########
 bazel_dep(name = "buildifier_prebuilt", version = "10.1.0")
-bazel_dep(name = "aspect_bazel_lib", version = "2.22.5")
+bazel_dep(name = "bazel_lib", version = "3.8.0")
 
-bazel_lib_toolchains = use_extension("@aspect_bazel_lib//lib:extensions.bzl", "toolchains")
+bazel_lib_toolchains = use_extension("@bazel_lib//lib:extensions.bzl", "toolchains")
 use_repo(bazel_lib_toolchains, "zstd_toolchains")
 
 bazel_dep(name = "rules_multirun", version = "0.14.0")
 bazel_dep(name = "svetoch_bazel_lib")
 git_override(
     module_name = "svetoch_bazel_lib",
-    commit = "2cf6abd74bf5fc6338e9ee7973fd156ede46e87b",  #v0.32.1
+    commit = "f2bf738870a14bb68754b75aa9f6aa081abc2e9f",  # v0.33.0
     remote = "https://github.com/svetoch-dev/bazel-lib",
 )
 
@@ -70,7 +70,12 @@ override_repo(
 ###################
 
 bazel_dep(name = "rules_oci", version = "2.3.0")
-bazel_dep(name = "rules_distroless", version = "0.9.4")
+bazel_dep(name = "rules_distroless")
+git_override(
+    module_name = "rules_distroless",
+    commit = "cdd138b5931e0919b01ddab5a8957885885c40ce",  # v0.11.2
+    remote = "https://github.com/bazel-contrib/rules_distroless",
+)
 
 ##################
 # Python support
