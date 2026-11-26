@@ -23,6 +23,8 @@ terraform.tfplan
 bazel-*
 .bazelrc.ci
 .bazelrc.cloud
+## Local rc file ##
+.bazelrc.local
 
 ## argocd ##
 argocd/charts/**/charts
